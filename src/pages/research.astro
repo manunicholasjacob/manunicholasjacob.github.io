@@ -38,7 +38,7 @@ const bibtex = (p: (typeof papers)[number]) =>
   />
 
   {/* thesis */}
-  <Section label="The claim">
+  <Section label="The claim" tone="raised">
     <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
       <h2 class="display-sm" data-reveal>{researchThesis.claim}</h2>
       <div class="prose-block max-w-xl" data-reveal="90">
@@ -110,7 +110,17 @@ const bibtex = (p: (typeof papers)[number]) =>
               <div class="lg:text-right">
                 <p class="text-sm leading-snug font-medium">{p.venue}</p>
                 <p class="label mt-2">{p.venueTier}</p>
-                <p class="mt-3 font-mono text-[0.6875rem] text-[var(--fg-muted)]">{p.status}</p>
+                <p class="mt-3 flex items-center gap-2 font-mono text-[0.6875rem] text-[var(--fg-muted)] lg:justify-end">
+                  <span
+                    class:list={[
+                      'inline-block h-1.5 w-1.5 rounded-full',
+                      /review|revision/i.test(p.status)
+                        ? 'bg-[var(--accent)]'
+                        : 'border border-[var(--fg-faint)]',
+                    ]}
+                  ></span>
+                  {p.status}
+                </p>
                 <p class="mt-1 font-mono text-[0.625rem] text-[var(--fg-faint)]">{p.dateline}</p>
 
                 {p.artifact && (

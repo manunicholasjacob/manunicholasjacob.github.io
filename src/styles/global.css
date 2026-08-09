@@ -117,6 +117,86 @@ body {
   }
 }
 
+/* Full-bleed band behind a section: breaks the uniform page field. */
+.section-raised {
+  background: var(--bg-raised);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* Adjacent raised bands would double the border; collapse it. */
+.section-raised + .section-raised {
+  border-top: 0;
+}
+
+/* Cursor spotlight on interactive cards. Pointer position arrives via CSS
+   variables set by a delegated listener in Base; hover-capable devices only.
+   The gradient is faint on purpose: light falling on brushed metal, not neon. */
+@media (hover: hover) {
+  .card-link {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      340px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--accent-rgb) / 0.07),
+      transparent 65%
+    );
+  }
+
+  .card-link:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Oscilloscope strip: a repeating measurement trace, translated by half its
+   width so the loop is seamless. Pure decoration is banned here; this one
+   earns its place by being the subject of the site drawn literally. */
+.trace-strip {
+  overflow: hidden;
+}
+
+.trace-strip svg {
+  display: block;
+  width: 200%;
+  animation: trace-scroll 26s linear infinite;
+}
+
+@keyframes trace-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trace-strip svg {
+    animation: none;
+  }
+}
+
+/* Ghost numerals: large, light, low-contrast ordinals for genuinely ranked
+   content (the featured-results cards). */
+.ghost-num {
+  font-family: var(--font-mono);
+  font-size: 4.5rem;
+  font-weight: 200;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--hairline-strong);
+  user-select: none;
+}
+
 /* The nav earns depth only once content actually scrolls beneath it. */
 .site-nav {
   transition:

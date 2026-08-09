@@ -1,0 +1,66 @@
+---
+/**
+ * A scrolling measurement trace with a mono readout of real numbers from the
+ * published work. The trace is the site's subject drawn literally: a power
+ * rail sampled during an inference burst, idle, wake, steady, idle again.
+ *
+ * The path spans x 0..600 and repeats exactly at x+600, so translating the
+ * doubled SVG by -50% loops seamlessly.
+ */
+
+const readout = [
+  'PMIC 2.063 W idle',
+  'BW 11.34 GB/s',
+  'R² 0.994',
+  'A76 × 4 @ 2.4 GHz',
+];
+
+/* One period of the trace: idle noise, a wake spike, a decode plateau with
+   per-token ripple, then back to idle. Hand-placed, not generated. */
+const period =
+  'M0 22 L28 22 L32 21 L44 22 L70 22 L74 8 L78 16 L82 6 L86 14 L90 10 ' +
+  'L98 12 L110 11 L122 13 L134 11 L146 13 L158 11 L170 12 L182 11 L194 13 L206 12 ' +
+  'L210 22 L240 22 L244 21 L258 22 L300 22 ' +
+  'L304 12 L308 18 L312 10 L316 16 L320 13 ' +
+  'L332 14 L344 13 L356 15 L368 13 L380 14 L392 13 L404 15 L416 14 ' +
+  'L420 22 L452 22 L456 21 L470 22 L512 22 L516 14 L520 20 L524 12 L528 18 L532 15 ' +
+  'L544 16 L556 15 L568 17 L580 15 L592 16 L600 22';
+---
+
+<div
+  class="flex items-center gap-6 border-t border-[var(--hairline)] bg-[var(--bg-raised)]"
+  aria-hidden="true"
+>
+  <div class="trace-strip min-w-0 flex-1">
+    <svg viewBox="0 0 1200 28" preserveAspectRatio="none" class="h-7">
+      <path
+        d={period}
+        fill="none"
+        stroke="var(--accent)"
+        stroke-width="1.2"
+        opacity="0.55"
+        vector-effect="non-scaling-stroke"></path>
+      <path
+        d={period}
+        transform="translate(600 0)"
+        fill="none"
+        stroke="var(--accent)"
+        stroke-width="1.2"
+        opacity="0.55"
+        vector-effect="non-scaling-stroke"></path>
+    </svg>
+  </div>
+
+  <p
+    class="hidden shrink-0 items-center gap-5 pr-5 font-mono text-[0.625rem] tracking-[0.14em] whitespace-nowrap text-[var(--fg-faint)] uppercase md:flex sm:pr-8"
+  >
+    {
+      readout.map((r, i) => (
+        <>
+          {i > 0 && <span class="text-[var(--accent)] opacity-50">/</span>}
+          <span>{r}</span>
+        </>
+      ))
+    }
+  </p>
+</div>

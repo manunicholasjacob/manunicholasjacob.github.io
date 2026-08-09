@@ -198,3 +198,66 @@ export const engineering = [
 ] as const;
 
 /* The systems essays now live as markdown in src/content/writing/. */
+
+/**
+ * Open pull requests to upstream projects. Public and verifiable; update
+ * states as they land. Merged ones graduate to a "merged" note.
+ */
+export type Upstream = {
+  project: string;
+  org: string;
+  why: string;
+  prs: { number: number; title: string; url: string }[];
+};
+
+export const upstream: Upstream[] = [
+  {
+    project: 'vLLM',
+    org: 'vllm-project',
+    why: 'The serving engine much of production LLM inference runs on. Fixes and docs from reproducing real failures: tokenizer edge cases, FlashInfer JIT preflight, MoE tuning robustness, WSL2 gotchas.',
+    prs: [
+      {
+        number: 50752,
+        title: 'Encode special tokens in HF processors for transformers-native mistral-common tokenizers',
+        url: 'https://github.com/vllm-project/vllm/pull/50752',
+      },
+      {
+        number: 50711,
+        title: 'benchmark_moe: do not abort tuning when a candidate config fails Triton compilation',
+        url: 'https://github.com/vllm-project/vllm/pull/50711',
+      },
+      {
+        number: 50751,
+        title: 'Troubleshooting: FlashInfer JIT failure on a GPU newer than the local CUDA toolkit',
+        url: 'https://github.com/vllm-project/vllm/pull/50751',
+      },
+      {
+        number: 50784,
+        title: 'Troubleshooting: add a WSL2 section (pinned memory gates, lingering workers)',
+        url: 'https://github.com/vllm-project/vllm/pull/50784',
+      },
+    ],
+  },
+  {
+    project: 'garak',
+    org: 'NVIDIA',
+    why: 'NVIDIA’s LLM vulnerability scanner. Correctness fixes found by reading the code the way a root-cause engineer reads a failing system.',
+    prs: [
+      {
+        number: 2030,
+        title: 'harnesses: skip falsy intents instead of registering them',
+        url: 'https://github.com/NVIDIA/garak/pull/2030',
+      },
+      {
+        number: 2031,
+        title: 'analyze: count prompt characters, not dict length, in count_tokens',
+        url: 'https://github.com/NVIDIA/garak/pull/2031',
+      },
+      {
+        number: 2032,
+        title: 'fix the lite-config hint guard and its masked AttributeError',
+        url: 'https://github.com/NVIDIA/garak/pull/2032',
+      },
+    ],
+  },
+];

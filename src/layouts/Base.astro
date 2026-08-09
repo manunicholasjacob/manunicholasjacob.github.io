@@ -165,6 +165,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
       };
 
       document.addEventListener('astro:page-load', initPage);
+
+      /* Cursor spotlight: one delegated listener feeds --mx/--my to whichever
+         card the pointer is over. Document-level, so it survives navigations. */
+      if (window.matchMedia('(hover: hover)').matches) {
+        document.addEventListener('pointermove', (e) => {
+          const card = (e.target as Element | null)?.closest?.('.card-link') as HTMLElement | null;
+          if (!card) return;
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+          card.style.setProperty('--my', `${e.clientY - r.top}px`);
+        });
+      }
     </script>
   </body>
 </html>

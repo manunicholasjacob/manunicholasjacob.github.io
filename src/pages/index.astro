@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
+import TraceStrip from '../components/TraceStrip.astro';
 import { site, links, stats, keywords } from '../data/site';
 import { featuredPapers, researchThesis, papers } from '../data/research';
 import { repos, builds } from '../data/projects';
@@ -98,6 +99,8 @@ const spec = [
       </div>
     </div>
 
+    <TraceStrip />
+
     {/* keyword marquee */}
     {/* Two identical copies, spacing carried inside each item and no flex gap
         on the track, so translateX(-50%) lands exactly on the seam. */}
@@ -173,6 +176,7 @@ const spec = [
     label="Selected findings"
     heading="Results that changed how I build."
     lede="Three papers from the current program. Each headline number was reproduced on hardware before it was written down."
+    tone="raised"
   >
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] md:grid-cols-3">
       {
@@ -182,9 +186,9 @@ const spec = [
             class="card-link group flex flex-col bg-[var(--bg)] p-7 transition-colors"
             data-reveal={String(i * 90)}
           >
-            <div class="flex items-center justify-between gap-3">
+            <div class="flex items-start justify-between gap-3">
+              <span class="ghost-num">{String(i + 1).padStart(2, '0')}</span>
               <span class="tag tag-accent">{p.venueTier}</span>
-              <span class="font-mono text-[0.625rem] text-[var(--fg-faint)]">{p.year}</span>
             </div>
 
             <h3 class="mt-6 text-xl leading-snug font-medium tracking-tight">{p.title}</h3>
@@ -251,7 +255,7 @@ const spec = [
   </Section>
 
   {/* ══════════════════════════ BUILT / JUDGED ══════════════════════════ */}
-  <Section label="Built and judged">
+  <Section label="Built and judged" tone="raised">
     <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
       <div data-reveal>
         <h2 class="display-sm">Things I built with my hands.</h2>
