@@ -34,7 +34,7 @@ const bibtex = (p: (typeof papers)[number]) =>
   <PageHeader
     label="Research"
     title="Measured, not simulated."
-    lede="An independent research program on edge and embedded machine-learning systems, run on Raspberry Pi 5 and Arm Cortex-A76 hardware with performance counters and on-board power instrumentation."
+    lede="An independent research program on edge and embedded machine-learning systems: twelve papers measured on Arm Cortex-A76 and x86 silicon with hardware performance counters and on-board power instrumentation, seven currently in review."
   />
 
   {/* thesis */}
@@ -111,6 +111,7 @@ const bibtex = (p: (typeof papers)[number]) =>
                 <p class="text-sm leading-snug font-medium">{p.venue}</p>
                 <p class="label mt-2">{p.venueTier}</p>
                 <p class="mt-3 font-mono text-[0.6875rem] text-[var(--fg-muted)]">{p.status}</p>
+                <p class="mt-1 font-mono text-[0.625rem] text-[var(--fg-faint)]">{p.dateline}</p>
 
                 {p.artifact && (
                   <div class="mt-5 border-t border-[var(--hairline)] pt-4 lg:border-t-0 lg:pt-0">
@@ -141,8 +142,9 @@ const bibtex = (p: (typeof papers)[number]) =>
     </ol>
 
     <p class="mt-10 max-w-2xl text-sm leading-relaxed text-[var(--fg-faint)]">
-      Statuses are kept current by hand. Work that failed to reproduce under re-examination has been
-      withdrawn rather than listed, which is why this record is shorter than the preprint archive.
+      Statuses are kept current by hand and papers are listed in submission order. Work that failed
+      to reproduce under re-examination was withdrawn rather than listed, and corrections to our own
+      published claims are recorded in the papers that supersede them.
     </p>
   </Section>
 </Base>

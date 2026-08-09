@@ -1,12 +1,12 @@
 /**
  * The publication record.
  *
- * Adding a paper = adding one object here. Nothing else to touch.
- * `featured: true` promotes it to the three-up block on the homepage.
+ * Source of truth: the private edge-inference-research-portfolio repo
+ * (PAPERS_STATUS.md). Ordered submitted-first, in submission order, then the
+ * submission-ready set in queue order. Statuses are kept current by hand.
  *
- * NOTE: the older TechRxiv preprint titles that are still live on the Wix site
- * are deliberately not listed here. The withdrawn work (RobustML@Edge) is
- * excluded on purpose, per the reconciliation in EB1_O1_CRITERIA_MAP.md.
+ * Deliberately excluded: the 2025 TechRxiv preprints (pending cleanup) and the
+ * two discarded drafts that presented simulation as measurement.
  */
 
 export type Paper = {
@@ -19,6 +19,8 @@ export type Paper = {
   venue: string;
   venueTier: 'Journal' | 'Letters' | 'Conference' | 'Workshop';
   status: string;
+  /** Submission date or target, shown in the meta column. */
+  dateline: string;
   year: string;
   topics: string[];
   artifact?: { repo: string; doi: string };
@@ -26,6 +28,35 @@ export type Paper = {
 };
 
 export const papers: Paper[] = [
+  /* ── Submitted, in submission order ─────────────────────────────── */
+  {
+    id: 'int8-cliff',
+    title: 'The INT8 Configuration Cliff',
+    claim:
+      'Given identical INT8 weights, the deployment configuration, not the weights, drives the latency. Most quantization benchmarks are measuring their toolchain.',
+    headline: '~40x latency swing on identical weights, Cortex-A76',
+    venue: 'IEEE Embedded Systems Letters',
+    venueTier: 'Letters',
+    status: 'In revision, resubmission invited',
+    dateline: 'Submitted May 2026',
+    year: '2026',
+    topics: ['Quantization', 'ONNX Runtime', 'Reproducibility'],
+    artifact: { repo: 'rpi5-quantization-benchmark', doi: '10.5281/zenodo.21844863' },
+  },
+  {
+    id: 'thermal-proxy',
+    title: 'CPU Utilization as a Software-Only Thermal Proxy',
+    claim:
+      'A cross-validated CPU-temperature coupling law that needs no extra sensors, released with an open 13-hour telemetry dataset so others can re-run it.',
+    headline: 'Open 13-hour telemetry dataset, no added hardware',
+    venue: 'IEEE Embedded Systems Letters',
+    venueTier: 'Letters',
+    status: 'Under review',
+    dateline: 'Submitted Jul 2026',
+    year: '2026',
+    topics: ['Thermal', 'Telemetry', 'Open dataset'],
+    artifact: { repo: 'pi5-thermal-proxy', doi: '10.5281/zenodo.21844859' },
+  },
   {
     id: 'memory-wall',
     title: 'The Memory Wall Governs Edge DNN Inference',
@@ -34,7 +65,8 @@ export const papers: Paper[] = [
     headline: '20.5% leave-one-model-out prediction error across 9 CNNs and a ViT',
     venue: 'ACM Transactions on Embedded Computing Systems',
     venueTier: 'Journal',
-    status: 'Ready for submission',
+    status: 'Under review',
+    dateline: 'Submitted 28 Jul 2026',
     year: '2026',
     topics: ['Roofline', 'Memory bandwidth', 'Cortex-A76'],
     featured: true,
@@ -47,20 +79,36 @@ export const papers: Paper[] = [
     headline: '~20% energy wasted at max clock, with a deployable clock-selection policy',
     venue: 'ACM Transactions on Embedded Computing Systems',
     venueTier: 'Journal',
-    status: 'Ready for submission',
+    status: 'Under review',
+    dateline: 'Submitted 6 Aug 2026',
     year: '2026',
     topics: ['Energy', 'DVFS', 'Power telemetry'],
     featured: true,
   },
   {
+    id: 'thermal-margin',
+    title: 'When Thermal-Margin Control Helps and When It Hurts',
+    claim:
+      'An honest operating-regime study of convex thermal allocation for multi-tenant edge inference, including the regimes where the controller is the wrong answer.',
+    headline: 'Maps the regime boundary rather than claiming a universal win',
+    venue: 'IEEE Embedded Systems Letters',
+    venueTier: 'Letters',
+    status: 'Under review',
+    dateline: 'Submitted 6 Aug 2026',
+    year: '2026',
+    topics: ['Thermal', 'Control', 'Multi-tenant'],
+    artifact: { repo: 'edge-thermal-margin-control', doi: '10.5281/zenodo.21844861' },
+  },
+  {
     id: 'cold-start',
     title: 'The Cold-Start Tax',
     claim:
-      'The first systematic characterisation of the duty-cycled wake transient on an edge SBC. The tax is weight-loading-bound, predictable from model size alone, and falls off an eviction cliff.',
+      'The first systematic characterisation of the duty-cycled wake transient on an edge SBC. The tax is weight-loading-bound, predictable from model size alone, and falls off an eviction cliff. Includes GD-Tax, a tax-aware cache that beats LRU and LFU.',
     headline: '5x to 23x wake tax, R^2 = 1.00 loading-bound fit, >80x blow-up past eviction',
     venue: 'IEEE Internet of Things Journal',
     venueTier: 'Journal',
-    status: 'Ready for submission',
+    status: 'Under review',
+    dateline: 'Submitted 6 Aug 2026',
     year: '2026',
     topics: ['Duty cycling', 'Cache policy', 'GD-Tax'],
     artifact: { repo: 'edge-cold-start-tax', doi: '10.5281/zenodo.21844857' },
@@ -70,84 +118,92 @@ export const papers: Paper[] = [
     id: 'edge-llm',
     title: 'The Memory Wall at the Edge of Language',
     claim:
-      'The same bandwidth ceiling that governs CNN inference governs on-device LLM decode, and the KV cache turns it into a hard capacity wall.',
-    headline: 'Decode roofline fits at R^2 = 0.994',
+      'The bandwidth ceiling that governs CNN inference governs on-device LLM decode too, and the KV cache turns it into a hard capacity wall. The same law holds on x86 at three times the bandwidth, so the roofline is the platform-independent part.',
+    headline: 'Decode roofline R^2 = 0.994 on Arm, R^2 = 0.98 revalidated on x86',
     venue: 'IEEE Transactions on Computers',
     venueTier: 'Journal',
-    status: 'Ready for submission',
+    status: 'Under review',
+    dateline: 'Submitted 7 Aug 2026',
     year: '2026',
     topics: ['LLM inference', 'KV cache', 'llama.cpp'],
     artifact: { repo: 'edge-llm-memory-wall', doi: '10.5281/zenodo.21844855' },
   },
-  {
-    id: 'int8-cliff',
-    title: 'The INT8 Configuration Cliff',
-    claim:
-      'Given identical INT8 weights, the export format and graph-optimisation level, not the weights, drive the latency. Most quantization benchmarks are measuring their toolchain.',
-    headline: '~40x latency swing on identical weights, Cortex-A76',
-    venue: 'IEEE Embedded Systems Letters',
-    venueTier: 'Letters',
-    status: 'Under review (revise and resubmit)',
-    year: '2026',
-    topics: ['Quantization', 'ONNX Runtime', 'Reproducibility'],
-    artifact: { repo: 'rpi5-quantization-benchmark', doi: '10.5281/zenodo.21844863' },
-  },
-  {
-    id: 'thermal-proxy',
-    title: 'A Software-Only Thermal Proxy for Edge SBCs',
-    claim:
-      'A cross-validated CPU-temperature coupling law that needs no extra sensors, released with an open 13-hour telemetry dataset so others can re-run it.',
-    headline: 'Open 13-hour telemetry dataset',
-    venue: 'IEEE Embedded Systems Letters',
-    venueTier: 'Letters',
-    status: 'Ready for submission',
-    year: '2026',
-    topics: ['Thermal', 'Telemetry', 'Open dataset'],
-    artifact: { repo: 'pi5-thermal-proxy', doi: '10.5281/zenodo.21844859' },
-  },
-  {
-    id: 'thermal-margin',
-    title: 'Thermal-Margin Control: When It Helps and When It Hurts',
-    claim:
-      'An honest operating-regime study of convex thermal allocation for multi-tenant edge inference, including the regimes where the controller is the wrong answer.',
-    headline: 'Maps the regime boundary rather than claiming a universal win',
-    venue: 'IEEE Embedded Systems Letters',
-    venueTier: 'Letters',
-    status: 'Ready for submission',
-    year: '2026',
-    topics: ['Thermal', 'Control', 'Multi-tenant'],
-    artifact: { repo: 'edge-thermal-margin-control', doi: '10.5281/zenodo.21844861' },
-  },
+
+  /* ── Submission-ready, in queue order ───────────────────────────── */
   {
     id: 'anytime',
-    title: 'Thermal-Aware Anytime Inference',
+    title: 'The Narrow Regime of Thermal-Aware Anytime Inference',
     claim:
-      'Anytime inference is widely proposed for thermally constrained edge devices. This characterises the narrow regime in which it actually pays off.',
-    headline: 'Identifies where anytime inference stops being worth it',
+      'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime where it actually pays, and shows quantization compresses the exit ladder enough to shrink the controller’s authority.',
+    headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
     venue: 'DATE 2027',
     venueTier: 'Conference',
-    status: 'Ready (anonymised for double-blind review)',
+    status: 'Submission-ready, double-blind',
+    dateline: 'Deadline 20 Sep 2026',
     year: '2027',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
   },
   {
-    id: 'gpu-repro',
-    title: 'Reproducibility of Consumer-GPU Inference Profiling',
+    id: 'llm-cold-start',
+    title: 'The Cold-Start Tax at the Edge of Language',
     claim:
-      'A clock-gated measurement methodology that makes consumer-GPU inference numbers reproducible between runs and between machines.',
+      'The wake transient for on-device LLMs, where the model is 50 to 100x larger than a CNN. A phase-level decomposition shows about a fifth of the tax is the loader rather than the storage device, and a purpose-built loader recovers it.',
+    headline: 'A fifth of the LLM wake tax is software, and a better loader wins it back',
+    venue: 'IEEE Internet of Things Journal',
+    venueTier: 'Journal',
+    status: 'Submission-ready',
+    dateline: 'Queued',
+    year: '2026',
+    topics: ['LLM inference', 'Duty cycling', 'Storage'],
+  },
+  {
+    id: 'int8-pays',
+    title: 'When Does INT8 Actually Pay on an Edge CPU?',
+    claim:
+      'Post-training INT8 measured across three microarchitectures on Arm and x86. The dominant effect is dynamic versus static quantization, worth more than 4x; the export representation everyone argues about is worth about 18%. Grew out of correcting our own earlier misattribution.',
+    headline: 'Dynamic vs static is worth >4x; the representation, ~18%',
+    venue: 'IEEE Embedded Systems Letters',
+    venueTier: 'Letters',
+    status: 'Submission-ready',
+    dateline: 'Queued',
+    year: '2026',
+    topics: ['Quantization', 'Cross-platform', 'Correction'],
+  },
+  {
+    id: 'break-even',
+    title: 'The Break-Even Parallel Speedup',
+    claim:
+      'For early-exit inference, the latency-optimal configuration costs about twice the energy of the energy-optimal one at shallow exits, and the first-order lever is thread count, not clock. A closed-form break-even rule predicts the right choice.',
+    headline: 'Rule validated on 64 of 64 measured configurations',
+    venue: 'IEEE Computer Architecture Letters',
+    venueTier: 'Letters',
+    status: 'Submission-ready',
+    dateline: 'Queued',
+    year: '2026',
+    topics: ['Energy', 'Early exit', 'Parallelism'],
+  },
+  {
+    id: 'gpu-repro',
+    title: 'Profiling Inference on a Consumer Laptop GPU',
+    claim:
+      'A clock-gated methodology that makes consumer-GPU inference numbers reproducible between runs, kept honest by a drift artifact we caught in our own background jobs and left in as the counterexample.',
     headline: 'Clock-gated protocol for repeatable GPU measurement',
-    venue: 'EuroMLSys',
+    venue: 'EuroMLSys (EuroSys workshop)',
     venueTier: 'Workshop',
-    status: 'Staged',
+    status: 'Ready, awaiting CFP',
+    dateline: 'CFP expected Nov 2026',
     year: '2027',
     topics: ['GPU', 'Methodology', 'Reproducibility'],
   },
 ];
 
 export const featuredPapers = papers.filter((p) => p.featured);
+export const submittedCount = papers.filter((p) =>
+  /review|revision/i.test(p.status),
+).length;
 
 /** The through-line, stated once, used on the homepage and the research page. */
 export const researchThesis = {
   claim: 'The memory wall, not compute, governs deep-neural-network inference on real hardware.',
-  body: `One physical idea carried across scales: from mobile CNNs, to Vision Transformers, to on-device language models, and next to enterprise servers. Every headline number is measured on real silicon using hardware performance counters and on-board power instrumentation. Where a claim failed to reproduce, the paper was rewritten to whatever the data actually supported, negative results included. Two earlier drafts were found to present simulation as measurement and were discarded rather than published.`,
+  body: `One physical idea carried across scales: from mobile CNNs, to Vision Transformers, to on-device language models, measured on Arm and revalidated on x86, and next headed for enterprise servers. Every headline number comes from real silicon, using hardware performance counters and on-board power instrumentation. Where a claim failed to reproduce, the paper was rewritten to whatever the data actually supported, negative results included, and two early drafts that presented simulation as measurement were discarded outright. That standard keeps costing claims, which is the point.`,
 };

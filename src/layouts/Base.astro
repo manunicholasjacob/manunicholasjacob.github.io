@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Palette from '../components/Palette.astro';
@@ -71,6 +72,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
       // Opt in to the reveal animation only once we know scripting works.
       document.documentElement.classList.add('js');
     </script>
+
+    <ClientRouter />
   </head>
 
   <body class="min-h-screen">
@@ -86,33 +89,82 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
     <Palette />
 
     <script>
-      const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
-      const showAll = () => els.forEach((el) => el.classList.add('is-visible'));
+      /* Re-runs on every ClientRouter navigation (astro:page-load fires on the
+         initial load as well), because the swapped-in body carries fresh
+         [data-reveal] elements. */
+      const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (
-        els.length &&
-        'IntersectionObserver' in window &&
-        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ) {
-        const io = new IntersectionObserver(
-          (entries) => {
-            for (const e of entries) {
-              if (!e.isIntersecting) continue;
-              const el = e.target as HTMLElement;
-              setTimeout(() => el.classList.add('is-visible'), Number(el.dataset.reveal) || 0);
-              io.unobserve(el);
-            }
-          },
-          { rootMargin: '0px 0px -12% 0px' },
-        );
-        els.forEach((el) => io.observe(el));
+      /* Count-up: elements with data-countup animate their leading number from
+         zero once revealed. Decimal places and any suffix are preserved. */
+      const countUp = (el: HTMLElement) => {
+        const m = (el.textContent ?? '').trim().match(/^([\d.]+)([\s\S]*)$/);
+        if (!m) return;
+        const target = parseFloat(m[1]);
+        if (!isFinite(target)) return;
+        const decimals = (m[1].split('.')[1] || '').length;
+        const suffix = m[2];
+        const t0 = performance.now();
+        const dur = 900;
+        const tick = (t: number) => {
+          const p = Math.min((t - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = (target * eased).toFixed(decimals) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
 
-        // Safety net: if the observer never fires (background tab, odd embed,
-        // a browser quirk), show everything rather than leave a blank page.
-        setTimeout(showAll, 2500);
-      } else {
-        showAll();
-      }
+      const initPage = () => {
+        const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+        const counters = new Set(document.querySelectorAll<HTMLElement>('[data-countup]'));
+
+        const reveal = (el: HTMLElement) => {
+          el.classList.add('is-visible');
+          el.querySelectorAll<HTMLElement>('[data-countup]').forEach((c) => {
+            if (counters.delete(c)) countUp(c);
+          });
+        };
+        const showAll = () => {
+          els.forEach((el) => el.classList.add('is-visible'));
+          counters.clear();
+        };
+
+        if (els.length && 'IntersectionObserver' in window && !reduced()) {
+          const io = new IntersectionObserver(
+            (entries) => {
+              for (const e of entries) {
+                if (!e.isIntersecting) continue;
+                const el = e.target as HTMLElement;
+                setTimeout(() => reveal(el), Number(el.dataset.reveal) || 0);
+                io.unobserve(el);
+              }
+            },
+            { rootMargin: '0px 0px -12% 0px' },
+          );
+          els.forEach((el) => io.observe(el));
+
+          // Counters outside any reveal container still animate on view.
+          if (counters.size) {
+            const cio = new IntersectionObserver((entries) => {
+              for (const e of entries) {
+                if (!e.isIntersecting) continue;
+                const c = e.target as HTMLElement;
+                if (counters.delete(c)) countUp(c);
+                cio.unobserve(c);
+              }
+            });
+            counters.forEach((c) => cio.observe(c));
+          }
+
+          // Safety net: if the observer never fires (background tab, odd
+          // embed, a browser quirk), show everything rather than a blank page.
+          setTimeout(showAll, 2500);
+        } else {
+          showAll();
+        }
+      };
+
+      document.addEventListener('astro:page-load', initPage);
     </script>
   </body>
 </html>

@@ -117,6 +117,18 @@ body {
   }
 }
 
+/* The nav earns depth only once content actually scrolls beneath it. */
+.site-nav {
+  transition:
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.site-nav.is-scrolled {
+  border-color: var(--hairline-strong);
+  box-shadow: 0 8px 24px -16px rgb(0 0 0 / 0.5);
+}
+
 /* Users who ask for less transparency get a solid nav instead of glass. */
 @media (prefers-reduced-transparency: reduce) {
   .site-nav {

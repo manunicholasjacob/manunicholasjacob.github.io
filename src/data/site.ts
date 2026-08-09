@@ -42,10 +42,10 @@ export const navSecondary = [
 
 /** The strip of numbers under the hero. Keep these honest and current. */
 export const stats = [
-  { value: '9', label: 'Papers' },
+  { value: '12', label: 'Papers' },
+  { value: '7', label: 'Under review' },
   { value: '7', label: 'Artifact DOIs' },
   { value: '1', label: 'US patent filed' },
-  { value: '3', label: 'Hackathon awards' },
 ] as const;
 
 /** Scrolling keyword band. Pure texture, but it sets the subject matter fast. */

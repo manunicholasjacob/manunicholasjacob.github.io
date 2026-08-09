@@ -140,7 +140,10 @@ const spec = [
                 i === 3 && 'sm:border-l',
               ]}
             >
-              <dd class="font-mono text-3xl font-light tracking-tight tabular-nums sm:text-4xl">
+              <dd
+                data-countup
+                class="font-mono text-3xl font-light tracking-tight tabular-nums sm:text-4xl"
+              >
                 {s.value}
               </dd>
               <dt class="label mt-2">{s.label}</dt>
