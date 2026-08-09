@@ -1,0 +1,278 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import { site, links } from '../data/site';
+import { certifications } from '../data/archive';
+
+/* Employment is described in general terms on purpose. Specific platforms,
+   cases and internal identifiers are confidential and stay off this site. */
+const experience = [
+  {
+    org: 'Dell Technologies',
+    role: 'Hardware Engineer, Root Cause Engineering',
+    period: 'Jun 2025 to present',
+    where: 'Austin, Texas',
+    detail:
+      'Server-scale system debug across PCIe, thermal behaviour and GPU/accelerator platforms on enterprise PowerEdge systems: fast-cycle triage, reliability assessment, and identifying the recurring failure patterns behind long-term stability improvements.',
+  },
+  {
+    org: 'Dell Technologies',
+    role: 'Root Cause Engineering Intern',
+    period: 'Summer 2024',
+    where: 'Austin, Texas',
+    detail:
+      'Built a unified diagnostic tool for NVIDIA AI platforms: PCIe replay and bus-reset detection, optimised secondary-bus-reset procedures, and a real-time replay-detection workflow that improved fault isolation and technician usability.',
+  },
+  {
+    org: 'Schneider Electric',
+    role: 'Controls Engineering Intern',
+    period: 'Summer 2023',
+    where: 'Lexington, Kentucky',
+    detail:
+      'Designed and deployed an HMI for palletizer control on the factory floor, optimised PLC-to-HMI communication in the packer line, and led an overhaul of internal standardisation specifications against ANSI/RIA and OSHA requirements.',
+  },
+];
+
+const capabilities = [
+  {
+    group: 'Hardware',
+    items: [
+      'Enterprise servers',
+      'PCIe',
+      'GPU subsystems',
+      'Motherboards',
+      'Embedded hardware',
+      'Microcontrollers',
+      'Power systems',
+      'Sensors',
+    ],
+  },
+  {
+    group: 'Software',
+    items: [
+      'Python',
+      'C / C++',
+      'ONNX Runtime',
+      'PyTorch',
+      'Linux perf',
+      'Hardware performance counters',
+      'Automation',
+      'Diagnostics',
+    ],
+  },
+  {
+    group: 'Engineering',
+    items: [
+      'Root-cause analysis',
+      'Failure analysis',
+      'Validation',
+      'Performance benchmarking',
+      'Reliability engineering',
+      'Experiment design',
+      'Patent writing',
+      'Research writing',
+    ],
+  },
+];
+
+const questions = [
+  'Why did the system fail?',
+  'Where is the bottleneck?',
+  'How do hardware and software interact here?',
+  'How do architecture decisions show up in performance?',
+  'How do we measure this objectively?',
+];
+---
+
+<Base
+  title="About"
+  description="Electrical and computer engineer working across enterprise hardware, AI infrastructure, and embedded systems."
+>
+  <PageHeader
+    label="About"
+    title="Systems, not components."
+    lede="I like the questions that only make sense when you look at a whole machine at once."
+  />
+
+  {/* bio */}
+  <Section label="Background">
+    <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+      <div class="prose-block max-w-2xl" data-reveal>
+        <p>
+          I am a hardware engineer at Dell Technologies, working on the enterprise server platforms
+          that large-scale AI training and inference run on. The work sits where hardware, firmware
+          and software meet, which is exactly where the interesting failures live.
+        </p>
+        <p>
+          Outside that, I run an independent research program on edge and embedded machine-learning
+          systems. It started as a curiosity about why a Raspberry Pi got so much slower than the
+          arithmetic said it should, and turned into a body of work on memory bandwidth, thermal
+          behaviour, energy, and how easily a benchmark can measure its own toolchain instead of the
+          hardware.
+        </p>
+        <p>
+          My route into hardware started early, with a hands-on love of how things are put together:
+          mechanical models, then electronics, then code. That shows up now in mentoring and judging
+          hackathons, and in a bias toward building things that keep working after the demo.
+        </p>
+      </div>
+
+      <div data-reveal="120">
+        {/* photo pair */}
+        <div class="grid grid-cols-2 gap-px border border-[var(--hairline)] bg-[var(--hairline)]">
+          <figure class="group overflow-hidden bg-[var(--bg)]">
+            <img
+              src="/img/dell.jpg"
+              alt="Manu in front of the Dell Technologies sign"
+              loading="lazy"
+              class="aspect-square w-full object-cover grayscale-[35%] transition-all duration-500 group-hover:grayscale-0"
+            />
+          </figure>
+          <figure class="group overflow-hidden bg-[var(--bg)]">
+            <img
+              src="/img/server-work.jpg"
+              alt="Working inside an open server chassis"
+              loading="lazy"
+              class="aspect-square w-full object-cover grayscale-[35%] transition-all duration-500 group-hover:grayscale-0"
+            />
+          </figure>
+        </div>
+
+        <div class="card ticks mt-8 p-7">
+          <p class="label mb-5">Engineering philosophy</p>
+          <p class="text-lg leading-snug font-light tracking-tight">
+            Understand complete systems rather than isolated technologies.
+          </p>
+          <ul class="mt-6 space-y-3 border-t border-[var(--hairline)] pt-5">
+            {
+              questions.map((q) => (
+                <li class="flex gap-3 font-mono text-[0.75rem] leading-relaxed text-[var(--fg-muted)]">
+                  <span class="text-[var(--accent)]">?</span>
+                  {q}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* experience */}
+  <Section label="Experience" heading="Where I have worked.">
+    <ol class="border-t border-[var(--hairline)]">
+      {
+        experience.map((e, i) => (
+          <li
+            class="grid gap-4 border-b border-[var(--hairline)] py-9 lg:grid-cols-[14rem_1fr] lg:gap-12"
+            data-reveal={String(i * 80)}
+          >
+            <div>
+              <p class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--accent)] uppercase">
+                {e.period}
+              </p>
+              <p class="label mt-2">{e.where}</p>
+            </div>
+            <div>
+              <h3 class="text-2xl font-medium tracking-tight">{e.role}</h3>
+              <p class="mt-1 text-[var(--fg-muted)]">{e.org}</p>
+              <p class="mt-4 max-w-2xl leading-relaxed text-[var(--fg-muted)]">{e.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mt-6 max-w-2xl font-mono text-[0.6875rem] leading-relaxed text-[var(--fg-faint)]">
+      Described in general terms. Specific platforms, cases and internal identifiers are
+      confidential and are intentionally omitted.
+    </p>
+  </Section>
+
+  {/* education + patent */}
+  <Section label="Education and invention">
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
+      <div class="bg-[var(--bg)] p-8" data-reveal>
+        <p class="label">Degree</p>
+        <h3 class="mt-5 text-2xl leading-tight font-medium tracking-tight">
+          B.S. Electrical Engineering<br />B.S. Computer Engineering
+        </h3>
+        <p class="mt-3 text-[var(--fg-muted)]">University of Massachusetts Amherst</p>
+        <p class="mt-4 text-sm text-[var(--fg-muted)]">
+          Minors in Engineering Management and Economics. Coursework across embedded systems, digital
+          electronics, computer architecture, signal processing, FPGAs, robotics, machine learning and
+          cryptography.
+        </p>
+      </div>
+
+      <div class="bg-[var(--bg)] p-8" data-reveal="90">
+        <p class="label">Invention</p>
+        <h3 class="mt-5 text-2xl leading-tight font-medium tracking-tight">
+          Named inventor, one U.S. patent filing
+        </h3>
+        <p class="mt-3 text-[var(--fg-muted)]">Filed with the USPTO through Dell Technologies</p>
+        <p class="mt-4 text-sm text-[var(--fg-muted)]">
+          Plus internal invention disclosures and ongoing invention work. Building a long-term
+          portfolio of patents and published contributions is a deliberate part of the plan.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  {/* capabilities */}
+  <Section label="Capabilities" heading="What I actually do.">
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
+      {
+        capabilities.map((c, i) => (
+          <div class="bg-[var(--bg)] p-7" data-reveal={String(i * 80)}>
+            <p class="label">{c.group}</p>
+            <ul class="mt-5 space-y-2.5">
+              {c.items.map((it) => (
+                <li class="flex gap-3 text-sm text-[var(--fg-muted)]">
+                  <span class="text-[var(--accent)] opacity-60">/</span>
+                  {it}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  {/* certs */}
+  <Section label="Certifications">
+    <ul class="border-t border-[var(--hairline)]">
+      {
+        certifications.map((c) => (
+          <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-[var(--hairline)] py-5">
+            <span class="max-w-xl text-[var(--fg)]">{c.title}</span>
+            <span class="font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+              {c.issuer} · {c.date}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  {/* contact */}
+  <Section label="Contact">
+    <div class="card ticks relative overflow-hidden p-10 sm:p-14" data-reveal>
+      <div class="dotgrid pointer-events-none absolute inset-0 opacity-70"></div>
+      <div class="relative">
+        <h2 class="display-sm max-w-2xl">
+          If you are working on something that has to be measured properly, get in touch.
+        </h2>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={`mailto:${site.email}`} class="btn btn-primary">Email me</a>
+          <a href={links.linkedin} target="_blank" rel="noopener" class="btn btn-ghost">
+            LinkedIn ↗
+          </a>
+          <a href={links.github} target="_blank" rel="noopener" class="btn btn-ghost">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+</Base>

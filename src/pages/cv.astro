@@ -1,0 +1,399 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, links } from '../data/site';
+import { papers } from '../data/research';
+import { repos, builds } from '../data/projects';
+import { judging, speaking, volunteering } from '../data/service';
+import { certifications } from '../data/archive';
+
+/* One page, print-first. Everything renders from the same data files as the
+   rest of the site, so the CV cannot drift out of date independently. */
+
+const contact = [
+  { label: 'Email', value: site.email, href: `mailto:${site.email}` },
+  { label: 'Web', value: 'manunicholasjacob.com', href: site.url },
+  { label: 'GitHub', value: 'github.com/manunicholasjacob', href: links.github },
+  { label: 'ORCID', value: '0009-0007-6589-6572', href: links.orcid },
+];
+
+const artifactRepos = repos.filter((r) => r.doi);
+---
+
+<Base
+  title="CV"
+  description="Curriculum vitae: experience, publications, artifacts, awards and service."
+>
+  <div class="cv mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20">
+    {/* header */}
+    <header class="flex flex-wrap items-end justify-between gap-6 border-b-2 border-[var(--fg)] pb-8">
+      <div>
+        <p class="label mb-4">Curriculum vitae</p>
+        <h1 class="text-4xl font-medium tracking-tight sm:text-5xl">{site.name}</h1>
+        <p class="mt-3 text-lg text-[var(--fg-muted)]">
+          {site.role} · {site.location}
+        </p>
+      </div>
+      <button
+        type="button"
+        class="btn btn-ghost print:hidden"
+        onclick="window.print()"
+      >
+        Print / save PDF
+      </button>
+    </header>
+
+    {/* contact strip */}
+    <div class="grid grid-cols-2 gap-x-8 gap-y-2 border-b border-[var(--hairline)] py-5 sm:grid-cols-4">
+      {
+        contact.map((c) => (
+          <div>
+            <p class="label !text-[0.5625rem]">{c.label}</p>
+            <a href={c.href} class="mt-1 block font-mono text-[0.75rem] break-all text-[var(--fg)] hover:text-[var(--accent)]">
+              {c.value}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+
+    {/* summary */}
+    <section class="cv-section">
+      <h2 class="cv-h">Summary</h2>
+      <p class="max-w-3xl leading-relaxed text-[var(--fg-muted)]">
+        Hardware engineer working on enterprise AI server platforms: validation, system-level
+        debugging, and root-cause engineering. Independently runs a measurement-driven research
+        program on edge machine-learning systems, with {papers.length} papers across memory
+        bandwidth, energy, thermal behaviour and quantization, each backed by a public, DOI-archived
+        artifact. Named inventor on a U.S. patent filing.
+      </p>
+    </section>
+
+    {/* experience */}
+    <section class="cv-section">
+      <h2 class="cv-h">Experience</h2>
+
+      <div class="cv-item">
+        <div class="cv-row">
+          <h3 class="cv-title">Hardware Engineer, Root Cause Engineering · Dell Technologies</h3>
+          <span class="cv-when">Jun 2025 to present</span>
+        </div>
+        <p class="cv-body">
+          Server-scale system debug across PCIe, thermal behaviour and GPU/accelerator platforms on
+          enterprise PowerEdge systems. Fast-cycle triage, reliability assessment, and recurring
+          failure-pattern identification for long-term stability improvements.
+        </p>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-row">
+          <h3 class="cv-title">Root Cause Engineering Intern · Dell Technologies</h3>
+          <span class="cv-when">Summer 2024</span>
+        </div>
+        <p class="cv-body">
+          Developed a unified diagnostic tool for NVIDIA AI platforms: PCIe replay and bus-reset
+          detection, optimised SBR procedures, and a real-time replay-detection workflow improving
+          fault isolation and technician usability.
+        </p>
+      </div>
+
+      <div class="cv-item">
+        <div class="cv-row">
+          <h3 class="cv-title">Controls Engineering Intern · Schneider Electric</h3>
+          <span class="cv-when">Summer 2023</span>
+        </div>
+        <p class="cv-body">
+          Designed and deployed a palletizer-control HMI on the factory floor, optimised PLC-HMI
+          communication, and led a standardisation-specification overhaul against ANSI/RIA and OSHA
+          requirements.
+        </p>
+      </div>
+    </section>
+
+    {/* education */}
+    <section class="cv-section">
+      <h2 class="cv-h">Education</h2>
+      <div class="cv-item">
+        <div class="cv-row">
+          <h3 class="cv-title">
+            B.S. Electrical Engineering · B.S. Computer Engineering
+          </h3>
+          <span class="cv-when">2021 to 2025</span>
+        </div>
+        <p class="cv-body">
+          University of Massachusetts Amherst. Minors in Engineering Management and Economics.
+        </p>
+      </div>
+    </section>
+
+    {/* publications */}
+    <section class="cv-section">
+      <h2 class="cv-h">Papers</h2>
+      <ol class="space-y-4">
+        {
+          papers.map((p, i) => (
+            <li class="grid grid-cols-[2rem_1fr] gap-3">
+              <span class="font-mono text-[0.75rem] text-[var(--fg-faint)] tabular-nums">
+                [{i + 1}]
+              </span>
+              <div>
+                <p class="leading-snug font-medium">{p.title}</p>
+                <p class="mt-1 font-mono text-[0.6875rem] text-[var(--fg-muted)]">
+                  {p.venue} · {p.status} · {p.year}
+                  {p.artifact && (
+                    <>
+                      {' · '}
+                      <a class="text-[var(--accent)]" href={`https://doi.org/${p.artifact.doi}`}>
+                        doi:{p.artifact.doi}
+                      </a>
+                    </>
+                  )}
+                </p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    {/* patent + artifacts */}
+    <section class="cv-section">
+      <h2 class="cv-h">Patents &amp; artifacts</h2>
+      <div class="cv-item">
+        <p class="cv-body">
+          <strong class="text-[var(--fg)]">U.S. patent filing (inventor)</strong>: filed with the
+          USPTO through Dell Technologies; additional internal invention disclosures.
+        </p>
+      </div>
+      <div class="cv-item">
+        <p class="cv-body">
+          <strong class="text-[var(--fg)]">{artifactRepos.length} open research artifacts</strong>:
+          public code and data for the papers above, archived on Zenodo:{' '}
+          {artifactRepos.map((r, i) => (
+            <>
+              <a class="font-mono text-[0.75rem] text-[var(--accent)]" href={r.url}>{r.name}</a>{i < artifactRepos.length - 1 ? ', ' : '.'}
+            </>
+          ))}
+        </p>
+      </div>
+    </section>
+
+    {/* capstone */}
+    <section class="cv-section">
+      <h2 class="cv-h">Capstone</h2>
+      <div class="cv-item">
+        <div class="cv-row">
+          <h3 class="cv-title">Pothole Detection System · ECE senior design, UMass Amherst</h3>
+          <span class="cv-when">Sep 2024 to May 2025</span>
+        </div>
+        <p class="cv-body">
+          Real-time pothole detection: stereo cameras and ultrasonic sensors feeding CNN-based
+          detection on Raspberry Pi hardware, a custom PCB for power and sensor interfacing, and an
+          in-vehicle driver alert display. 80 to 90% detection accuracy in prototype testing at 35
+          to 45 mph.
+        </p>
+      </div>
+    </section>
+
+    {/* awards */}
+    <section class="cv-section">
+      <h2 class="cv-h">Awards</h2>
+      <ul class="space-y-2">
+        {
+          builds.map((b) => (
+            <li class="cv-row">
+              <span>
+                <strong class="font-medium text-[var(--fg)]">{b.award}</strong>
+                <span class="text-[var(--fg-muted)]"> · {b.name}</span>
+              </span>
+              <span class="cv-when">{b.event}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* service */}
+    <section class="cv-section">
+      <h2 class="cv-h">Service</h2>
+      <ul class="space-y-2">
+        {
+          [...judging, ...speaking].map((s) => (
+            <li class="cv-row">
+              <span>
+                <strong class="font-medium text-[var(--fg)]">{s.role}</strong>
+                <span class="text-[var(--fg-muted)]"> · {s.org}</span>
+              </span>
+              <span class="cv-when">{s.period}</span>
+            </li>
+          ))
+        }
+        {
+          volunteering.map((v) => (
+            <li class="cv-row">
+              <span>
+                <strong class="font-medium text-[var(--fg)]">{v.role}</strong>
+                <span class="text-[var(--fg-muted)]"> · {v.org}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* campus leadership */}
+    <section class="cv-section">
+      <h2 class="cv-h">Campus leadership</h2>
+      <ul class="space-y-2">
+        <li class="cv-row">
+          <span>
+            <strong class="font-medium text-[var(--fg)]">Resident Assistant</strong>
+            <span class="text-[var(--fg-muted)]"> · UMass Amherst, community of 450 residents</span>
+          </span>
+          <span class="cv-when">Jan 2023 to May 2025</span>
+        </li>
+        <li class="cv-row">
+          <span>
+            <strong class="font-medium text-[var(--fg)]">Campus Ambassador</strong>
+            <span class="text-[var(--fg-muted)]"> · Dell Technologies at UMass Amherst</span>
+          </span>
+          <span class="cv-when">Fall 2024</span>
+        </li>
+        <li class="cv-row">
+          <span>
+            <strong class="font-medium text-[var(--fg)]">Membership Coordinator</strong>
+            <span class="text-[var(--fg-muted)]"> · IEEE, UMass Amherst</span>
+          </span>
+          <span class="cv-when">Fall 2023</span>
+        </li>
+      </ul>
+    </section>
+
+    {/* certs */}
+    <section class="cv-section">
+      <h2 class="cv-h">Certifications</h2>
+      <ul class="space-y-2">
+        {
+          certifications.map((c) => (
+            <li class="cv-row">
+              <span class="text-[var(--fg-muted)]">{c.title}</span>
+              <span class="cv-when">
+                {c.issuer} · {c.date}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* skills */}
+    <section class="cv-section">
+      <h2 class="cv-h">Skills</h2>
+      <div class="grid gap-6 sm:grid-cols-3">
+        <div>
+          <p class="label mb-2">Hardware</p>
+          <p class="cv-body">
+            Enterprise servers, PCIe, GPU subsystems, embedded hardware, microcontrollers, power
+            systems.
+          </p>
+        </div>
+        <div>
+          <p class="label mb-2">Software</p>
+          <p class="cv-body">
+            Python, C/C++, ONNX Runtime, PyTorch, Linux perf, hardware performance counters,
+            validation automation.
+          </p>
+        </div>
+        <div>
+          <p class="label mb-2">Engineering</p>
+          <p class="cv-body">
+            Root-cause analysis, failure analysis, benchmarking, reliability engineering, experiment
+            design, research and patent writing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <p class="mt-12 border-t border-[var(--hairline)] pt-5 font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+      Generated from the same data files as the rest of the site · manunicholasjacob.com/cv
+    </p>
+  </div>
+</Base>
+
+<style>
+  .cv-section {
+    padding-block: 1.75rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .cv-h {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.1rem;
+  }
+
+  .cv-item + .cv-item {
+    margin-top: 1.1rem;
+  }
+
+  .cv-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+  }
+
+  .cv-title {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .cv-when {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    white-space: nowrap;
+  }
+
+  .cv-body {
+    margin-top: 0.35rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--fg-muted);
+    max-width: 46rem;
+  }
+
+  /* ---- print ---- */
+  @media print {
+    :global(header.sticky),
+    :global(footer) {
+      display: none !important;
+    }
+
+    :global(html) {
+      color-scheme: light;
+    }
+
+    .cv {
+      max-width: none;
+      padding: 0;
+      font-size: 11px;
+    }
+
+    .cv-section {
+      break-inside: avoid;
+      padding-block: 0.9rem;
+    }
+
+    :global([data-reveal]) {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>

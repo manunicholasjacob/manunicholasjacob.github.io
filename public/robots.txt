@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manunicholasjacob.com/sitemap-index.xml

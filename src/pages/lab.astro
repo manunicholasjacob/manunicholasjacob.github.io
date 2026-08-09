@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Roofline from '../components/Roofline.astro';
+import { machines, rules, benchFacts } from '../data/lab';
+
+const statusColor: Record<string, string> = {
+  Active: 'text-[var(--accent)] border-[rgb(var(--accent-rgb)/0.45)]',
+  Planned: 'text-[var(--fg-faint)] border-[var(--hairline)]',
+  Retired: 'text-[var(--fg-faint)] border-[var(--hairline)] line-through',
+};
+---
+
+<Base
+  title="Lab"
+  description="The measurement bench behind the research: hardware, instrumentation, and the rules every published number has to survive."
+>
+  <PageHeader
+    label="Lab"
+    title="Where the numbers come from."
+    lede="Every claim on this site traces back to a physical bench. This page is the bench, the instruments, and the rules a result has to survive before it gets written down."
+  />
+
+  {/* the argument, drawn */}
+  <Section
+    label="The model"
+    heading="One diagram explains most of it."
+    lede="The roofline. Performance climbs with arithmetic intensity until the machine runs out of memory bandwidth or compute, whichever comes first. The research program is, in one sentence: real edge workloads live on the left slope."
+  >
+    <Roofline />
+  </Section>
+
+  {/* bench facts */}
+  <section class="border-y border-[var(--hairline)]">
+    <dl class="mx-auto grid max-w-6xl grid-cols-2 lg:grid-cols-4">
+      {
+        benchFacts.map((f, i) => (
+          <div
+            class:list={[
+              'px-5 py-7 sm:px-8',
+              i % 2 === 1 && 'border-l border-[var(--hairline)]',
+              i >= 2 && 'border-t border-[var(--hairline)] lg:border-t-0',
+              i === 2 && 'lg:border-l',
+              i === 3 && 'lg:border-l',
+            ]}
+          >
+            <dd class="font-mono text-3xl font-light tracking-tight tabular-nums sm:text-4xl">
+              {f.value}
+            </dd>
+            <dt class="label mt-2">{f.label}</dt>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  {/* machines */}
+  <Section
+    label="Hardware"
+    heading="The bench."
+    lede="Small, deliberate, and fully instrumented. A short list of machines that are actually measured beats a rack of machines that are merely owned."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
+      {
+        machines.map((m, i) => (
+          <div class="flex flex-col bg-[var(--bg)] p-7" data-reveal={String((i % 2) * 80)}>
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-xl font-medium tracking-tight">{m.name}</h3>
+                <p class="mt-1 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                  {m.role}
+                </p>
+              </div>
+              <span class:list={['tag', statusColor[m.status]]}>{m.status}</span>
+            </div>
+
+            <ul class="mt-5 space-y-2">
+              {m.spec.map((s) => (
+                <li class="flex gap-3 font-mono text-[0.75rem] leading-relaxed text-[var(--fg-muted)]">
+                  <span class="text-[var(--accent)] opacity-60">›</span>
+                  {s}
+                </li>
+              ))}
+            </ul>
+
+            {m.note && (
+              <p class="mt-5 border-t border-[var(--hairline)] pt-4 text-sm leading-relaxed text-[var(--fg-faint)]">
+                {m.note}
+              </p>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  {/* methodology */}
+  <Section
+    label="Method"
+    heading="Rules a result has to survive."
+    lede="Written down because they cost something. Each of these has, at least once, meant deleting a result that would have made a better headline."
+  >
+    <ol class="border-t border-[var(--hairline)]">
+      {
+        rules.map((r, i) => (
+          <li
+            class="grid gap-4 border-b border-[var(--hairline)] py-8 lg:grid-cols-[4rem_18rem_1fr] lg:gap-10"
+            data-reveal={String(Math.min(i, 4) * 60)}
+          >
+            <span class="font-mono text-sm text-[var(--fg-faint)] tabular-nums">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="text-lg leading-snug font-medium tracking-tight">{r.title}</h3>
+            <p class="max-w-2xl text-sm leading-relaxed text-[var(--fg-muted)]">{r.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+</Base>

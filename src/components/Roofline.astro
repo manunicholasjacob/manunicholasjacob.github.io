@@ -1,0 +1,216 @@
+---
+/**
+ * Schematic roofline. Deliberately unlabelled on the axes with real numbers:
+ * this is the shape of the argument, not a data plot. The measured versions
+ * live in the papers.
+ */
+
+const models = [
+  { x: 128, y: 268, label: 'MobileNetV3-Small' },
+  { x: 178, y: 226, label: 'ResNet-18' },
+  { x: 232, y: 178, label: 'EfficientNet' },
+  { x: 288, y: 128, label: 'ViT' },
+];
+---
+
+<figure class="ticks card relative overflow-hidden" data-reveal>
+  <div class="linegrid pointer-events-none absolute inset-0 opacity-40"></div>
+
+  <svg
+    viewBox="0 0 720 400"
+    class="roofline relative block w-full"
+    role="img"
+    aria-labelledby="roofline-title roofline-desc"
+  >
+    <title id="roofline-title">Roofline schematic</title>
+    <desc id="roofline-desc">
+      A roofline diagram. Performance rises along a bandwidth-limited diagonal, then flattens at a
+      compute ceiling past the ridge point. Typical edge neural-network workloads are marked on the
+      bandwidth-limited side, well to the left of the ridge.
+    </desc>
+
+    <defs>
+      <linearGradient id="rl-mem" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.02"></stop>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.16"></stop>
+      </linearGradient>
+      <marker id="rl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"></path>
+      </marker>
+    </defs>
+
+    <!-- memory-bound region fill -->
+    <path d="M70 340 L330 90 L330 340 Z" fill="url(#rl-mem)"></path>
+
+    <!-- axes -->
+    <line x1="70" y1="340" x2="700" y2="340" stroke="var(--hairline-strong)" stroke-width="1"></line>
+    <line x1="70" y1="30" x2="70" y2="340" stroke="var(--hairline-strong)" stroke-width="1"></line>
+
+    <!-- ridge marker -->
+    <line
+      x1="330"
+      y1="90"
+      x2="330"
+      y2="340"
+      stroke="var(--hairline-strong)"
+      stroke-width="1"
+      stroke-dasharray="3 4"></line>
+    <circle cx="330" cy="90" r="4" fill="var(--accent)"></circle>
+
+    <!-- the roof itself -->
+    <path
+      class="roof-line"
+      d="M70 340 L330 90 L700 90"
+      fill="none"
+      stroke="var(--accent)"
+      stroke-width="2.5"
+      stroke-linecap="square"
+      stroke-linejoin="miter"></path>
+
+    <!-- workload markers -->
+    {
+      models.map((m) => (
+        <g class="rl-point">
+          <circle cx={m.x} cy={m.y} r="12" fill="var(--accent)" opacity="0" class="rl-halo" />
+          <circle cx={m.x} cy={m.y} r="4.5" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.5" />
+          <text
+            x={m.x}
+            y={m.y - 16}
+            class="rl-tip"
+            text-anchor="middle"
+            font-size="11"
+            font-family="var(--font-mono)"
+            fill="var(--fg)"
+            opacity="0"
+          >
+            {m.label}
+          </text>
+        </g>
+      ))
+    }
+
+    <!-- region labels -->
+    <text
+      x="150"
+      y="150"
+      font-size="12"
+      font-family="var(--font-mono)"
+      letter-spacing="1.6"
+      fill="var(--accent)">MEMORY BOUND</text
+    >
+    <text
+      x="470"
+      y="150"
+      font-size="12"
+      font-family="var(--font-mono)"
+      letter-spacing="1.6"
+      fill="var(--fg-faint)">COMPUTE BOUND</text
+    >
+
+    <text
+      x="345"
+      y="78"
+      font-size="11"
+      font-family="var(--font-mono)"
+      letter-spacing="1.2"
+      fill="var(--fg-faint)">RIDGE POINT</text
+    >
+
+    <!-- annotation -->
+    <path
+      d="M215 318 C 215 300, 230 292, 250 288"
+      fill="none"
+      stroke="var(--accent)"
+      stroke-width="1.2"
+      marker-end="url(#rl-arrow)"
+      opacity="0.8"></path>
+    <text
+      x="86"
+      y="332"
+      font-size="11"
+      font-family="var(--font-mono)"
+      letter-spacing="1"
+      fill="var(--fg-muted)">REAL EDGE DNN INFERENCE LIVES HERE</text
+    >
+
+    <!-- axis titles -->
+    <text
+      x="385"
+      y="380"
+      text-anchor="middle"
+      font-size="11"
+      font-family="var(--font-mono)"
+      letter-spacing="1.4"
+      fill="var(--fg-faint)">ARITHMETIC INTENSITY  ( FLOP / BYTE )</text
+    >
+    <text
+      transform="translate(30 185) rotate(-90)"
+      text-anchor="middle"
+      font-size="11"
+      font-family="var(--font-mono)"
+      letter-spacing="1.4"
+      fill="var(--fg-faint)">ATTAINABLE PERFORMANCE</text
+    >
+  </svg>
+
+  <figcaption
+    class="relative border-t border-[var(--hairline)] px-6 py-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--fg-faint)]"
+  >
+    Schematic, not a data plot. The slope on the left is memory bandwidth; the flat section on the
+    right is peak compute. Almost every neural network worth running on an edge device sits on the
+    left of the ridge, which is why bandwidth, not FLOPs, predicts what it will do.
+  </figcaption>
+</figure>
+
+<style>
+  .roofline {
+    aspect-ratio: 720 / 400;
+  }
+
+  /* Draw the roof once the figure scrolls into view. */
+  .roof-line {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+  }
+
+  :global([data-reveal].is-visible) .roof-line {
+    animation: rl-draw 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  @keyframes rl-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .rl-point {
+    cursor: default;
+  }
+
+  .rl-point .rl-tip,
+  .rl-point .rl-halo {
+    transition: opacity 0.22s ease;
+  }
+
+  .rl-point:hover .rl-tip {
+    opacity: 1;
+  }
+
+  .rl-point:hover .rl-halo {
+    opacity: 0.18;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .roof-line {
+      stroke-dashoffset: 0;
+      animation: none !important;
+    }
+  }
+
+  /* Tooltips are hover-only; on touch there is no hover, so just show them. */
+  @media (hover: none) {
+    .rl-point .rl-tip {
+      opacity: 1;
+    }
+  }
+</style>

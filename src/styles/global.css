@@ -1,0 +1,616 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+@import 'tailwindcss';
+
+/* ============================================================================
+   DESIGN TOKENS
+   One accent colour drives the whole site. Change --accent below and every
+   button, rule, glow and hover state follows. Amber is chosen deliberately:
+   it reads as instrumentation / thermal imaging, which is the research.
+   Alternates that work with this palette:
+     electric lime   #A3FF12
+     signal cyan     #22D3EE
+     plasma violet   #A78BFA
+   ========================================================================= */
+
+:root {
+  --accent: #ff9e2c;
+  --accent-rgb: 255 158 44;
+  /* text colour that sits on top of a filled accent block */
+  --on-accent: #0a0a0a;
+
+  /* dark is the default identity */
+  --bg: #0a0a0a;
+  --bg-raised: #101010;
+  --surface: rgb(255 255 255 / 0.02);
+  --surface-hover: rgb(255 255 255 / 0.045);
+  --fg: #fafafa;
+  --fg-muted: #a1a1a1;
+  /* #838383 rather than a darker grey so the 11px mono labels clear
+     WCAG AA (5.0:1) instead of failing it at 3.8:1 */
+  --fg-faint: #838383;
+  --hairline: rgb(255 255 255 / 0.09);
+  --hairline-strong: rgb(255 255 255 / 0.16);
+  --dot: rgb(255 255 255 / 0.05);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --bg: #fbfbfa;
+  --bg-raised: #ffffff;
+  --surface: rgb(0 0 0 / 0.018);
+  --surface-hover: rgb(0 0 0 / 0.04);
+  --fg: #0d0d0d;
+  --fg-muted: #57575a;
+  --fg-faint: #6e6e73;
+  --hairline: rgb(0 0 0 / 0.11);
+  --hairline-strong: rgb(0 0 0 / 0.22);
+  --dot: rgb(0 0 0 / 0.08);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+
+  /* amber has to go this dark to clear AA against paper-white (5.2:1) */
+  --accent: #a8530a;
+  --accent-rgb: 168 83 10;
+  --on-accent: #ffffff;
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-faint: var(--fg-faint);
+  --color-accent: var(--accent);
+  --color-hairline: var(--hairline);
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+
+* {
+  border-color: var(--hairline);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(var(--accent-rgb) / 0.28);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Users who ask for less transparency get a solid nav instead of glass. */
+@media (prefers-reduced-transparency: reduce) {
+  .site-nav {
+    background: var(--bg) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* Users who ask for more contrast get real borders instead of hairlines. */
+@media (prefers-contrast: more) {
+  :root {
+    --hairline: rgb(255 255 255 / 0.35);
+    --hairline-strong: rgb(255 255 255 / 0.6);
+    --fg-muted: #d4d4d4;
+    --fg-faint: #b0b0b0;
+  }
+  :root[data-theme='light'] {
+    --hairline: rgb(0 0 0 / 0.4);
+    --hairline-strong: rgb(0 0 0 / 0.65);
+    --fg-muted: #333;
+    --fg-faint: #4a4a4a;
+  }
+}
+
+/* Printing always happens on paper-coloured paper. Force the light palette
+   regardless of the on-screen theme, and drop the textures. */
+@media print {
+  :root,
+  :root[data-theme='dark'] {
+    --bg: #fff;
+    --bg-raised: #fff;
+    --surface: transparent;
+    --fg: #111;
+    --fg-muted: #333;
+    --fg-faint: #555;
+    --hairline: rgb(0 0 0 / 0.25);
+    --hairline-strong: rgb(0 0 0 / 0.5);
+    --accent: #a8530a;
+    --accent-rgb: 168 83 10;
+    --dot: transparent;
+  }
+
+  .dotgrid,
+  .linegrid,
+  .accent-glow {
+    background-image: none !important;
+    background: none !important;
+  }
+}
+
+/* ============================================================================
+   TYPE SCALE
+   Display type is large, light and very tightly tracked. Labels are mono,
+   uppercase and widely tracked. The contrast between those two is the whole
+   personality of the page.
+   ========================================================================= */
+
+@layer components {
+  .display {
+    font-size: clamp(2.6rem, 7.2vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-weight: 350;
+    text-wrap: balance;
+  }
+
+  .display-sm {
+    font-size: clamp(2rem, 4.6vw, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 350;
+    text-wrap: balance;
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+
+  .lede {
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--fg-muted);
+    text-wrap: pretty;
+  }
+
+  .prose-block p {
+    color: var(--fg-muted);
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+
+  .prose-block p + p {
+    margin-top: 1.15rem;
+  }
+
+  /* ---- section eyebrow: //  LABEL  ─────────────────── ---- */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .eyebrow::before {
+    content: '//';
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--hairline), transparent);
+  }
+
+  /* ---- buttons: square, mono, uppercase ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding-inline: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color 0.18s ease,
+      color 0.18s ease,
+      border-color 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .btn-primary:hover {
+    background: rgb(var(--accent-rgb) / 0.86);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--hairline-strong);
+    color: var(--fg);
+  }
+
+  .btn-ghost:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ---- cards ---- */
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .card-link:hover {
+    background: var(--surface-hover);
+    border-color: var(--hairline-strong);
+  }
+
+  /* corner ticks, the small detail that makes a plain box look engineered */
+  .ticks::before,
+  .ticks::after {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+
+  .ticks::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid var(--accent);
+    border-left: 1px solid var(--accent);
+  }
+
+  .ticks::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid var(--accent);
+    border-right: 1px solid var(--accent);
+  }
+
+  .card-link:hover .ticks::before,
+  .card-link:hover .ticks::after,
+  .ticks:hover::before,
+  .ticks:hover::after {
+    opacity: 1;
+  }
+
+  /* ---- pill / tag ---- */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    height: 1.5rem;
+    padding-inline: 0.5rem;
+    border: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    white-space: nowrap;
+  }
+
+  .tag-accent {
+    border-color: rgb(var(--accent-rgb) / 0.45);
+    color: var(--accent);
+  }
+
+  /* ---- link with animated underline ---- */
+  .link-u {
+    color: var(--fg);
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.25s ease;
+  }
+
+  .link-u:hover {
+    background-size: 100% 1px;
+    color: var(--accent);
+  }
+}
+
+/* ============================================================================
+   LONG-FORM PROSE
+   Hand-tuned rather than using a plugin, so article type matches the rest of
+   the design system instead of arriving from somewhere else.
+   ========================================================================= */
+
+.prose {
+  max-width: 42rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--fg-muted);
+}
+
+.prose > * + * {
+  margin-top: 1.35em;
+}
+
+.prose h2 {
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.prose h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  font-size: 1.1875rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+}
+
+.prose strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgb(var(--accent-rgb) / 0.4);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+}
+
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.prose ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0.1rem;
+  top: 0.72em;
+  width: 6px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-top: 0.5rem;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--accent);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  color: var(--fg-faint);
+  font-size: 0.9375rem;
+}
+
+.prose blockquote p + p {
+  margin-top: 0.75rem;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+  background: var(--surface-hover);
+  border: 1px solid var(--hairline);
+  padding: 0.1em 0.35em;
+  color: var(--fg);
+}
+
+.prose pre {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  padding: 1.15rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin-block: 2.5rem;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.prose th,
+.prose td {
+  border-bottom: 1px solid var(--hairline);
+  padding: 0.7rem 0.75rem 0.7rem 0;
+  text-align: left;
+}
+
+.prose th {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  font-weight: 500;
+}
+
+/* ============================================================================
+   BACKGROUND TEXTURE
+   ========================================================================= */
+
+.dotgrid {
+  background-image: radial-gradient(circle at center, var(--dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.linegrid {
+  background-image:
+    linear-gradient(to right, var(--dot) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--dot) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+.fade-edges {
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 100%);
+}
+
+.accent-glow {
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--accent-rgb) / 0.16) 0%,
+    rgb(var(--accent-rgb) / 0.05) 45%,
+    transparent 75%
+  );
+}
+
+/* theme-toggle icon swap */
+.theme-icon-light {
+  display: none;
+}
+.theme-icon-dark {
+  display: block;
+}
+:root[data-theme='light'] .theme-icon-light {
+  display: block;
+}
+:root[data-theme='light'] .theme-icon-dark {
+  display: none;
+}
+
+/* ============================================================================
+   MOTION
+   ========================================================================= */
+
+/* Scoped to html.js so that if scripting is off, blocked, or throws, the page
+   renders fully visible instead of blank. Reveal is decoration, never a gate. */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 46s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0.15;
+  }
+}
+
+.blink {
+  animation: blink 2.4s steps(1, end) infinite;
+}

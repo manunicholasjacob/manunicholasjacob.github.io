@@ -1,0 +1,27 @@
+---
+interface Props {
+  /** The mono uppercase eyebrow, rendered after a // marker. */
+  label?: string;
+  /** Large display heading. */
+  heading?: string;
+  /** Optional supporting paragraph under the heading. */
+  lede?: string;
+  id?: string;
+  class?: string;
+}
+
+const { label, heading, lede, id, class: klass = '' } = Astro.props;
+---
+
+<section id={id} class:list={['mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24', klass]}>
+  {label && <p class="eyebrow label">{label}</p>}
+  {
+    (heading || lede) && (
+      <div class="mb-12 max-w-3xl" data-reveal>
+        {heading && <h2 class="display-sm">{heading}</h2>}
+        {lede && <p class="lede mt-5">{lede}</p>}
+      </div>
+    )
+  }
+  <slot />
+</section>

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { nav, navSecondary } from '../data/site';
+
+const all = [...nav, ...navSecondary];
+---
+
+<Base title="Not found">
+  <section class="relative overflow-hidden">
+    <div class="dotgrid fade-edges pointer-events-none absolute inset-0"></div>
+    <div class="accent-glow pointer-events-none absolute -top-32 left-1/2 h-80 w-[40rem] -translate-x-1/2"></div>
+
+    <div class="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-5 py-24 sm:px-8">
+      <p class="label mb-6 flex items-center gap-2"><span class="text-[var(--accent)]">//</span>Error 404</p>
+      <h1 class="display max-w-3xl">No signal on that address.</h1>
+      <p class="lede mt-7 max-w-lg">
+        The page moved when this site was rebuilt. Everything is still here, just somewhere tidier.
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="/" class="btn btn-primary">Back to start</a>
+        {all.map((item) => <a href={item.href} class="btn btn-ghost">{item.label}</a>)}
+      </div>
+    </div>
+  </section>
+</Base>

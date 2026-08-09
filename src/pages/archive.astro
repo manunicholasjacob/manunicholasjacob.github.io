@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import { podcast, early, earlyCourses, interests } from '../data/archive';
+---
+
+<Base
+  title="Archive"
+  description="Earlier work: a student podcast, school-era awards, self-directed coursework, and the interests behind all of it."
+>
+  <PageHeader
+    label="Archive"
+    title="Earlier things, kept."
+    lede="Not everything belongs on the front page, and not everything should be deleted either. This is the rest of it."
+  />
+
+  {/* podcast */}
+  <Section label="Podcast" heading={podcast.name} lede={podcast.blurb}>
+    <ul class="border-t border-[var(--hairline)]">
+      {
+        podcast.episodes.map((e, i) => (
+          <li
+            class="group grid gap-4 border-b border-[var(--hairline)] py-7 transition-colors hover:bg-[var(--surface)] lg:grid-cols-[3rem_1fr_11rem] lg:gap-10"
+            data-reveal={String(Math.min(i, 3) * 60)}
+          >
+            <span class="font-mono text-sm text-[var(--fg-faint)] tabular-nums transition-colors group-hover:text-[var(--accent)]">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="text-xl font-medium tracking-tight">{e.guest}</h3>
+              <p class="mt-1 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                {e.title}
+              </p>
+              <p class="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--fg-muted)]">{e.blurb}</p>
+            </div>
+            <div class="flex gap-2 lg:flex-col lg:items-end">
+              <a
+                href={e.youtube}
+                target="_blank"
+                rel="noopener"
+                class="link-u font-mono text-[0.6875rem]"
+              >
+                Watch ↗
+              </a>
+              <a
+                href={e.audio}
+                target="_blank"
+                rel="noopener"
+                class="link-u font-mono text-[0.6875rem] text-[var(--fg-faint)]"
+              >
+                Listen ↗
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  {/* early awards */}
+  <Section
+    label="Before engineering"
+    heading="School-era."
+    lede="Debating, student government and a national aptitude challenge. Included for completeness."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
+      {
+        early.map((e, i) => (
+          <div class="bg-[var(--bg)] p-7" data-reveal={String((i % 2) * 70)}>
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="text-lg font-medium tracking-tight">{e.title}</h3>
+              <span class="font-mono text-[0.625rem] text-[var(--fg-faint)]">{e.year}</span>
+            </div>
+            <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{e.org}</p>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{e.detail}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  {/* interests */}
+  <Section
+    label="Interests"
+    heading="The sum of the parts."
+    lede="They say a person is the sum of their interests. Here are the ones that keep me out of mischief."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
+      {
+        interests.map((it, i) => (
+          <div class="group flex flex-col bg-[var(--bg)]" data-reveal={String((i % 3) * 70)}>
+            {it.image && (
+              <div class="overflow-hidden border-b border-[var(--hairline)]">
+                <img
+                  src={it.image}
+                  alt={it.imageAlt ?? it.name}
+                  loading="lazy"
+                  class="aspect-[16/9] w-full object-cover object-top grayscale-[35%] transition-all duration-500 group-hover:grayscale-0"
+                />
+              </div>
+            )}
+            <div class="p-7">
+              <p class="label">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="mt-4 text-xl font-medium tracking-tight">{it.name}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{it.blurb}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  {/* early coursework */}
+  <Section label="Self-directed coursework">
+    <ul class="border-t border-[var(--hairline)]">
+      {
+        earlyCourses.map((c) => (
+          <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-[var(--hairline)] py-4">
+            <span class="text-sm text-[var(--fg-muted)]">{c.title}</span>
+            <span class="font-mono text-[0.625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+              {c.issuer} · {c.date}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+</Base>

@@ -1,0 +1,25 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  lede?: string;
+}
+
+const { label, title, lede } = Astro.props;
+---
+
+<header class="relative overflow-hidden border-b border-[var(--hairline)]">
+  <div class="dotgrid fade-edges pointer-events-none absolute inset-0"></div>
+  <div
+    class="accent-glow pointer-events-none absolute -top-32 left-1/2 h-80 w-[42rem] -translate-x-1/2"
+  >
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
+    <p class="label mb-6 flex items-center gap-2">
+      <span class="text-[var(--accent)]">//</span>{label}
+    </p>
+    <h1 class="display max-w-4xl" data-reveal>{title}</h1>
+    {lede && <p class="lede mt-7 max-w-2xl" data-reveal="90">{lede}</p>}
+  </div>
+</header>

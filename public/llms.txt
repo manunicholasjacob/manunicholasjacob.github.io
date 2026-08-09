@@ -1,0 +1,26 @@
+# Manu Nicholas Jacob
+
+> Hardware engineer at Dell Technologies (enterprise AI server platforms) and
+> independent researcher on edge machine-learning systems. Austin, Texas.
+
+The research thesis: the memory wall, not compute, governs deep-neural-network
+inference on real hardware. Nine papers, each backed by a public, DOI-archived
+artifact measured on physical hardware (Raspberry Pi 5 / Arm Cortex-A76,
+hardware performance counters, on-board power telemetry).
+
+## Pages
+
+- [Research](https://manunicholasjacob.com/research): full publication record with statuses, headline results and artifact DOIs
+- [Projects](https://manunicholasjacob.com/projects): open-source research artifacts, tools and award-winning hardware builds
+- [Lab](https://manunicholasjacob.com/lab): the measurement bench and the methodology rules
+- [Writing](https://manunicholasjacob.com/writing): notes on systems engineering and measurement
+- [About](https://manunicholasjacob.com/about): background, experience, education, patent
+- [CV](https://manunicholasjacob.com/cv): one-page curriculum vitae
+- [Now](https://manunicholasjacob.com/now): what is currently in flight
+
+## Identity
+
+- GitHub: https://github.com/manunicholasjacob
+- ORCID: https://orcid.org/0009-0007-6589-6572
+- Google Scholar: https://scholar.google.com/citations?user=inrrUQIAAAAJ
+- Email: manunicholasjacob@gmail.com

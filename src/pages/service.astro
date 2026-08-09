@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import { judging, speaking, volunteering } from '../data/service';
+---
+
+<Base
+  title="Service"
+  description="Judging hackathons and robotics competitions, speaking, and teaching."
+>
+  <PageHeader
+    label="Service"
+    title="Judging, speaking, teaching."
+    lede="Evaluating other people's work is the fastest way to stay honest about your own."
+  />
+
+  <Section
+    label="Judging"
+    heading="On the panel."
+    lede="Hackathon and robotics judging, plus peer review and artifact evaluation as those roles land."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
+      {
+        judging.map((j, i) => (
+          <div class="ticks relative bg-[var(--bg)] p-7" data-reveal={String(i * 80)}>
+            <div class="flex items-start justify-between gap-3">
+              <p class="label">{j.period}</p>
+            </div>
+            <h3 class="mt-5 text-xl leading-snug font-medium tracking-tight">{j.role}</h3>
+            <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{j.org}</p>
+            <p class="mt-4 text-sm leading-relaxed text-[var(--fg-muted)]">{j.detail}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    {/* from the field */}
+    <div class="mt-px grid gap-px border border-t-0 border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
+      {
+        [
+          { src: '/img/vex-field-1.jpg', alt: 'A VEX V5 competition field mid-match, robots at both ends' },
+          { src: '/img/vex-field-2.jpg', alt: 'A VEX V5 competition field set up before a match' },
+        ].map((img, i) => (
+          <figure class="group overflow-hidden bg-[var(--bg)]" data-reveal={String(i * 90)}>
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading="lazy"
+              class="aspect-[16/9] w-full object-cover grayscale-[35%] transition-all duration-500 group-hover:grayscale-0"
+            />
+          </figure>
+        ))
+      }
+      <figcaption class="bg-[var(--bg)] px-5 py-3 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase sm:col-span-2">
+        // From the field · VEX V5 events I judge
+      </figcaption>
+    </div>
+  </Section>
+
+  <Section label="Speaking" heading="Talks and posters.">
+    <ul class="border-t border-[var(--hairline)]">
+      {
+        speaking.map((s, i) => (
+          <li
+            class="grid gap-3 border-b border-[var(--hairline)] py-7 lg:grid-cols-[10rem_1fr] lg:gap-10"
+            data-reveal={String(i * 70)}
+          >
+            <p class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--accent)] uppercase">
+              {s.period}
+            </p>
+            <div>
+              <h3 class="text-lg font-medium tracking-tight">{s.org}</h3>
+              <p class="mt-1 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                {s.role}
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{s.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section
+    label="Teaching and volunteering"
+    heading="Before any of the rest of it."
+    lede="Work with three foundations in India, mostly teaching and mostly with people who had very little margin for error."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
+      {
+        volunteering.map((v, i) => (
+          <div class="flex flex-col bg-[var(--bg)] p-7" data-reveal={String(i * 80)}>
+            <h3 class="text-xl font-medium tracking-tight">{v.org}</h3>
+            <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{v.role}</p>
+            <p class="mt-4 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{v.blurb}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+</Base>

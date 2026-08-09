@@ -1,0 +1,333 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import { site, links, stats, keywords } from '../data/site';
+import { featuredPapers, researchThesis, papers } from '../data/research';
+import { repos, builds } from '../data/projects';
+import { judging } from '../data/service';
+
+const writing = (await getCollection('writing', ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+const highlightRepos = repos.filter((r) =>
+  ['rpi5-quantization-benchmark', 'edge-llm-memory-wall', 'edge-cold-start-tax', 'llama-roofline'].includes(
+    r.slug,
+  ),
+);
+
+const spec = [
+  ['Role', 'Hardware Engineer'],
+  ['Org', 'Dell Technologies'],
+  ['Focus', 'AI server platforms'],
+  ['Research', 'Edge inference, memory systems'],
+  ['Based', 'Austin, Texas'],
+];
+---
+
+<Base>
+  {/* ══════════════════════════ HERO ══════════════════════════ */}
+  <section class="relative overflow-hidden border-b border-[var(--hairline)]">
+    <div class="linegrid fade-edges pointer-events-none absolute inset-0"></div>
+    <div class="dotgrid fade-edges pointer-events-none absolute inset-0"></div>
+    <div
+      class="accent-glow pointer-events-none absolute -top-40 left-[15%] h-[34rem] w-[46rem] -translate-x-1/2"
+    >
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-5 pt-16 pb-20 sm:px-8 sm:pt-24 sm:pb-28">
+      <div class="grid items-center gap-14 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
+        <div>
+          <p class="label mb-7 flex items-center gap-2.5">
+            <span class="blink text-[var(--accent)]">●</span>
+            {site.name} &nbsp;/&nbsp; {site.location}
+          </p>
+
+          <h1 class="display" data-reveal>
+            I find out what actually<br class="hidden sm:block" />
+            <span class="text-[var(--accent)]">limits</span> a computer.
+          </h1>
+
+          <p class="lede mt-8 max-w-xl" data-reveal="80">
+            Hardware engineer at Dell Technologies working on enterprise AI server platforms, and an
+            independent researcher on what really governs machine-learning inference at the edge.
+            Every number on this site was measured on real silicon.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-3" data-reveal="160">
+            <a href="/research" class="btn btn-primary">Read the research</a>
+            <a href={links.github} target="_blank" rel="noopener" class="btn btn-ghost">
+              GitHub ↗
+            </a>
+          </div>
+        </div>
+
+        {/* spec-sheet portrait */}
+        <div class="max-w-xs lg:justify-self-end" data-reveal="240">
+          <div class="card ticks group overflow-hidden">
+            <img
+              src="/img/manu.jpg"
+              alt={site.name}
+              width="900"
+              height="900"
+              class="aspect-square w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+            />
+          </div>
+          <dl class="mt-4 border border-t-0 border-[var(--hairline)]">
+            {
+              spec.map(([k, v], i) => (
+                <div
+                  class:list={[
+                    'flex items-baseline justify-between gap-4 px-3 py-2',
+                    i !== 0 && 'border-t border-[var(--hairline)]',
+                  ]}
+                >
+                  <dt class="font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+                    {k}
+                  </dt>
+                  <dd class="text-right font-mono text-[0.6875rem] text-[var(--fg-muted)]">{v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    {/* keyword marquee */}
+    {/* Two identical copies, spacing carried inside each item and no flex gap
+        on the track, so translateX(-50%) lands exactly on the seam. */}
+    <div class="marquee relative overflow-hidden border-t border-[var(--hairline)] py-3">
+      <div class="marquee-track flex w-max" aria-hidden="true">
+        {
+          [0, 1].map(() => (
+            <div class="flex shrink-0">
+              {keywords.map((k) => (
+                <span class="flex items-center gap-7 pr-7 font-mono text-[0.6875rem] tracking-[0.16em] whitespace-nowrap text-[var(--fg-faint)] uppercase">
+                  {k}
+                  <span class="text-[var(--accent)] opacity-60">/</span>
+                </span>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+      <div
+        class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--bg)] to-transparent"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[var(--bg)] to-transparent"
+      >
+      </div>
+    </div>
+
+    {/* stats */}
+    <div class="border-t border-[var(--hairline)]">
+      <dl class="mx-auto grid max-w-6xl grid-cols-2 sm:grid-cols-4">
+        {
+          stats.map((s, i) => (
+            <div
+              class:list={[
+                'px-5 py-7 sm:px-8',
+                i % 2 === 1 && 'border-l border-[var(--hairline)]',
+                i >= 2 && 'border-t border-[var(--hairline)] sm:border-t-0',
+                i === 2 && 'sm:border-l',
+                i === 3 && 'sm:border-l',
+              ]}
+            >
+              <dd class="font-mono text-3xl font-light tracking-tight tabular-nums sm:text-4xl">
+                {s.value}
+              </dd>
+              <dt class="label mt-2">{s.label}</dt>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  {/* ══════════════════════════ THESIS ══════════════════════════ */}
+  <Section label="The through-line">
+    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <h2 class="display-sm" data-reveal>{researchThesis.claim}</h2>
+      <div class="prose-block max-w-xl" data-reveal="90">
+        <p>{researchThesis.body}</p>
+        <div class="mt-6 flex flex-wrap gap-x-8 gap-y-2">
+          <a href="/research" class="link-u font-mono text-sm">Full publication record →</a>
+          <a href="/lab" class="link-u font-mono text-sm">The bench it runs on →</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  {/* ══════════════════════════ FEATURED PAPERS ══════════════════════════ */}
+  <Section
+    label="Selected findings"
+    heading="Results that changed how I build."
+    lede="Three papers from the current program. Each headline number was reproduced on hardware before it was written down."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] md:grid-cols-3">
+      {
+        featuredPapers.map((p, i) => (
+          <a
+            href={`/research#${p.id}`}
+            class="card-link group flex flex-col bg-[var(--bg)] p-7 transition-colors"
+            data-reveal={String(i * 90)}
+          >
+            <div class="flex items-center justify-between gap-3">
+              <span class="tag tag-accent">{p.venueTier}</span>
+              <span class="font-mono text-[0.625rem] text-[var(--fg-faint)]">{p.year}</span>
+            </div>
+
+            <h3 class="mt-6 text-xl leading-snug font-medium tracking-tight">{p.title}</h3>
+            <p class="mt-4 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{p.claim}</p>
+
+            <p class="mt-6 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
+              {p.headline}
+            </p>
+            <p class="label mt-3">{p.venue}</p>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+      {papers.length} papers total ·
+      <a href="/research" class="text-[var(--accent)] hover:underline">see all</a>
+    </p>
+  </Section>
+
+  {/* ══════════════════════════ CODE ══════════════════════════ */}
+  <Section
+    label="Open source"
+    heading="The code behind the numbers."
+    lede="Every published result ships with the harness that produced it, archived on Zenodo with a citable DOI."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
+      {
+        highlightRepos.map((r, i) => (
+          <a
+            href={r.url}
+            target="_blank"
+            rel="noopener"
+            class="card-link group relative bg-[var(--bg)] p-7"
+            data-reveal={String((i % 2) * 80)}
+          >
+            <div class="flex items-start justify-between gap-4">
+              <h3 class="font-mono text-sm font-medium break-all text-[var(--fg)] group-hover:text-[var(--accent)]">
+                {r.name}
+              </h3>
+              <span class="shrink-0 text-[var(--fg-faint)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]">
+                ↗
+              </span>
+            </div>
+
+            <p class="mt-4 text-sm leading-relaxed text-[var(--fg-muted)]">{r.blurb}</p>
+
+            {r.result && (
+              <p class="mt-4 font-mono text-[0.6875rem] text-[var(--accent)]">{r.result}</p>
+            )}
+
+            <div class="mt-5 flex flex-wrap items-center gap-2">
+              {r.stack.map((s) => (
+                <span class="tag">{s}</span>
+              ))}
+              {r.doi && <span class="tag">DOI</span>}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <a href="/projects" class="link-u mt-8 inline-block font-mono text-sm">All projects →</a>
+  </Section>
+
+  {/* ══════════════════════════ BUILT / JUDGED ══════════════════════════ */}
+  <Section label="Built and judged">
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal>
+        <h2 class="display-sm">Things I built with my hands.</h2>
+        <ul class="mt-10 space-y-px border border-[var(--hairline)] bg-[var(--hairline)]">
+          {
+            builds.map((b) => (
+              <li class="bg-[var(--bg)] p-6">
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h3 class="text-lg font-medium tracking-tight">{b.name}</h3>
+                  <span class="font-mono text-[0.625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                    {b.event}
+                  </span>
+                </div>
+                <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{b.award}</p>
+                <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{b.blurb}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div data-reveal="120">
+        <h2 class="display-sm">And work I judge.</h2>
+        <ul class="mt-10 space-y-px border border-[var(--hairline)] bg-[var(--hairline)]">
+          {
+            judging.map((j) => (
+              <li class="bg-[var(--bg)] p-6">
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h3 class="text-lg font-medium tracking-tight">{j.role}</h3>
+                  <span class="font-mono text-[0.625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                    {j.period}
+                  </span>
+                </div>
+                <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{j.org}</p>
+                <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{j.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <a href="/service" class="link-u mt-8 inline-block font-mono text-sm">
+          Service and teaching →
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  {/* ══════════════════════════ WRITING ══════════════════════════ */}
+  {
+    writing.length > 0 && (
+      <Section label="Writing" heading="Recent notes.">
+        <ul class="border-t border-[var(--hairline)]">
+          {writing.map((post, i) => (
+            <li data-reveal={String(i * 70)}>
+              <a
+                href={`/writing/${post.id}`}
+                class="group grid gap-2 border-b border-[var(--hairline)] py-6 transition-colors hover:bg-[var(--surface)] sm:grid-cols-[8rem_1fr_2rem] sm:items-baseline sm:gap-8"
+              >
+                <span class="font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                  {fmtDate(post.data.date)}
+                </span>
+                <span>
+                  <span class="text-lg font-medium tracking-tight group-hover:text-[var(--accent)]">
+                    {post.data.title}
+                  </span>
+                  <span class="mt-1 block text-sm text-[var(--fg-muted)]">
+                    {post.data.description}
+                  </span>
+                </span>
+                <span class="hidden text-[var(--fg-faint)] transition-all group-hover:translate-x-1 group-hover:text-[var(--accent)] sm:block sm:text-right">
+                  →
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a href="/writing" class="link-u mt-8 inline-block font-mono text-sm">
+          All writing →
+        </a>
+      </Section>
+    )
+  }
+</Base>

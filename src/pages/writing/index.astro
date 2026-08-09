@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Section from '../../components/Section.astro';
+
+// import.meta.env.DEV keeps drafts visible locally and out of the build.
+const posts = (await getCollection('writing', ({ data }) => import.meta.env.DEV || !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+
+<Base
+  title="Writing"
+  description="Notes on systems engineering, measurement, and the parts of a machine that only show themselves when something breaks."
+>
+  <PageHeader
+    label="Writing"
+    title="Notes on how systems misbehave."
+    lede="Short pieces on measurement, reliability, and the failure modes that only make sense at the level of the whole machine."
+  />
+
+  <Section label={`${posts.length} ${posts.length === 1 ? 'piece' : 'pieces'}`}>
+    {
+      posts.length === 0 ? (
+        <p class="lede">Nothing published yet.</p>
+      ) : (
+        <ul class="border-t border-[var(--hairline)]">
+          {posts.map((post, i) => (
+            <li data-reveal={String(Math.min(i, 4) * 60)}>
+              <a
+                href={`/writing/${post.id}`}
+                class="group grid gap-4 border-b border-[var(--hairline)] py-8 transition-colors hover:bg-[var(--surface)] lg:grid-cols-[9rem_1fr_2rem] lg:items-baseline lg:gap-10"
+              >
+                <div>
+                  <p class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+                    {fmt(post.data.date)}
+                  </p>
+                  <p class="mt-1.5 font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--accent)] uppercase">
+                    {post.data.kind}
+                  </p>
+                </div>
+
+                <div>
+                  <h2 class="text-2xl leading-tight font-medium tracking-tight text-balance group-hover:text-[var(--accent)]">
+                    {post.data.title}
+                    {post.data.draft && <span class="tag ml-3 align-middle">Draft</span>}
+                  </h2>
+                  <p class="mt-3 max-w-2xl leading-relaxed text-[var(--fg-muted)] text-pretty">
+                    {post.data.description}
+                  </p>
+                  {post.data.topics.length > 0 && (
+                    <div class="mt-4 flex flex-wrap gap-2">
+                      {post.data.topics.map((t) => (
+                        <span class="tag">{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <span class="text-[var(--fg-faint)] transition-all group-hover:translate-x-1 group-hover:text-[var(--accent)] lg:text-right">
+                  →
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <a href="/rss.xml" class="link-u mt-10 inline-block font-mono text-sm">RSS feed →</a>
+  </Section>
+</Base>

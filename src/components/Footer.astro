@@ -1,0 +1,81 @@
+---
+import { site, links, nav, navSecondary } from '../data/site';
+
+const year = new Date().getFullYear();
+
+const pages = [...nav, ...navSecondary];
+
+const elsewhere = [
+  { label: 'GitHub', href: links.github },
+  { label: 'LinkedIn', href: links.linkedin },
+  { label: 'Google Scholar', href: links.scholar },
+  { label: 'ORCID', href: links.orcid },
+  { label: 'RSS', href: '/rss.xml' },
+];
+---
+
+<footer class="relative mt-32 border-t border-[var(--hairline)]">
+  <div class="dotgrid pointer-events-none absolute inset-0 opacity-60"></div>
+
+  <div class="relative mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr]">
+      <div>
+        <p class="display-sm max-w-md">Let's talk about hardware.</p>
+        <a
+          href={`mailto:${site.email}`}
+          class="link-u mt-5 inline-block font-mono text-sm break-all">{site.email}</a
+        >
+        <p class="label mt-6">{site.location}</p>
+      </div>
+
+      <div>
+        <p class="label mb-4">Pages</p>
+        <ul class="space-y-2.5">
+          {
+            pages.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="label mb-4">Elsewhere</p>
+        <ul class="space-y-2.5">
+          {
+            elsewhere.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  rel="me noopener"
+                  target="_blank"
+                  class="group inline-flex items-center gap-1.5 text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
+                >
+                  {item.label}
+                  <span class="opacity-0 transition-opacity group-hover:opacity-100">↗</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col gap-3 border-t border-[var(--hairline)] py-6 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>&copy; {year} {site.name}</p>
+      <p class="flex items-center gap-2">
+        <span class="blink text-[var(--accent)]">●</span>
+        Views are my own, not my employer's
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,194 @@
+---
+/**
+ * Command palette: Ctrl/Cmd-K anywhere.
+ *
+ * The index is built at compile time from the same data files as everything
+ * else, embedded as JSON, and searched with plain substring scoring in ~60
+ * lines of vanilla JS. No library, no network, works offline.
+ */
+import { nav, navSecondary, links, site } from '../data/site';
+import { papers } from '../data/research';
+import { repos, builds } from '../data/projects';
+
+type Item = { t: string; s: string; href: string; k: string };
+
+const index: Item[] = [
+  ...[...nav, ...navSecondary].map((n) => ({
+    t: n.label,
+    s: 'Go to page',
+    href: n.href,
+    k: 'page',
+  })),
+  { t: 'Home', s: 'Go to page', href: '/', k: 'page' },
+  ...papers.map((p) => ({
+    t: p.title,
+    s: `${p.venue} · ${p.status}`,
+    href: `/research#${p.id}`,
+    k: 'paper',
+  })),
+  ...repos.map((r) => ({ t: r.name, s: r.blurb.slice(0, 80), href: r.url, k: 'repo' })),
+  ...builds.map((b) => ({ t: b.name, s: `${b.award} · ${b.event}`, href: '/projects', k: 'build' })),
+  { t: 'Email', s: site.email, href: `mailto:${site.email}`, k: 'link' },
+  { t: 'GitHub profile', s: 'github.com/manunicholasjacob', href: links.github, k: 'link' },
+  { t: 'LinkedIn', s: 'Professional profile', href: links.linkedin, k: 'link' },
+  { t: 'Google Scholar', s: 'Citations and papers', href: links.scholar, k: 'link' },
+];
+---
+
+<div
+  id="palette"
+  class="fixed inset-0 z-[90] hidden items-start justify-center bg-black/50 p-4 pt-[14vh] backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site search"
+>
+  <div
+    class="palette-panel w-full max-w-xl border border-[var(--hairline-strong)] bg-[var(--bg-raised)] shadow-2xl"
+  >
+    <div class="flex items-center gap-3 border-b border-[var(--hairline)] px-4">
+      <span class="font-mono text-sm text-[var(--accent)]">›</span>
+      <input
+        id="palette-input"
+        type="text"
+        placeholder="Search pages, papers, repos…"
+        autocomplete="off"
+        spellcheck="false"
+        class="h-12 w-full bg-transparent font-mono text-sm text-[var(--fg)] outline-none placeholder:text-[var(--fg-faint)]"
+      />
+      <kbd
+        class="hidden shrink-0 border border-[var(--hairline)] px-1.5 py-0.5 font-mono text-[0.5625rem] text-[var(--fg-faint)] sm:block"
+        >ESC</kbd
+      >
+    </div>
+    <ul id="palette-list" class="max-h-[50vh] overflow-y-auto py-1.5"></ul>
+    <div
+      class="flex items-center gap-4 border-t border-[var(--hairline)] px-4 py-2 font-mono text-[0.5625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase"
+    >
+      <span>↑↓ navigate</span>
+      <span>↵ open</span>
+      <span class="ml-auto">{index.length} indexed</span>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ index }}>
+  (() => {
+    const root = document.getElementById('palette');
+    const input = document.getElementById('palette-input');
+    const list = document.getElementById('palette-list');
+    if (!root || !input || !list) return;
+
+    const KINDS = { page: 'PAGE', paper: 'PAPER', repo: 'REPO', build: 'BUILD', link: 'LINK' };
+    let results = [];
+    let active = 0;
+
+    const score = (item, q) => {
+      const t = item.t.toLowerCase();
+      const s = item.s.toLowerCase();
+      if (t.startsWith(q)) return 3;
+      if (t.includes(q)) return 2;
+      if (s.includes(q)) return 1;
+      return 0;
+    };
+
+    const renderRow = (item, i) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = item.href;
+      if (/^https?:/.test(item.href)) {
+        a.target = '_blank';
+        a.rel = 'noopener';
+      }
+      a.className =
+        'flex items-baseline gap-3 px-4 py-2.5 text-sm transition-colors ' +
+        (i === active ? 'bg-[var(--surface-hover)] text-[var(--accent)]' : 'text-[var(--fg)]');
+      a.dataset.idx = String(i);
+
+      const kind = document.createElement('span');
+      kind.className =
+        'shrink-0 w-12 font-mono text-[0.5625rem] tracking-[0.1em] text-[var(--fg-faint)]';
+      kind.textContent = KINDS[item.k] || '';
+
+      const title = document.createElement('span');
+      title.className = 'truncate';
+      title.textContent = item.t;
+
+      const sub = document.createElement('span');
+      sub.className = 'ml-auto max-w-[40%] truncate font-mono text-[0.625rem] text-[var(--fg-faint)]';
+      sub.textContent = item.s;
+
+      a.append(kind, title, sub);
+      li.appendChild(a);
+      return li;
+    };
+
+    const render = () => {
+      list.replaceChildren(...results.slice(0, 12).map(renderRow));
+      if (!results.length) {
+        const li = document.createElement('li');
+        li.className = 'px-4 py-6 text-center font-mono text-xs text-[var(--fg-faint)]';
+        li.textContent = 'No matches.';
+        list.appendChild(li);
+      }
+    };
+
+    const search = () => {
+      const q = input.value.trim().toLowerCase();
+      results = q
+        ? index
+            .map((item) => ({ item, sc: score(item, q) }))
+            .filter((r) => r.sc > 0)
+            .sort((a, b) => b.sc - a.sc)
+            .map((r) => r.item)
+        : index.slice(0, 8);
+      active = 0;
+      render();
+    };
+
+    const open = () => {
+      root.classList.remove('hidden');
+      root.classList.add('flex');
+      input.value = '';
+      search();
+      input.focus();
+    };
+
+    const close = () => {
+      root.classList.add('hidden');
+      root.classList.remove('flex');
+    };
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        root.classList.contains('hidden') ? open() : close();
+        return;
+      }
+      if (root.classList.contains('hidden')) return;
+      if (e.key === 'Escape') return close();
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const n = Math.min(results.length, 12);
+        if (!n) return;
+        active = (active + (e.key === 'ArrowDown' ? 1 : n - 1)) % n;
+        render();
+      }
+      if (e.key === 'Enter') {
+        const a = list.querySelector(`a[data-idx="${active}"]`);
+        if (a) {
+          a.click();
+          close();
+        }
+      }
+    });
+
+    input.addEventListener('input', search);
+    root.addEventListener('click', (e) => {
+      if (e.target === root) close();
+    });
+    list.addEventListener('click', () => close());
+
+    // Let other elements (the nav hint) open it too.
+    window.openPalette = open;
+  })();
+</script>
