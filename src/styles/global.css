@@ -117,6 +117,104 @@ body {
   }
 }
 
+/* ---- scrollbar: thin, theme-aware, quiet ---- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hairline-strong);
+  border: 3px solid var(--bg);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-faint);
+}
+
+/* ---- drawn underline for the one accented word in the hero.
+   Starts after the heading has revealed; draws once. ---- */
+.hl-draw {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 96%;
+  background-size: 0% 0.045em;
+}
+
+html.js [data-reveal].is-visible .hl-draw {
+  animation: hl-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.55s forwards;
+}
+
+/* No-JS or reduced motion: the underline is simply there. */
+html:not(.js) .hl-draw {
+  background-size: 100% 0.045em;
+}
+
+@keyframes hl-draw {
+  to {
+    background-size: 100% 0.045em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-draw {
+    background-size: 100% 0.045em;
+    animation: none !important;
+  }
+}
+
+/* ---- technical plus-marks: registration marks at a frame's corners,
+   the drafting-table cousin of the card corner ticks. ---- */
+.plus-marks {
+  position: relative;
+}
+
+.plus-marks::before,
+.plus-marks::after {
+  content: '+';
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--fg-faint);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.plus-marks::before {
+  top: 1.4rem;
+  left: 1.25rem;
+}
+
+.plus-marks::after {
+  bottom: 1.4rem;
+  right: 1.25rem;
+}
+
+/* ---- reading progress (article pages): a hairline of accent that fills
+   as you read. Width is set by a scroll listener. ---- */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  height: 2px;
+  width: 0%;
+  background: var(--accent);
+  pointer-events: none;
+}
+
 /* Full-bleed band behind a section: breaks the uniform page field. */
 .section-raised {
   background: var(--bg-raised);

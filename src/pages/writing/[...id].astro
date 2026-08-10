@@ -20,6 +20,8 @@ const toc = headings.filter((h) => h.depth === 2);
 ---
 
 <Base title={post.data.title} description={post.data.description}>
+  <div class="read-progress" aria-hidden="true"></div>
+
   <article>
     <header class="relative overflow-hidden border-b border-[var(--hairline)]">
       <div class="dotgrid fade-edges pointer-events-none absolute inset-0"></div>
@@ -109,3 +111,17 @@ const toc = headings.filter((h) => h.depth === 2);
     scroll-margin-top: 6rem;
   }
 </style>
+
+<script>
+  /* Reading progress. Re-bound per navigation; the window scroll listener is
+     shared and simply finds the current page's bar, if any. */
+  const update = () => {
+    const bar = document.querySelector<HTMLElement>('.read-progress');
+    if (!bar) return;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    bar.style.width = max > 0 ? `${Math.min(100, (window.scrollY / max) * 100)}%` : '0%';
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  document.addEventListener('astro:page-load', update);
+</script>
