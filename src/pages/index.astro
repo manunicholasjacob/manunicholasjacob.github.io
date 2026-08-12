@@ -5,7 +5,7 @@ import Section from '../components/Section.astro';
 import TraceStrip from '../components/TraceStrip.astro';
 import { site, links, stats, keywords } from '../data/site';
 import { featuredPapers, researchThesis, papers } from '../data/research';
-import { repos, builds } from '../data/projects';
+import { repos, upstream, flagship } from '../data/projects';
 import { judging } from '../data/service';
 
 const writing = (await getCollection('writing', ({ data }) => import.meta.env.DEV || !data.draft))
@@ -254,51 +254,74 @@ const spec = [
     <a href="/projects" class="link-u mt-8 inline-block font-mono text-sm">All projects →</a>
   </Section>
 
-  {/* ══════════════════════════ BUILT / JUDGED ══════════════════════════ */}
-  <Section label="Built and judged" tone="raised">
-    <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
-      <div data-reveal>
-        <h2 class="display-sm">Things I built with my hands.</h2>
-        <ul class="mt-10 space-y-px border border-[var(--hairline)] bg-[var(--hairline)]">
-          {
-            builds.map((b) => (
-              <li class="bg-[var(--bg)] p-6">
-                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 class="text-lg font-medium tracking-tight">{b.name}</h3>
-                  <span class="font-mono text-[0.625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
-                    {b.event}
-                  </span>
-                </div>
-                <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{b.award}</p>
-                <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{b.blurb}</p>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+  {/* ══════════════════════════ BEYOND THE PAPERS ══════════════════════════ */}
+  <Section
+    label="Beyond the papers"
+    heading="The rest of the practice."
+    lede="A research program needs infrastructure, and a field needs people who maintain it, review it, and judge it. All three are part of the job."
+    tone="raised"
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
+      {/* platform */}
+      <a
+        href="/projects"
+        class="card-link group flex flex-col bg-[var(--bg)] p-7"
+        data-reveal
+      >
+        <p class="label">Platform</p>
+        <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
+          {flagship.name}
+        </h3>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
+          {flagship.tagline} A reproducible benchmarking framework spanning laptops, Raspberry Pi
+          and GPUs, with per-rail power, thermal and utilization telemetry in every record.
+        </p>
+        <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
+          Reproduces the published roofline fits exactly; independent campaigns agree within 1.6%
+        </p>
+        <p class="label mt-3">DOI {flagship.doi}</p>
+      </a>
 
-      <div data-reveal="120">
-        <h2 class="display-sm">And work I judge.</h2>
-        <ul class="mt-10 space-y-px border border-[var(--hairline)] bg-[var(--hairline)]">
-          {
-            judging.map((j) => (
-              <li class="bg-[var(--bg)] p-6">
-                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 class="text-lg font-medium tracking-tight">{j.role}</h3>
-                  <span class="font-mono text-[0.625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
-                    {j.period}
-                  </span>
-                </div>
-                <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{j.org}</p>
-                <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{j.detail}</p>
-              </li>
-            ))
-          }
-        </ul>
-        <a href="/service" class="link-u mt-8 inline-block font-mono text-sm">
-          Service and teaching →
-        </a>
-      </div>
+      {/* upstream */}
+      <a
+        href="/projects"
+        class="card-link group flex flex-col bg-[var(--bg)] p-7"
+        data-reveal="90"
+      >
+        <p class="label">Upstream</p>
+        <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
+          Fixes to the field's infrastructure
+        </h3>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
+          Open pull requests to vLLM and NVIDIA's garak: tokenizer edge cases, JIT preflight,
+          benchmark robustness, harness correctness. Root-cause habits, applied upstream.
+        </p>
+        <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
+          {upstream.reduce((n, u) => n + u.prs.length, 0)} open PRs across
+          {' '}{upstream.map((u) => u.project).join(' and ')}
+        </p>
+        <p class="label mt-3">vllm-project · NVIDIA</p>
+      </a>
+
+      {/* judging */}
+      <a
+        href="/service"
+        class="card-link group flex flex-col bg-[var(--bg)] p-7"
+        data-reveal="180"
+      >
+        <p class="label">Evaluation</p>
+        <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
+          Judging other people's work
+        </h3>
+        <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
+          {judging[0].detail} Repeat judge and judge advisor across VEX Robotics events, with
+          artifact-evaluation and peer-review roles in progress at systems venues.
+        </p>
+        <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
+          HackTX · VEX Robotics · AEC applications at MLSys, ASPLOS, PACT
+        </p>
+        <p class="label mt-3">Service →</p>
+      </a>
     </div>
   </Section>
 

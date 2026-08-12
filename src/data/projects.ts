@@ -2,6 +2,41 @@ import { links } from './site';
 
 const gh = (slug: string) => `${links.github}/${slug}`;
 
+/**
+ * The flagship platform: gets a full-width feature on /projects and a card on
+ * the homepage. Everything here is quoted from the repo README; keep in sync.
+ */
+export const flagship = {
+  name: 'ML Systems Lab',
+  slug: 'ml-systems-lab',
+  url: gh('ml-systems-lab'),
+  doi: '10.5281/zenodo.21867055',
+  tagline: 'One config file, one command, every machine on the bench.',
+  description:
+    'A reproducible benchmarking framework for ML inference across heterogeneous hardware. One YAML config drives llama.cpp and ONNX Runtime sweeps on laptops, Raspberry Pi over SSH, and GPUs; every run produces a self-describing record carrying the hardware, backend versions, measured metrics, and the physical state of the machine while they were measured: power, temperature, clocks, throttle flags, utilization. The analysis layer turns a directory of records into publication-quality tables and figures.',
+  architecture: [
+    { step: 'config.yaml', detail: 'machines, models, and the sweep matrix, declared once' },
+    { step: 'RunSpecs', detail: 'deterministic run ids; interrupted campaigns resume by skipping what is on disk' },
+    { step: 'Device', detail: 'local subprocess or agent pushed over SSH; a new machine is a config block, not code' },
+    { step: 'Agent', detail: 'pure standard library, runs on the device under test; nothing crosses the network inside a measurement window' },
+    { step: 'RunRecord', detail: 'raw output parsed on the host, so a parser bug is a re-parse, not a re-run; failures are records too' },
+    { step: 'Analysis', detail: 'text, Markdown and LaTeX tables; roofline and scaling figures' },
+  ],
+  hardware: [
+    'Raspberry Pi 5, Cortex-A76: SSH agent, PMIC per-rail power, throttle bits, DVFS control',
+    'i7-12700H laptop, Windows: local agent, 20-thread sweeps, models up to 7B',
+    'RTX 3050 via ONNX Runtime DirectML: modeled as its own device',
+  ],
+  result:
+    'Reproduces the IEEE Transactions on Computers submission’s roofline fits exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.6%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64.',
+  related: [
+    { title: 'The Memory Wall at the Edge of Language', href: '/research#edge-llm' },
+    { title: 'The Memory Wall Governs Edge DNN Inference', href: '/research#memory-wall' },
+    { title: 'The Cold-Start Tax', href: '/research#cold-start' },
+  ],
+  stack: ['Python', 'llama.cpp', 'ONNX Runtime', 'SSH agents', 'PMIC / RAPL telemetry'],
+} as const;
+
 export type Repo = {
   slug: string;
   name: string;
