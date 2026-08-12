@@ -265,7 +265,7 @@ const spec = [
       {/* platform */}
       <a
         href="/projects"
-        class="card-link group flex flex-col bg-[var(--bg)] p-7"
+        class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
         data-reveal
       >
         <p class="label">Platform</p>
@@ -285,7 +285,7 @@ const spec = [
       {/* upstream */}
       <a
         href="/projects"
-        class="card-link group flex flex-col bg-[var(--bg)] p-7"
+        class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
         data-reveal="90"
       >
         <p class="label">Upstream</p>
@@ -306,7 +306,7 @@ const spec = [
       {/* judging */}
       <a
         href="/service"
-        class="card-link group flex flex-col bg-[var(--bg)] p-7"
+        class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
         data-reveal="180"
       >
         <p class="label">Evaluation</p>
@@ -334,7 +334,7 @@ const spec = [
             <li data-reveal={String(i * 70)}>
               <a
                 href={`/writing/${post.id}`}
-                class="group grid gap-2 border-b border-[var(--hairline)] py-6 transition-colors hover:bg-[var(--surface)] sm:grid-cols-[8rem_1fr_2rem] sm:items-baseline sm:gap-8"
+                class="group grid gap-2 border-b border-l-2 border-[var(--hairline)] border-l-transparent py-6 pl-4 transition-colors hover:border-l-[var(--accent)] hover:bg-[var(--surface)] sm:grid-cols-[8rem_1fr_2rem] sm:items-baseline sm:gap-8"
               >
                 <span class="font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
                   {fmtDate(post.data.date)}

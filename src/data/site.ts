@@ -20,7 +20,6 @@ export const links = {
   linkedin: 'https://www.linkedin.com/in/manu-nicholas-jacob/',
   orcid: 'https://orcid.org/0009-0007-6589-6572',
   scholar: 'https://scholar.google.com/citations?user=inrrUQIAAAAJ&hl=en',
-  techrxiv: 'https://www.techrxiv.org/action/doSearch?ContribAuthorRaw=Jacob%2C+Manu+Nicholas',
   youtube: 'https://www.youtube.com/@manunicholasjacob',
 } as const;
 
