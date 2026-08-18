@@ -12,6 +12,9 @@ export type Machine = {
   spec: string[];
   status: 'Active' | 'Planned' | 'Retired';
   note?: string;
+  /** Photo of the machine, in /public/img. */
+  image?: string;
+  imageAlt?: string;
 };
 
 export const machines: Machine[] = [
@@ -26,6 +29,9 @@ export const machines: Machine[] = [
     ],
     status: 'Active',
     note: 'Every published edge-inference number on this site came off this class of machine.',
+    image: '/img/pi5.jpg',
+    imageAlt:
+      'A Raspberry Pi 5 single-board computer on a cutting mat, showing the Broadcom BCM2712 SoC, the LPDDR4X package, the 40-pin header and the PCIe connector',
   },
   {
     name: 'Cisco UCS C220 / C240',

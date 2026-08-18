@@ -207,6 +207,9 @@ export const builds: Build[] = [
     blurb:
       'RFID and distance sensors on dining-hall booths, surfaced as a live seat-availability map. First real 3D-printing and Raspberry Pi build.',
     stack: ['Raspberry Pi', 'Python', 'Flask', 'SQL'],
+    image: '/img/booth-beacon.jpg',
+    imageAlt:
+      'The Booth Beacon prototype: a 3D-printed enclosure holding a Raspberry Pi and breadboard, with an ultrasonic range finder and an RFID-RC522 reader on the front',
   },
 ];
 

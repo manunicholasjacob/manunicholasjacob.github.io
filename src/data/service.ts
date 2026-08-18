@@ -76,6 +76,9 @@ export type Volunteer = {
   org: string;
   role: string;
   blurb: string;
+  /** Photo in /public/img. */
+  image?: string;
+  imageAlt?: string;
 };
 
 export const volunteering: Volunteer[] = [
@@ -84,6 +87,9 @@ export const volunteering: Volunteer[] = [
     role: 'Teaching maths and science',
     blurb:
       'Taught grades 7 to 10 at the Banyan School, which serves children from marginalised backgrounds including children of bonded labourers and orphans, and coached the tenth-grade cohort through board exams.',
+    image: '/img/lovedale.jpg',
+    imageAlt:
+      'Manu with the student cohort he taught at the Banyan School, gathered in a school corridor',
   },
   {
     org: 'Diya Foundation',
