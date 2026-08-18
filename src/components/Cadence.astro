@@ -1,126 +1,106 @@
 ---
 /**
- * Submission cadence: the publication record plotted against the calendar.
+ * Submission cadence: the publication record against the calendar.
  *
- * The list below this reads as twelve equal rows. The real shape of the year is
- * that five papers went out in eleven days in early August, and only the axis
- * shows that. Marks are placed from `submitted`; the one open mark is the DATE
- * deadline, which is the single fixed future date in the programme.
+ * The list below reads as twelve equal rows and hides the real shape of the
+ * year. Earlier versions of this plotted marks on a true time axis, which
+ * failed on this data: three papers went out on the same day and a fourth the
+ * day after, so the marks collided into an unreadable stack.
  *
- * Month-only datelines sit on the 15th (see the note on Paper.submitted), so
- * the axis is deliberately labelled by month and never prints a day.
+ * So the axis is banded by month instead. Each month is a band whose width
+ * grows with how many papers it holds, and marks sit evenly spaced inside it.
+ * Nothing can overlap, empty months still take up space so the gaps read as
+ * time passing, and the burst shows up as the widest band rather than as a pile.
  */
 import { papers } from '../data/research';
-
-/* Axis window: first submission through the DATE deadline, snapped to months. */
-const AXIS_START = Date.UTC(2026, 4, 1); // 1 May 2026
-const AXIS_END = Date.UTC(2026, 8, 30); // 30 Sep 2026
-const span = AXIS_END - AXIS_START;
-
-const months = ['May', 'Jun', 'Jul', 'Aug', 'Sep'].map((label, i) => ({
-  label,
-  /* left edge of each month, as a percentage of the axis */
-  pct: ((Date.UTC(2026, 4 + i, 1) - AXIS_START) / span) * 100,
-}));
-
-const pctFor = (iso: string) =>
-  ((Date.parse(iso + 'T00:00:00Z') - AXIS_START) / span) * 100;
 
 type Mark = {
   id: string;
   title: string;
   tier: string;
-  pct: number;
   open: boolean;
   when: string;
-  row: number;
-  /** Which way the tooltip anchors, so it cannot run off either edge. */
-  tip: 'left' | 'right' | 'center';
 };
 
-/* The tooltip is up to 15rem wide, so a mark within roughly half of that of an
-   edge has to anchor inward rather than centring on itself. */
-const tipSide = (pct: number): Mark['tip'] =>
-  pct > 82 ? 'left' : pct < 18 ? 'right' : 'center';
-
-/* Build marks, then stack any that would collide horizontally. Papers sharing a
-   submission day (three did, on 6 August) get their own row rather than
-   overprinting each other. */
-const raw = papers
+/* Only papers with a real date land on the axis. The rest are counted as queue. */
+const dated = papers
   .filter((p) => p.submitted || p.deadline)
   .map((p) => ({
     id: p.id,
     title: p.title,
     tier: p.venueTier,
-    pct: pctFor((p.submitted ?? p.deadline)!),
     open: !p.submitted,
     when: p.dateline,
+    iso: (p.submitted ?? p.deadline)!,
   }))
-  .sort((a, b) => a.pct - b.pct);
+  .sort((a, b) => a.iso.localeCompare(b.iso));
 
-/* Two marks closer than this share a column and must be stacked. Take the
-   highest row already used by anything colliding, rather than counting them, so
-   a chain of near-misses cannot land two marks on the same row. */
-const COLLIDE = 3;
-const marks: Mark[] = [];
-for (const m of raw) {
-  const clash = marks.filter((o) => Math.abs(o.pct - m.pct) < COLLIDE);
-  marks.push({
-    ...m,
-    row: clash.length ? Math.max(...clash.map((o) => o.row)) + 1 : 0,
-    tip: tipSide(m.pct),
-  });
-}
+/* Band the window May to September 2026 by month, including the empty ones. */
+const MONTHS = ['May', 'Jun', 'Jul', 'Aug', 'Sep'];
+const FIRST_MONTH = 4; // May, zero-indexed
 
-const rows = Math.max(...marks.map((m) => m.row)) + 1;
+const bands = MONTHS.map((label, i) => {
+  const key = `2026-${String(FIRST_MONTH + i + 1).padStart(2, '0')}`;
+  const marks: Mark[] = dated
+    .filter((d) => d.iso.startsWith(key))
+    .map(({ iso: _iso, ...m }) => m);
+  /* Band width tracks volume: one unit of breathing room, plus two per paper.
+     A busy month is visibly wider, which is the whole point of the chart. */
+  return { label, marks, grow: 1 + marks.length * 2 };
+});
+
 const queued = papers.filter((p) => !p.submitted && !p.deadline).length;
 const submitted = papers.filter((p) => p.submitted).length;
+const peak = Math.max(...bands.map((b) => b.marks.length));
+const peakBand = bands.find((b) => b.marks.length === peak)!;
 ---
 
 <figure class="cadence" data-reveal>
   <figcaption class="sr-only">
-    Submission cadence for the publication record, May to September 2026.
-    {submitted} papers submitted, one fixed deadline, {queued} queued without a date.
+    Submission cadence, May to September 2026, grouped by month. {submitted} papers
+    submitted, with {peak} of them in {peakBand.label}. One fixed deadline ahead, and
+    {queued} further papers submission-ready without a date.
   </figcaption>
 
-  <div class="cadence-plot" style={`--rows:${rows}`}>
-    {/* month gridlines and labels */}
+  <div class="cad-bands">
     {
-      months.map((m) => (
-        <>
-          <span class="cadence-rule" style={`left:${m.pct}%`} aria-hidden="true"></span>
-          <span class="cadence-month" style={`left:${m.pct}%`}>{m.label}</span>
-        </>
-      ))
-    }
-
-    {/* the baseline the marks sit on */}
-    <span class="cadence-axis" aria-hidden="true"></span>
-
-    {
-      marks.map((m) => (
-        <a
-          href={`#${m.id}`}
-          class:list={['cadence-mark', m.open && 'is-open']}
-          style={`left:${m.pct}%; --row:${m.row}`}
-          data-tier={m.tier}
-          data-tip={m.tip}
+      bands.map((b) => (
+        <div
+          class:list={['cad-band', b.marks.length === 0 && 'is-empty']}
+          style={`flex-grow:${b.grow}`}
         >
-          <span class="cadence-dot" aria-hidden="true"></span>
-          <span class="cadence-tip">
-            <span class="cadence-tip-title">{m.title}</span>
-            <span class="cadence-tip-meta">{m.tier} · {m.when}</span>
-          </span>
-        </a>
+          <div class="cad-head">
+            <span class="cad-month">{b.label}</span>
+            {b.marks.length > 0 && <span class="cad-count">{b.marks.length}</span>}
+          </div>
+
+          <div class="cad-marks">
+            {
+              b.marks.map((m) => (
+                <a
+                  href={`#${m.id}`}
+                  class:list={['cad-mark', m.open && 'is-open']}
+                  data-tier={m.tier}
+                  aria-label={`${m.title}. ${m.tier}. ${m.when}.`}
+                >
+                  <span class="cad-dot" aria-hidden="true"></span>
+                  <span class="cad-tip" aria-hidden="true">
+                    <span class="cad-tip-title">{m.title}</span>
+                    <span class="cad-tip-meta">{m.tier} · {m.when}</span>
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
       ))
     }
   </div>
 
-  {/* readout: the fact the axis is making */}
   <div class="cadence-legend">
-    <span><span class="cadence-key" aria-hidden="true"></span>Submitted, in review</span>
-    <span><span class="cadence-key is-open" aria-hidden="true"></span>DATE 2027 deadline, 20 Sep</span>
-    <span class="cadence-note">{queued} more submission-ready, queued behind it</span>
+    <span><span class="cad-key" aria-hidden="true"></span>Submitted, in review</span>
+    <span><span class="cad-key is-open" aria-hidden="true"></span>DATE 2027 deadline, 20 Sep</span>
+    <span class="cad-note">{queued} more submission-ready, queued behind it</span>
   </div>
 </figure>
 
@@ -128,57 +108,76 @@ const submitted = papers.filter((p) => p.submitted).length;
   .cadence {
     border: 1px solid var(--hairline);
     background: var(--surface);
-    padding: 2.25rem 1.75rem 1.25rem;
+    padding: 1.75rem 1.5rem 1.25rem;
   }
 
-  .cadence-plot {
-    position: relative;
-    /* room for the label row plus one lane per stacked mark */
-    height: calc(2.25rem + var(--rows) * 1.6rem);
+  .cad-bands {
+    display: flex;
+    align-items: stretch;
   }
 
-  .cadence-rule {
-    position: absolute;
-    top: 1.5rem;
-    bottom: 0;
-    width: 1px;
-    background: var(--dot);
+  .cad-band {
+    /* grow set inline from the paper count */
+    flex-basis: 0;
+    min-width: 0;
+    padding-bottom: 0.75rem;
+    border-left: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
   }
 
-  .cadence-month {
-    position: absolute;
-    top: 0;
-    transform: translateX(0.5rem);
+  .cad-band:last-child {
+    border-right: 1px solid var(--hairline);
+  }
+
+  /* A month with nothing in it still occupies the axis, so the gap reads as
+     time passing rather than as a month that did not exist. */
+  .cad-band.is-empty {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--dot) 0 1px,
+      transparent 1px 7px
+    );
+  }
+
+  .cad-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    padding: 0 0 0.6rem 0.55rem;
+  }
+
+  .cad-month {
     font-family: var(--font-mono);
     font-size: 0.625rem;
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--fg-faint);
-    white-space: nowrap;
   }
 
-  .cadence-axis {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    background: var(--hairline);
+  .cad-count {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
   }
 
-  /* Each mark is a link down to its entry in the list below. */
-  .cadence-mark {
-    position: absolute;
-    bottom: calc(var(--row) * 1.6rem);
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-left: -0.8rem;
+  .cad-marks {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    min-height: 1.75rem;
+  }
+
+  .cad-mark {
+    position: relative;
     display: grid;
     place-items: center;
+    width: 1.5rem;
+    height: 1.75rem;
   }
 
-  .cadence-dot {
+  .cad-dot {
     width: 9px;
     height: 9px;
     border: 1px solid var(--accent);
@@ -188,50 +187,52 @@ const submitted = papers.filter((p) => p.submitted).length;
       box-shadow 0.18s ease;
   }
 
-  /* A future deadline is drawn hollow: nothing has been delivered yet. */
-  .cadence-mark.is-open .cadence-dot {
+  /* A future deadline is hollow: nothing has been delivered for it yet. */
+  .cad-mark.is-open .cad-dot {
     background: transparent;
   }
 
-  /* Venue tier is carried by shape, not colour, so it survives greyscale and
-     does not spend a second accent the palette does not have. */
-  .cadence-mark[data-tier='Journal'] .cadence-dot {
+  /* Venue tier is carried by shape, not a second accent colour, so it survives
+     greyscale printing and does not spend colour the palette has not got. */
+  .cad-mark[data-tier='Journal'] .cad-dot {
     border-radius: 50%;
     width: 11px;
     height: 11px;
   }
 
-  .cadence-mark[data-tier='Conference'] .cadence-dot {
+  .cad-mark[data-tier='Conference'] .cad-dot {
     transform: rotate(45deg);
   }
 
-  .cadence-mark[data-tier='Workshop'] .cadence-dot {
+  .cad-mark[data-tier='Workshop'] .cad-dot {
     width: 7px;
     height: 7px;
   }
 
-  .cadence-mark:hover .cadence-dot,
-  .cadence-mark:focus-visible .cadence-dot {
-    transform: scale(1.5);
+  .cad-mark:hover .cad-dot,
+  .cad-mark:focus-visible .cad-dot {
+    transform: scale(1.45);
     box-shadow: 0 0 0 4px rgb(var(--accent-rgb) / 0.18);
   }
 
-  .cadence-mark[data-tier='Conference']:hover .cadence-dot {
-    transform: rotate(45deg) scale(1.5);
+  .cad-mark[data-tier='Conference']:hover .cad-dot,
+  .cad-mark[data-tier='Conference']:focus-visible .cad-dot {
+    transform: rotate(45deg) scale(1.45);
   }
 
   /* tooltip */
-  .cadence-tip {
+  .cad-tip {
     position: absolute;
-    bottom: 1.7rem;
+    bottom: 1.9rem;
     left: 50%;
     z-index: 5;
     width: max-content;
-    max-width: 15rem;
+    max-width: 14rem;
     transform: translateX(-50%) translateY(4px);
     display: grid;
     gap: 0.15rem;
     padding: 0.5rem 0.7rem;
+    text-align: left;
     background: var(--bg-raised);
     border: 1px solid var(--hairline-strong);
     box-shadow: var(--shadow);
@@ -242,20 +243,39 @@ const submitted = papers.filter((p) => p.submitted).length;
       transform 0.18s ease;
   }
 
-  .cadence-mark:hover .cadence-tip,
-  .cadence-mark:focus-visible .cadence-tip {
+  .cad-mark:hover .cad-tip,
+  .cad-mark:focus-visible .cad-tip {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
 
-  .cadence-tip-title {
+  /* First and last band cannot centre their tooltips without leaving the panel. */
+  .cad-band:first-child .cad-tip {
+    left: 0;
+    transform: translateX(0) translateY(4px);
+  }
+
+  .cad-band:last-child .cad-tip {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(4px);
+  }
+
+  .cad-band:first-child .cad-mark:hover .cad-tip,
+  .cad-band:first-child .cad-mark:focus-visible .cad-tip,
+  .cad-band:last-child .cad-mark:hover .cad-tip,
+  .cad-band:last-child .cad-mark:focus-visible .cad-tip {
+    transform: translateX(0) translateY(0);
+  }
+
+  .cad-tip-title {
     font-size: 0.75rem;
     line-height: 1.3;
     font-weight: 500;
     color: var(--fg);
   }
 
-  .cadence-tip-meta {
+  .cad-tip-meta {
     font-family: var(--font-mono);
     font-size: 0.5625rem;
     letter-spacing: 0.1em;
@@ -263,32 +283,11 @@ const submitted = papers.filter((p) => p.submitted).length;
     color: var(--fg-faint);
   }
 
-  /* Marks near either edge would push their tooltip off-canvas, so they anchor
-     to the inside instead of centring. Side is decided from the mark's real
-     position, not its DOM order. */
-  .cadence-mark[data-tip='left'] .cadence-tip {
-    left: auto;
-    right: 0.4rem;
-    transform: translateX(0) translateY(4px);
-  }
-
-  .cadence-mark[data-tip='right'] .cadence-tip {
-    left: 0.4rem;
-    transform: translateX(0) translateY(4px);
-  }
-
-  .cadence-mark[data-tip='left']:hover .cadence-tip,
-  .cadence-mark[data-tip='left']:focus-visible .cadence-tip,
-  .cadence-mark[data-tip='right']:hover .cadence-tip,
-  .cadence-mark[data-tip='right']:focus-visible .cadence-tip {
-    transform: translateX(0) translateY(0);
-  }
-
   .cadence-legend {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1.5rem;
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
     padding-top: 1rem;
     border-top: 1px solid var(--hairline);
     font-family: var(--font-mono);
@@ -304,27 +303,33 @@ const submitted = papers.filter((p) => p.submitted).length;
     gap: 0.5rem;
   }
 
-  .cadence-key {
+  .cad-key {
     width: 9px;
     height: 9px;
     border: 1px solid var(--accent);
     background: var(--accent);
   }
 
-  .cadence-key.is-open {
+  .cad-key.is-open {
     background: transparent;
   }
 
-  .cadence-note {
+  .cad-note {
     color: var(--accent);
   }
 
   @media (max-width: 640px) {
     .cadence {
-      padding-inline: 1rem;
+      padding-inline: 0.75rem;
     }
-    /* Tooltips are a hover affordance; on touch the tap just jumps to the entry. */
-    .cadence-tip {
+    .cad-head {
+      padding-left: 0.35rem;
+    }
+    .cad-mark {
+      width: 1.15rem;
+    }
+    /* Hover affordance only; a tap just jumps to the entry. */
+    .cad-tip {
       display: none;
     }
   }
