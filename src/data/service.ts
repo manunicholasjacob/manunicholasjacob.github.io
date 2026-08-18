@@ -57,13 +57,13 @@ export const judging: ServiceEntry[] = [
   },
 ];
 
+/**
+ * Only things still live or actually delivered. The PyTorch Conference NA 2026
+ * poster ("What actually governs edge inference on a Raspberry Pi 5") was
+ * declined on 17 August 2026 for capacity, so it came off rather than sitting
+ * here reading as pending.
+ */
 export const speaking: ServiceEntry[] = [
-  {
-    role: 'Poster, submitted',
-    org: 'PyTorch Conference North America 2026',
-    detail: '"What actually governs edge inference on a Raspberry Pi 5."',
-    period: '2026',
-  },
   {
     role: 'Talk, submitted',
     org: 'Embedded Vision Summit 2027',

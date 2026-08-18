@@ -21,6 +21,15 @@ export type Paper = {
   status: string;
   /** Submission date or target, shown in the meta column. */
   dateline: string;
+  /**
+   * ISO submission date, used only to place the paper on the cadence axis.
+   * `dateline` above stays the human-readable source of truth. Where the
+   * record only preserves the month, this is the 15th, and the axis is
+   * labelled by month so the approximation is never shown as a precise day.
+   */
+  submitted?: string;
+  /** A future fixed deadline, drawn on the axis as an open mark. */
+  deadline?: string;
   year: string;
   topics: string[];
   artifact?: { repo: string; doi: string };
@@ -41,6 +50,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted May 2026',
     year: '2026',
     topics: ['Quantization', 'ONNX Runtime', 'Reproducibility'],
+    submitted: '2026-05-15',
     artifact: { repo: 'rpi5-quantization-benchmark', doi: '10.5281/zenodo.21844863' },
   },
   {
@@ -55,6 +65,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted Jul 2026',
     year: '2026',
     topics: ['Thermal', 'Telemetry', 'Open dataset'],
+    submitted: '2026-07-15',
     artifact: { repo: 'pi5-thermal-proxy', doi: '10.5281/zenodo.21844859' },
   },
   {
@@ -69,6 +80,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted 28 Jul 2026',
     year: '2026',
     topics: ['Roofline', 'Memory bandwidth', 'Cortex-A76'],
+    submitted: '2026-07-28',
     featured: true,
   },
   {
@@ -83,6 +95,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted 6 Aug 2026',
     year: '2026',
     topics: ['Energy', 'DVFS', 'Power telemetry'],
+    submitted: '2026-08-06',
     featured: true,
   },
   {
@@ -97,6 +110,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted 6 Aug 2026',
     year: '2026',
     topics: ['Thermal', 'Control', 'Multi-tenant'],
+    submitted: '2026-08-06',
     artifact: { repo: 'edge-thermal-margin-control', doi: '10.5281/zenodo.21844861' },
   },
   {
@@ -111,6 +125,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted 6 Aug 2026',
     year: '2026',
     topics: ['Duty cycling', 'Cache policy', 'GD-Tax'],
+    submitted: '2026-08-06',
     artifact: { repo: 'edge-cold-start-tax', doi: '10.5281/zenodo.21844857' },
     featured: true,
   },
@@ -126,6 +141,7 @@ export const papers: Paper[] = [
     dateline: 'Submitted 7 Aug 2026',
     year: '2026',
     topics: ['LLM inference', 'KV cache', 'llama.cpp'],
+    submitted: '2026-08-07',
     artifact: { repo: 'edge-llm-memory-wall', doi: '10.5281/zenodo.21844855' },
   },
 
@@ -142,6 +158,7 @@ export const papers: Paper[] = [
     dateline: 'Deadline 20 Sep 2026',
     year: '2027',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
+    deadline: '2026-09-20',
   },
   {
     id: 'llm-cold-start',

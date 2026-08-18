@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
+import Cadence from '../components/Cadence.astro';
 import { papers, researchThesis } from '../data/research';
 import { links } from '../data/site';
 
@@ -54,6 +55,15 @@ const bibtex = (p: (typeof papers)[number]) =>
         </div>
       </div>
     </div>
+  </Section>
+
+  {/* cadence: the shape of the year, which the list below flattens */}
+  <Section
+    label="Cadence"
+    heading="Five papers in eleven days."
+    lede="The record by calendar rather than by row. One submission in May, then the August burst once the measurement harness stopped being the bottleneck."
+  >
+    <Cadence />
   </Section>
 
   {/* full list */}

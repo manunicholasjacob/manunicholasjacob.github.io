@@ -57,9 +57,9 @@ export const current: NowItem[] = [
     status: 'Volunteering',
   },
   {
-    title: 'Talks out for review',
+    title: 'One talk still out',
     detail:
-      'A poster submitted to PyTorch Conference NA 2026 and a talk to Embedded Vision Summit 2027. Neither is accepted yet.',
+      'A talk submitted to Embedded Vision Summit 2027, a vision-framed treatment of the measurement work. Not accepted yet. The PyTorch Conference poster was declined on capacity in August.',
     status: 'Submitted',
   },
 ];
