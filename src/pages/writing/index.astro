@@ -10,7 +10,12 @@ const posts = (await getCollection('writing', ({ data }) => import.meta.env.DEV 
 );
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  d.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 ---
 
 <Base

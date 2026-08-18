@@ -4,10 +4,14 @@ import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import { updated, current, notDoing } from '../data/now';
 
+/* `updated` is a bare date, so it parses as UTC midnight. Format in UTC too,
+   otherwise a build machine west of Greenwich prints the previous day and the
+   page contradicts the contract in its own footer. */
 const fmt = new Date(updated).toLocaleDateString('en-GB', {
   day: '2-digit',
   month: 'long',
   year: 'numeric',
+  timeZone: 'UTC',
 });
 ---
 

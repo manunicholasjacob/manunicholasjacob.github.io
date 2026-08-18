@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { site, links } from '../data/site';
 import { papers } from '../data/research';
 import { repos, builds } from '../data/projects';
-import { judging, speaking, volunteering } from '../data/service';
+import { peerReview, judging, speaking, volunteering } from '../data/service';
 import { certifications } from '../data/archive';
 
 /* One page, print-first. Everything renders from the same data files as the
@@ -206,6 +206,27 @@ const artifactRepos = repos.filter((r) => r.doi);
                 <span class="text-[var(--fg-muted)]"> · {b.name}</span>
               </span>
               <span class="cv-when">{b.event}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* peer review: its own heading, because it is a different credential to judging */}
+    <section class="cv-section">
+      <h2 class="cv-h">Peer review and artifact evaluation</h2>
+      <ul class="space-y-2">
+        {
+          peerReview.map((p) => (
+            <li>
+              <div class="cv-row">
+                <span>
+                  <strong class="font-medium text-[var(--fg)]">{p.role}</strong>
+                  <span class="text-[var(--fg-muted)]"> · {p.org}</span>
+                </span>
+                <span class="cv-when">{p.period}</span>
+              </div>
+              <p class="cv-body !mt-1 !text-[0.875rem]">{p.detail}</p>
             </li>
           ))
         }

@@ -2,23 +2,47 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
-import { judging, speaking, volunteering } from '../data/service';
+import { peerReview, judging, speaking, volunteering } from '../data/service';
 ---
 
 <Base
   title="Service"
-  description="Judging hackathons and robotics competitions, speaking, and teaching."
+  description="Artifact evaluation and peer review at research venues, hackathon and robotics judging, speaking, and teaching."
 >
   <PageHeader
     label="Service"
-    title="Judging, speaking, teaching."
+    title="Reviewing, judging, teaching."
     lede="Evaluating other people's work is the fastest way to stay honest about your own."
   />
+
+  {/* peer review: the research-venue half, kept separate from competition judging */}
+  <Section
+    label="Peer review"
+    heading="Reviewing at research venues."
+    lede="Artifact evaluation and journal review. Listed exactly as far as it has actually gone, and no further."
+    tone="raised"
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
+      {
+        peerReview.map((p, i) => (
+          <div class="ticks relative flex flex-col bg-[var(--bg)] p-8" data-reveal={String(i * 90)}>
+            <div class="flex items-start justify-between gap-3">
+              <p class="label">{p.period}</p>
+              {p.tag && <span class="tag tag-accent">{p.tag}</span>}
+            </div>
+            <h3 class="mt-6 text-2xl leading-snug font-medium tracking-tight">{p.org}</h3>
+            <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{p.role}</p>
+            <p class="mt-5 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{p.detail}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
 
   <Section
     label="Judging"
     heading="On the panel."
-    lede="Hackathon and robotics judging, plus peer review and artifact evaluation as those roles land."
+    lede="Hackathon and robotics competition judging."
   >
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
       {

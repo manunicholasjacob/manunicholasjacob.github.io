@@ -6,14 +6,23 @@ import TraceStrip from '../components/TraceStrip.astro';
 import { site, links, stats, keywords } from '../data/site';
 import { featuredPapers, researchThesis, papers } from '../data/research';
 import { repos, upstream, flagship } from '../data/projects';
-import { judging } from '../data/service';
+import { peerReview } from '../data/service';
+
+const allPrs = upstream.flatMap((u) => u.prs);
+const mergedPrs = allPrs.filter((pr) => pr.merged).length;
+const openPrs = allPrs.length - mergedPrs;
 
 const writing = (await getCollection('writing', ({ data }) => import.meta.env.DEV || !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
 const fmtDate = (d: Date) =>
-  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  d.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 
 const highlightRepos = repos.filter((r) =>
   ['rpi5-quantization-benchmark', 'edge-llm-memory-wall', 'edge-cold-start-tax', 'llama-roofline'].includes(
@@ -293,12 +302,12 @@ const spec = [
           Fixes to the field's infrastructure
         </h3>
         <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
-          Open pull requests to vLLM and NVIDIA's garak: tokenizer edge cases, JIT preflight,
-          benchmark robustness, harness correctness. Root-cause habits, applied upstream.
+          A merged detector-config fix in NVIDIA's garak, plus open pull requests to vLLM: tokenizer
+          edge cases, JIT preflight, benchmark robustness, harness correctness. Root-cause habits,
+          applied upstream.
         </p>
         <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
-          {upstream.reduce((n, u) => n + u.prs.length, 0)} open PRs across
-          {' '}{upstream.map((u) => u.project).join(' and ')}
+          {mergedPrs} merged, {openPrs} open across {upstream.map((u) => u.project).join(' and ')}
         </p>
         <p class="label mt-3">vllm-project · NVIDIA</p>
       </a>
@@ -309,16 +318,17 @@ const spec = [
         class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
         data-reveal="180"
       >
-        <p class="label">Evaluation</p>
+        <p class="label">Peer review</p>
         <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
-          Judging other people's work
+          Artifact Evaluation Committee, {peerReview[0].org}
         </h3>
         <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
-          {judging[0].detail} Repeat judge and judge advisor across VEX Robotics events, with
-          artifact-evaluation and peer-review roles in progress at systems venues.
+          Assessing submitted artifacts for functionality and reproducibility at a CORE A systems
+          venue. Registered reviewer for the Journal of Open Source Software, and a repeat judge at
+          hackathons and VEX Robotics events.
         </p>
         <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
-          HackTX · VEX Robotics · AEC applications at MLSys, ASPLOS, PACT
+          USENIX ATC 2026 · JOSS · HackTX · VEX Robotics
         </p>
         <p class="label mt-3">Service →</p>
       </a>

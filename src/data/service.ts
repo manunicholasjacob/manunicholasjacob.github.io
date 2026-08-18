@@ -3,9 +3,37 @@ export type ServiceEntry = {
   org: string;
   detail: string;
   period: string;
+  /** Venue tier, where there is a real one. Same vocabulary as the research page. */
+  tag?: string;
 };
 
-/** Judging and reviewing. This is a criterion in its own right, so it gets a page. */
+/**
+ * Peer review and artifact evaluation at research venues. Kept separate from
+ * competition judging below because they are not the same credential.
+ *
+ * Wording rule for JOSS: registration and volunteering are not assignment.
+ * Nothing here may imply a review has been delivered. When one is actually
+ * assigned, upgrade the entry then, not before.
+ */
+export const peerReview: ServiceEntry[] = [
+  {
+    role: 'Artifact Evaluation Committee',
+    org: 'USENIX ATC 2026',
+    detail:
+      'Assessing submitted research artifacts for functionality and reproducibility. Review window 22 September to 14 October 2026.',
+    period: '2026',
+    tag: 'CORE A',
+  },
+  {
+    role: 'Registered reviewer',
+    org: 'Journal of Open Source Software',
+    detail:
+      'Listed in the JOSS reviewer database since 17 August 2026, for software performance and systems submissions. Currently volunteering on open submissions. No review assigned yet.',
+    period: '2026',
+  },
+];
+
+/** Competition and hackathon judging. */
 export const judging: ServiceEntry[] = [
   {
     role: 'Judge',

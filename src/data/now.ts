@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-08-09';
+export const updated = '2026-08-18';
 
 export type NowItem = {
   title: string;
@@ -41,14 +41,26 @@ export const current: NowItem[] = [
   {
     title: 'Open-source contributions',
     detail:
-      'First contributions in flight to llama.cpp and NVIDIA garak, in the same areas the research already touches: inference performance and LLM evaluation.',
+      'First pull request merged into NVIDIA garak, with more open there and at vLLM, in the same areas the research already touches: inference performance and LLM evaluation.',
     status: 'In motion',
   },
   {
-    title: 'Peer review and judging',
+    title: 'Artifact evaluation for USENIX ATC 2026',
     detail:
-      'Artifact-evaluation applications out at MLSys, ASPLOS and PACT; a poster submitted to PyTorch Conference NA 2026 and a talk to Embedded Vision Summit 2027; judge and mentor forms in at hackathons nationally.',
-    status: 'Applications out',
+      'On the Artifact Evaluation Committee. The review window is 22 September to 14 October 2026, which lands directly on top of the DATE deadline, so the calendar is the constraint this autumn.',
+    status: 'Committed',
+  },
+  {
+    title: 'JOSS reviewing',
+    detail:
+      'In the Journal of Open Source Software reviewer database since 17 August, volunteering on open submissions in software performance and systems. Nothing assigned yet.',
+    status: 'Volunteering',
+  },
+  {
+    title: 'Talks out for review',
+    detail:
+      'A poster submitted to PyTorch Conference NA 2026 and a talk to Embedded Vision Summit 2027. Neither is accepted yet.',
+    status: 'Submitted',
   },
 ];
 

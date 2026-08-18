@@ -174,40 +174,64 @@ const groups = [
   <Section
     label="Upstream"
     heading="Contributions to the infrastructure itself."
-    lede="Open pull requests to the projects this research already depends on. Root-cause habits transfer: read the failing system, isolate the fault, fix the cause rather than the symptom."
+    lede="Contributions to the projects this research already depends on. Root-cause habits transfer: read the failing system, isolate the fault, fix the cause rather than the symptom."
   >
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
       {
-        upstream.map((u, i) => (
-          <div class="flex flex-col bg-[var(--bg)] p-7" data-reveal={String(i * 90)}>
-            <div class="flex items-baseline justify-between gap-4">
-              <h3 class="text-xl font-medium tracking-tight">
-                {u.org}/<span class="text-[var(--accent)]">{u.project}</span>
-              </h3>
-              <span class="tag">{u.prs.length} open PRs</span>
+        upstream.map((u, i) => {
+          const merged = u.prs.filter((pr) => pr.merged).length;
+          const open = u.prs.length - merged;
+          return (
+            <div class="flex flex-col bg-[var(--bg)] p-7" data-reveal={String(i * 90)}>
+              <div class="flex items-baseline justify-between gap-4">
+                <h3 class="text-xl font-medium tracking-tight">
+                  {u.org}/<span class="text-[var(--accent)]">{u.project}</span>
+                </h3>
+                <span class="flex shrink-0 gap-1.5">
+                  {merged > 0 && <span class="tag tag-accent">{merged} merged</span>}
+                  <span class="tag">{open} open</span>
+                </span>
+              </div>
+              <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{u.why}</p>
+              <ul class="mt-5 space-y-2.5 border-t border-[var(--hairline)] pt-5">
+                {u.prs.map((pr) => (
+                  <li>
+                    <a
+                      href={pr.url}
+                      target="_blank"
+                      rel="noopener"
+                      class="group flex items-baseline gap-3"
+                    >
+                      <span
+                        class:list={[
+                          'shrink-0 font-mono text-[0.6875rem] tabular-nums',
+                          pr.merged
+                            ? 'text-[var(--accent)]'
+                            : 'text-[var(--fg-faint)] group-hover:text-[var(--accent)]',
+                        ]}
+                      >
+                        #{pr.number}
+                      </span>
+                      <span
+                        class:list={[
+                          'text-sm leading-snug transition-colors group-hover:text-[var(--fg)]',
+                          pr.merged ? 'text-[var(--fg)]' : 'text-[var(--fg-muted)]',
+                        ]}
+                      >
+                        {pr.title}
+                      </span>
+                      {pr.merged && (
+                        <span class="ml-auto shrink-0 font-mono text-[0.5625rem] tracking-[0.14em] text-[var(--accent)] uppercase">
+                          Merged
+                        </span>
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{u.why}</p>
-            <ul class="mt-5 space-y-2.5 border-t border-[var(--hairline)] pt-5">
-              {u.prs.map((pr) => (
-                <li>
-                  <a
-                    href={pr.url}
-                    target="_blank"
-                    rel="noopener"
-                    class="group flex items-baseline gap-3"
-                  >
-                    <span class="shrink-0 font-mono text-[0.6875rem] text-[var(--fg-faint)] tabular-nums group-hover:text-[var(--accent)]">
-                      #{pr.number}
-                    </span>
-                    <span class="text-sm leading-snug text-[var(--fg-muted)] transition-colors group-hover:text-[var(--fg)]">
-                      {pr.title}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
+          );
+        })
       }
     </div>
   </Section>

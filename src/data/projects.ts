@@ -242,7 +242,8 @@ export type Upstream = {
   project: string;
   org: string;
   why: string;
-  prs: { number: number; title: string; url: string }[];
+  /** Merged ones lead the list. Verified against the GitHub API before listing. */
+  prs: { number: number; title: string; url: string; merged?: boolean }[];
 };
 
 export const upstream: Upstream[] = [
@@ -278,6 +279,12 @@ export const upstream: Upstream[] = [
     org: 'NVIDIA',
     why: 'NVIDIA’s LLM vulnerability scanner. Correctness fixes found by reading the code the way a root-cause engineer reads a failing system.',
     prs: [
+      {
+        number: 2014,
+        title: 'fix(detectors): honour config_root in goodside.RileyIsnt',
+        url: 'https://github.com/NVIDIA/garak/pull/2014',
+        merged: true,
+      },
       {
         number: 2030,
         title: 'harnesses: skip falsy intents instead of registering them',

@@ -14,7 +14,12 @@ const { post } = Astro.props;
 const { Content, headings } = await render(post);
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  d.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 
 const toc = headings.filter((h) => h.depth === 2);
 ---
