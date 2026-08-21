@@ -4,12 +4,20 @@ import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import Roofline from '../components/Roofline.astro';
 import { machines, rules, benchFacts } from '../data/lab';
+import { dim } from '../data/img-dims';
 
 const statusColor: Record<string, string> = {
   Active: 'text-[var(--accent)] border-[rgb(var(--accent-rgb)/0.45)]',
   Planned: 'text-[var(--fg-faint)] border-[var(--hairline)]',
   Retired: 'text-[var(--fg-faint)] border-[var(--hairline)] line-through',
 };
+
+const headerMeta = [
+  ['Machines', String(machines.length)],
+  ['On the bench', String(machines.filter((m) => m.status === 'Active').length)],
+  ['Rules', String(rules.length)],
+  ['Telemetry', '13 h open dataset'],
+] as const;
 ---
 
 <Base
@@ -18,6 +26,7 @@ const statusColor: Record<string, string> = {
 >
   <PageHeader
     label="Lab"
+    meta={headerMeta}
     title="Where the numbers come from."
     lede="Every claim on this site traces back to hardware sitting on a desk. This page is the machines, the on-board instrumentation they already carry, and the rules a result has to survive before it gets written down."
   />
@@ -46,7 +55,6 @@ const statusColor: Record<string, string> = {
             ]}
           >
             <dd
-              data-countup
               class="font-mono text-3xl font-light tracking-tight tabular-nums sm:text-4xl"
             >
               {f.value}
@@ -73,6 +81,7 @@ const statusColor: Record<string, string> = {
               <div class="overflow-hidden border-b border-[var(--hairline)]">
                 <img
                   src={m.image}
+                  {...dim(m.image)}
                   alt={m.imageAlt ?? m.name}
                   loading="lazy"
                   class="aspect-[16/9] w-full object-cover"

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import { repos, builds, engineering, upstream, flagship } from '../data/projects';
+import { dim } from '../data/img-dims';
 
 const groups = [
   {
@@ -21,6 +22,27 @@ const groups = [
     lede: 'Infrastructure that makes the measurements repeatable.',
   },
 ];
+
+/**
+ * Choose a column count that divides the row exactly, and where it cannot,
+ * let the last card span the remainder. These grids show the hairline through
+ * a one-pixel gap, so an unfilled cell renders as a grey box, not as space.
+ */
+const gridFor = (n: number) =>
+  n === 1
+    ? { cols: '', last: '' }
+    : n % 2 === 0
+      ? { cols: 'lg:grid-cols-2', last: '' }
+      : { cols: 'lg:grid-cols-2', last: 'lg:col-span-2' };
+
+const mergedPrs = upstream.reduce((n, u) => n + u.prs.filter((p) => p.merged).length, 0);
+const openPrs = upstream.reduce((n, u) => n + u.prs.filter((p) => !p.merged).length, 0);
+const headerMeta = [
+  ['Repositories', String(repos.length)],
+  ['Archived DOIs', String(repos.filter((r) => r.doi).length + 1)],
+  ['Merged upstream', String(mergedPrs)],
+  ['Open upstream', String(openPrs)],
+] as const;
 ---
 
 <Base
@@ -29,6 +51,7 @@ const groups = [
 >
   <PageHeader
     label="Projects"
+    meta={headerMeta}
     title="Code, benchmarks and hardware."
     lede="A benchmarking platform, the reproducible artifact behind every paper, contributions upstream, and the hardware it all started on."
   />
@@ -123,15 +146,19 @@ const groups = [
   {
     groups.map((g) => {
       const items = repos.filter((r) => r.kind === g.key);
+      const { cols, last } = gridFor(items.length);
       return (
         <Section label={g.label} heading={g.label} lede={g.lede}>
-          <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
+          <div class:list={['grid gap-px border border-[var(--hairline)] bg-[var(--hairline)]', cols]}>
             {items.map((r, i) => (
               <a
                 href={r.url}
                 target="_blank"
                 rel="noopener"
-                class="card-link group flex flex-col bg-[var(--bg)] p-7"
+                class:list={[
+                  'card-link group flex flex-col bg-[var(--bg)] p-7',
+                  i === items.length - 1 && last,
+                ]}
               >
                 <div class="flex items-start justify-between gap-4">
                   <h3 class="font-mono text-sm font-medium break-all group-hover:text-[var(--accent)]">
@@ -142,7 +169,9 @@ const groups = [
                   </span>
                 </div>
 
-                <p class="mt-4 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{r.blurb}</p>
+                <p class="mt-4 max-w-3xl flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
+                  {r.blurb}
+                </p>
 
                 {r.result && (
                   <p class="mt-4 border-l-2 border-[var(--accent)] pl-3 font-mono text-[0.6875rem] text-[var(--accent)]">
@@ -248,6 +277,7 @@ const groups = [
             <div class="overflow-hidden bg-[var(--bg)]">
               <img
                 src={img.src}
+                {...dim(img.src)}
                 alt={img.alt}
                 loading="lazy"
                 class="aspect-[4/3] w-full object-contain p-4"
@@ -292,6 +322,7 @@ const groups = [
               <div class="overflow-hidden border-b border-[var(--hairline)]">
                 <img
                   src={b.image}
+                  {...dim(b.image)}
                   alt={b.imageAlt ?? b.name}
                   loading="lazy"
                   class="aspect-[16/10] w-full object-cover grayscale-[35%] transition-all duration-500 group-hover:grayscale-0"

@@ -35,21 +35,54 @@ const dated = papers
   }))
   .sort((a, b) => a.iso.localeCompare(b.iso));
 
-/* Band the window May to September 2026 by month, including the empty ones. */
-const MONTHS = ['May', 'Jun', 'Jul', 'Aug', 'Sep'];
-const FIRST_MONTH = 4; // May, zero-indexed
+/* Band by month across exactly the range the record covers, empty months in
+   between included. Hardcoding the window drifted once already: it opened on a
+   May band left over from a paper that was dropped, so the chart advertised a
+   submission that no longer existed. */
+const monthKeys = (() => {
+  const seen = [...new Set(dated.map((d) => d.iso.slice(0, 7)))].sort();
+  if (!seen.length) return [];
+  const out: string[] = [];
+  const [y0, m0] = seen[0].split('-').map(Number);
+  const [y1, m1] = seen[seen.length - 1].split('-').map(Number);
+  for (let y = y0, m = m0; y < y1 || (y === y1 && m <= m1); m === 12 ? ((m = 1), y++) : m++) {
+    out.push(`${y}-${String(m).padStart(2, '0')}`);
+  }
+  return out;
+})();
 
-const bands = MONTHS.map((label, i) => {
-  const key = `2026-${String(FIRST_MONTH + i + 1).padStart(2, '0')}`;
-  const marks: Mark[] = dated
-    .filter((d) => d.iso.startsWith(key))
-    .map(({ iso: _iso, ...m }) => m);
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+const bands = monthKeys.map((key) => {
+  const label = MONTH_NAMES[Number(key.slice(5, 7)) - 1];
+  const inMonth = dated.filter((d) => d.iso.startsWith(key));
+
+  /* Cluster by day. Spacing every mark evenly across the month hid the thing
+     the chart exists to show: five of these went out on one afternoon, and
+     evenly spaced dots make that look like five separate weeks. */
+  const byDay = new Map<string, Mark[]>();
+  for (const { iso, ...m } of inMonth) {
+    const day = iso.slice(8, 10);
+    if (!byDay.has(day)) byDay.set(day, []);
+    byDay.get(day)!.push(m);
+  }
+  const groups = [...byDay.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([day, marks]) => ({ day, marks }));
+
   /* Band width tracks volume: one unit of breathing room, plus two per paper.
      A busy month is visibly wider, which is the whole point of the chart. */
-  return { label, marks, grow: 1 + marks.length * 2 };
+  return { label, marks: inMonth as Mark[], groups, grow: 1 + inMonth.length * 2 };
 });
 
-const queued = papers.filter((p) => !p.submitted && !p.deadline).length;
+/* The legend explains the shapes that are actually on the axis, in the order
+   they first appear. Hardcoding it drifts: an earlier version advertised a
+   "DATE 2027 deadline, 20 Sep" long after that paper had been submitted. */
+const TIER_ORDER = ['Journal', 'Letters', 'Conference', 'Workshop'];
+const tiersPresent = TIER_ORDER.filter((t) => dated.some((d) => d.tier === t));
+
+/* Anything with no date at all is genuinely waiting on something. Name what. */
+const waiting = papers.filter((p) => !p.submitted && !p.deadline);
 const submitted = papers.filter((p) => p.submitted).length;
 const peak = Math.max(...bands.map((b) => b.marks.length));
 const peakBand = bands.find((b) => b.marks.length === peak)!;
@@ -58,8 +91,9 @@ const peakBand = bands.find((b) => b.marks.length === peak)!;
 <figure class="cadence" data-reveal>
   <figcaption class="sr-only">
     Submission cadence, May to September 2026, grouped by month. {submitted} papers
-    submitted, with {peak} of them in {peakBand.label}. One fixed deadline ahead, and
-    {queued} further papers submission-ready without a date.
+    submitted, with {peak} of them in {peakBand.label}. Mark shape carries the venue
+    tier. {waiting.length} further {waiting.length === 1 ? 'paper is' : 'papers are'} written
+    and waiting on a call for papers.
   </figcaption>
 
   <div class="cad-bands">
@@ -76,19 +110,30 @@ const peakBand = bands.find((b) => b.marks.length === peak)!;
 
           <div class="cad-marks">
             {
-              b.marks.map((m) => (
-                <a
-                  href={`#${m.id}`}
-                  class:list={['cad-mark', m.open && 'is-open']}
-                  data-tier={m.tier}
-                  aria-label={`${m.title}. ${m.tier}. ${m.when}.`}
-                >
-                  <span class="cad-dot" aria-hidden="true"></span>
-                  <span class="cad-tip" aria-hidden="true">
-                    <span class="cad-tip-title">{m.title}</span>
-                    <span class="cad-tip-meta">{m.tier} · {m.when}</span>
+              b.groups.map((g) => (
+                <div class="cad-group">
+                  <div class="cad-group-marks">
+                    {g.marks.map((m) => (
+                      <a
+                        href={`#${m.id}`}
+                        class:list={['cad-mark', m.open && 'is-open']}
+                        data-tier={m.tier}
+                        aria-label={`${m.title}. ${m.tier}. ${m.when}.`}
+                      >
+                        <span class="cad-dot" aria-hidden="true" />
+                        <span class="cad-tip" aria-hidden="true">
+                          <span class="cad-tip-title">{m.title}</span>
+                          <span class="cad-tip-meta">
+                            {m.tier} · {m.when}
+                          </span>
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                  <span class="cad-day" aria-hidden="true">
+                    {g.day}
                   </span>
-                </a>
+                </div>
               ))
             }
           </div>
@@ -98,9 +143,21 @@ const peakBand = bands.find((b) => b.marks.length === peak)!;
   </div>
 
   <div class="cadence-legend">
-    <span><span class="cad-key" aria-hidden="true"></span>Submitted, in review</span>
-    <span><span class="cad-key is-open" aria-hidden="true"></span>DATE 2027 deadline, 20 Sep</span>
-    <span class="cad-note">{queued} more submission-ready, queued behind it</span>
+    {
+      tiersPresent.map((t) => (
+        <span>
+          <span class="cad-key" data-tier={t} aria-hidden="true" />
+          {t}
+        </span>
+      ))
+    }
+    {
+      waiting.length > 0 && (
+        <span class="cad-note">
+          {waiting.length} more written, waiting on a call for papers
+        </span>
+      )
+    }
   </div>
 </figure>
 
@@ -166,7 +223,7 @@ const peakBand = bands.find((b) => b.marks.length === peak)!;
     display: flex;
     align-items: flex-end;
     justify-content: space-evenly;
-    min-height: 1.75rem;
+    min-height: 2.6rem;
   }
 
   .cad-mark {
@@ -175,6 +232,26 @@ const peakBand = bands.find((b) => b.marks.length === peak)!;
     place-items: center;
     width: 1.5rem;
     height: 1.75rem;
+  }
+
+  .cad-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .cad-group-marks {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Day of the month under each cluster, so a stack of five reads as one day. */
+  .cad-day {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
   }
 
   .cad-dot {
@@ -310,8 +387,20 @@ const peakBand = bands.find((b) => b.marks.length === peak)!;
     background: var(--accent);
   }
 
-  .cad-key.is-open {
-    background: transparent;
+  /* Same shape vocabulary as the marks on the axis. */
+  .cad-key[data-tier='Journal'] {
+    border-radius: 50%;
+    width: 11px;
+    height: 11px;
+  }
+
+  .cad-key[data-tier='Conference'] {
+    transform: rotate(45deg);
+  }
+
+  .cad-key[data-tier='Workshop'] {
+    width: 7px;
+    height: 7px;
   }
 
   .cad-note {

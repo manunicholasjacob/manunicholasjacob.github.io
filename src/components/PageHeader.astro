@@ -1,11 +1,23 @@
 ---
+/**
+ * Interior page header.
+ *
+ * The heading and lede only ever fill the left of a max-w-6xl row, so without
+ * anything on the right every interior page opened on a half-empty screen. The
+ * optional `meta` list fills it the way the home page hero does, with facts
+ * that are checkable rather than decoration. Pass nothing and the header falls
+ * back to the single-column layout.
+ */
 interface Props {
   label: string;
   title: string;
   lede?: string;
+  /** Right-hand facts, rendered as a spec table. Keep to four or five rows. */
+  meta?: readonly (readonly [string, string])[];
 }
 
-const { label, title, lede } = Astro.props;
+const { label, title, lede, meta } = Astro.props;
+const hasMeta = !!meta?.length;
 ---
 
 <header class="plus-marks relative overflow-hidden border-b border-[var(--hairline)]">
@@ -16,10 +28,38 @@ const { label, title, lede } = Astro.props;
   </div>
 
   <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
-    <p class="label mb-6 flex items-center gap-2">
-      <span class="text-[var(--accent)]">//</span>{label}
-    </p>
-    <h1 class="display max-w-4xl">{title}</h1>
-    {lede && <p class="lede mt-7 max-w-2xl">{lede}</p>}
+    <div
+      class:list={[
+        hasMeta && 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16',
+      ]}
+    >
+      <div>
+        <p class="label mb-6 flex items-center gap-2">
+          <span class="text-[var(--accent)]">//</span>{label}
+        </p>
+        <h1 class="display max-w-4xl">{title}</h1>
+        {lede && <p class="lede mt-7 max-w-2xl">{lede}</p>}
+      </div>
+
+      {
+        hasMeta && (
+          <dl class="w-full border border-[var(--hairline)] lg:w-72">
+            {meta!.map(([k, v], i) => (
+              <div
+                class:list={[
+                  'flex items-baseline justify-between gap-4 px-3 py-2',
+                  i !== 0 && 'border-t border-[var(--hairline)]',
+                ]}
+              >
+                <dt class="font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+                  {k}
+                </dt>
+                <dd class="text-right font-mono text-[0.6875rem] text-[var(--fg-muted)]">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+    </div>
   </div>
 </header>

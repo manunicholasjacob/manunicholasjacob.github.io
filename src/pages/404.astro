@@ -10,16 +10,33 @@ const all = [...nav, ...navSecondary];
     <div class="dotgrid fade-edges pointer-events-none absolute inset-0"></div>
     <div class="accent-glow pointer-events-none absolute -top-32 left-1/2 h-80 w-[40rem] -translate-x-1/2"></div>
 
-    <div class="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-5 py-24 sm:px-8">
+    <div class="relative mx-auto flex min-h-[52vh] max-w-6xl flex-col justify-center px-5 py-24 sm:px-8">
       <p class="label mb-6 flex items-center gap-2"><span class="text-[var(--accent)]">//</span>Error 404</p>
       <h1 class="display max-w-3xl">No signal on that address.</h1>
       <p class="lede mt-7 max-w-lg">
         The page moved when this site was rebuilt. Everything is still here, just somewhere tidier.
       </p>
 
-      <div class="mt-10 flex flex-wrap gap-3">
+      <div class="mt-10">
         <a href="/" class="btn btn-primary">Back to start</a>
-        {all.map((item) => <a href={item.href} class="btn btn-ghost">{item.label}</a>)}
+      </div>
+
+      <div class="mt-10 grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-3">
+        {
+          all.map((item) => (
+            <a
+              href={item.href}
+              class="card-link group flex items-baseline justify-between gap-4 bg-[var(--bg)] px-5 py-4"
+            >
+              <span class="text-sm text-[var(--fg-muted)] group-hover:text-[var(--accent)]">
+                {item.label}
+              </span>
+              <span class="font-mono text-[0.625rem] text-[var(--fg-faint)] group-hover:text-[var(--accent)]">
+                {item.href}
+              </span>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>

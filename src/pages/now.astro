@@ -13,10 +13,17 @@ const fmt = new Date(updated).toLocaleDateString('en-GB', {
   year: 'numeric',
   timeZone: 'UTC',
 });
+
+const headerMeta = [
+  ['Updated', fmt],
+  ['In flight', String(current.length)],
+  ['Deliberately not', String(notDoing.length)],
+] as const;
 ---
 
 <Base title="Now" description="What is actually in flight right now.">
   <PageHeader
+    meta={headerMeta}
     label={`Now · updated ${fmt}`}
     title="What I'm doing now."
     lede="A now page, in the spirit of nownow.com: the short list of things actually in flight, kept current or deleted."

@@ -27,6 +27,27 @@ const bibtex = (p: (typeof papers)[number]) =>
         `}`,
       ].join('\n')
     : null;
+
+/* Header facts, counted from the record rather than typed out, so they cannot
+   drift away from the list further down the page. */
+const underReview = papers.filter((p) => p.status === 'Under review').length;
+const firstSubmitted = papers
+  .map((p) => p.submitted)
+  .filter(Boolean)
+  .sort()[0]!;
+const headerMeta = [
+  ['Papers', String(papers.length)],
+  ['Under review', String(underReview)],
+  ['Venues', String(new Set(papers.map((p) => p.venue)).size)],
+  [
+    'Since',
+    new Date(firstSubmitted + 'T00:00:00Z').toLocaleDateString('en-GB', {
+      month: 'short',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }),
+  ],
+] as const;
 ---
 
 <Base
@@ -35,6 +56,7 @@ const bibtex = (p: (typeof papers)[number]) =>
 >
   <PageHeader
     label="Research"
+    meta={headerMeta}
     title="Measured, not simulated."
     lede="An independent research program on edge and embedded machine-learning systems: fourteen papers measured on Arm Cortex-A76 and x86 silicon with hardware performance counters and on-board power instrumentation, thirteen currently under review."
   />
@@ -71,7 +93,7 @@ const bibtex = (p: (typeof papers)[number]) =>
   <Section
     label="Cadence"
     heading="The work comes in bursts."
-    lede="The record by calendar rather than by row, grouped by month because the exact dates cluster too tightly to plot: four of these went out in the first week of August. One submission in May, nothing in June, then the run once the measurement harness stopped being the bottleneck."
+    lede="The record by calendar rather than by row, grouped by month because the exact dates cluster too tightly to plot. Three went out in July and ten in August: four in the first week and five on one day, once the measurement harness stopped being the bottleneck."
   >
     <Cadence />
   </Section>

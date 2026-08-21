@@ -83,6 +83,13 @@ const questions = [
   'How do architecture decisions show up in performance?',
   'How do we measure this objectively?',
 ];
+
+const headerMeta = [
+  ['Role', 'Hardware Engineer'],
+  ['Org', 'Dell Technologies'],
+  ['Focus', 'AI server platforms'],
+  ['Based', site.location],
+] as const;
 ---
 
 <Base
@@ -91,6 +98,7 @@ const questions = [
 >
   <PageHeader
     label="About"
+    meta={headerMeta}
     title="Systems, not components."
     lede="I like the questions that only make sense when you look at a whole machine at once."
   />
@@ -98,7 +106,8 @@ const questions = [
   {/* bio */}
   <Section label="Background">
     <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
-      <div class="prose-block max-w-2xl">
+      <div class="max-w-2xl">
+        <div class="prose-block">
         <p>
           I am a hardware engineer at Dell Technologies, working on the enterprise server platforms
           that large-scale AI training and inference run on. The work sits where hardware, firmware
@@ -116,6 +125,26 @@ const questions = [
           mechanical models, then electronics, then code. That shows up now in mentoring and judging
           hackathons, and in a bias toward building things that keep working after the demo.
         </p>
+        </div>
+
+        {/* Sits under the prose rather than beside the photographs: the text
+            column used to run out well above the images, leaving a tall gap. */}
+        <div class="card ticks mt-10 p-7">
+          <p class="label mb-5">Engineering philosophy</p>
+          <p class="text-lg leading-snug font-light tracking-tight">
+            Understand complete systems rather than isolated technologies.
+          </p>
+          <ul class="mt-6 space-y-3 border-t border-[var(--hairline)] pt-5">
+            {
+              questions.map((q) => (
+                <li class="flex gap-3 font-mono text-[0.75rem] leading-relaxed text-[var(--fg-muted)]">
+                  <span class="text-[var(--accent)]">?</span>
+                  {q}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
 
       <div>
@@ -133,6 +162,8 @@ const questions = [
         <div class="grid grid-cols-2 gap-px border border-[var(--hairline)] bg-[var(--hairline)]">
           <figure class="group overflow-hidden bg-[var(--bg)]">
             <img
+              width="226"
+              height="214"
               src="/img/dell.jpg"
               alt="Manu in front of the Dell Technologies sign"
               loading="lazy"
@@ -141,6 +172,8 @@ const questions = [
           </figure>
           <figure class="group overflow-hidden bg-[var(--bg)]">
             <img
+              width="243"
+              height="246"
               src="/img/server-work.jpg"
               alt="Working inside an open server chassis"
               loading="lazy"
@@ -149,22 +182,6 @@ const questions = [
           </figure>
         </div>
 
-        <div class="card ticks mt-8 p-7">
-          <p class="label mb-5">Engineering philosophy</p>
-          <p class="text-lg leading-snug font-light tracking-tight">
-            Understand complete systems rather than isolated technologies.
-          </p>
-          <ul class="mt-6 space-y-3 border-t border-[var(--hairline)] pt-5">
-            {
-              questions.map((q) => (
-                <li class="flex gap-3 font-mono text-[0.75rem] leading-relaxed text-[var(--fg-muted)]">
-                  <span class="text-[var(--accent)]">?</span>
-                  {q}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
       </div>
     </div>
   </Section>

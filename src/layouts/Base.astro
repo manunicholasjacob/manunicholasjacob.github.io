@@ -94,40 +94,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
          [data-reveal] elements. */
       const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      /* Count-up: elements with data-countup animate their leading number from
-         zero once revealed. Decimal places and any suffix are preserved. */
-      const countUp = (el: HTMLElement) => {
-        const m = (el.textContent ?? '').trim().match(/^([\d.]+)([\s\S]*)$/);
-        if (!m) return;
-        const target = parseFloat(m[1]);
-        if (!isFinite(target)) return;
-        const decimals = (m[1].split('.')[1] || '').length;
-        const suffix = m[2];
-        const t0 = performance.now();
-        const dur = 900;
-        const tick = (t: number) => {
-          const p = Math.min((t - t0) / dur, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = (target * eased).toFixed(decimals) + suffix;
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      };
-
       const initPage = () => {
         const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
-        const counters = new Set(document.querySelectorAll<HTMLElement>('[data-countup]'));
 
-        const reveal = (el: HTMLElement) => {
-          el.classList.add('is-visible');
-          el.querySelectorAll<HTMLElement>('[data-countup]').forEach((c) => {
-            if (counters.delete(c)) countUp(c);
-          });
-        };
-        const showAll = () => {
-          els.forEach((el) => el.classList.add('is-visible'));
-          counters.clear();
-        };
+        const reveal = (el: HTMLElement) => el.classList.add('is-visible');
+        const showAll = () => els.forEach((el) => el.classList.add('is-visible'));
 
         if (els.length && 'IntersectionObserver' in window && !reduced()) {
           const io = new IntersectionObserver(
@@ -142,19 +113,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
             { rootMargin: '0px 0px -12% 0px' },
           );
           els.forEach((el) => io.observe(el));
-
-          // Counters outside any reveal container still animate on view.
-          if (counters.size) {
-            const cio = new IntersectionObserver((entries) => {
-              for (const e of entries) {
-                if (!e.isIntersecting) continue;
-                const c = e.target as HTMLElement;
-                if (counters.delete(c)) countUp(c);
-                cio.unobserve(c);
-              }
-            });
-            counters.forEach((c) => cio.observe(c));
-          }
 
           // Safety net: if the observer never fires (background tab, odd
           // embed, a browser quirk), show everything rather than a blank page.

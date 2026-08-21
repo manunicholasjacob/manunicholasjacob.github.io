@@ -204,6 +204,7 @@ export const papers: Paper[] = [
     venueTier: 'Journal',
     status: 'Under review',
     dateline: 'Submitted 17 Aug 2026',
+    submitted: '2026-08-17',
     year: '2026',
     topics: ['LLM inference', 'Duty cycling', 'Storage'],
   },
@@ -218,6 +219,7 @@ export const papers: Paper[] = [
     venueTier: 'Letters',
     status: 'Under review',
     dateline: 'Submitted 17 Aug 2026',
+    submitted: '2026-08-17',
     year: '2026',
     topics: ['Quantization', 'Cross-platform', 'Correction'],
   },
@@ -232,6 +234,7 @@ export const papers: Paper[] = [
     venueTier: 'Letters',
     status: 'Under review',
     dateline: 'Submitted 17 Aug 2026',
+    submitted: '2026-08-17',
     year: '2026',
     topics: ['Energy', 'Early exit', 'Parallelism'],
   },
@@ -255,8 +258,16 @@ export const submittedCount = papers.filter((p) =>
   /review|revision/i.test(p.status),
 ).length;
 
-/** The through-line, stated once, used on the homepage and the research page. */
+/**
+ * The through-line. The claim is deliberately repeated on both pages, but the
+ * supporting paragraph is not: the home page says what the finding is, the
+ * research page says what standard it was held to. An earlier version printed
+ * the same four sentences in both places, which read as padding.
+ */
 export const researchThesis = {
   claim: 'The memory wall, not compute, governs deep-neural-network inference on real hardware.',
+  /** Home page: what the result is. */
+  intro: `The same bottleneck turns up in mobile CNNs, in Vision Transformers and in on-device language models. The machine spends its time moving weights, not multiplying them, so bandwidth predicts what a network will do and FLOPs do not. Fourteen papers follow that one idea from a Raspberry Pi to an x86 laptop, and next to enterprise servers.`,
+  /** Research page: what standard it was held to. */
   body: `One physical idea carried across scales: from mobile CNNs, to Vision Transformers, to on-device language models, measured on Arm and revalidated on x86, and next headed for enterprise servers. Every headline number comes from real silicon, using hardware performance counters and on-board power instrumentation. Where a claim failed to reproduce, the paper was rewritten to whatever the data actually supported, negative results included, and two early drafts that presented simulation as measurement were discarded outright. That standard keeps costing claims, which is the point.`,
 };

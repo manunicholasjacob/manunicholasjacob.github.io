@@ -16,6 +16,12 @@ const fmt = (d: Date) =>
     year: 'numeric',
     timeZone: 'UTC',
   });
+
+const headerMeta = [
+  ['Pieces', String(posts.length)],
+  ...(posts[0] ? ([['Latest', fmt(posts[0].data.date)]] as const) : []),
+  ['Feed', 'RSS'],
+] as const;
 ---
 
 <Base
@@ -24,6 +30,7 @@ const fmt = (d: Date) =>
 >
   <PageHeader
     label="Writing"
+    meta={headerMeta}
     title="Notes on how systems misbehave."
     lede="Short pieces on measurement, reliability, and the failure modes that only make sense at the level of the whole machine."
   />

@@ -22,9 +22,13 @@ const elsewhere = [
     <div class="grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr]">
       <div>
         <p class="display-sm max-w-md">Let's talk about hardware.</p>
+        {/* The brand column ran a good deal shorter than the two link columns
+            beside it, which left a hole in the bottom left of every page. The
+            tagline is real copy and it closes the gap. */}
+        <p class="mt-5 max-w-sm text-sm leading-relaxed text-[var(--fg-muted)]">{site.tagline}</p>
         <a
           href={`mailto:${site.email}`}
-          class="link-u mt-5 inline-block font-mono text-sm break-all">{site.email}</a
+          class="link-u mt-6 inline-block font-mono text-sm break-all">{site.email}</a
         >
         <p class="label mt-6">{site.location}</p>
       </div>

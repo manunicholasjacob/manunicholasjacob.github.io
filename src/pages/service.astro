@@ -3,6 +3,15 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import { peerReview, judging, speaking, volunteering } from '../data/service';
+import { site } from '../data/site';
+import { dim } from '../data/img-dims';
+
+const headerMeta = [
+  ['Review venues', String(peerReview.length)],
+  ['Judging', String(judging.length)],
+  ['Volunteering', String(volunteering.length)],
+  ['Based', site.location],
+] as const;
 ---
 
 <Base
@@ -11,6 +20,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
 >
   <PageHeader
     label="Service"
+    meta={headerMeta}
     title="Reviewing, judging, teaching."
     lede="Evaluating other people's work is the fastest way to stay honest about your own."
   />
@@ -69,6 +79,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
           <figure class="group overflow-hidden bg-[var(--bg)]">
             <img
               src={img.src}
+              {...dim(img.src)}
               alt={img.alt}
               loading="lazy"
               class="aspect-[16/9] w-full object-cover grayscale-[35%] transition-all duration-500 group-hover:grayscale-0"
@@ -134,6 +145,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
               <figure class="group overflow-hidden bg-[var(--bg)]">
                 <img
                   src={v.image}
+                  {...dim(v.image)}
                   alt={v.imageAlt ?? v.org}
                   loading="lazy"
                   class="h-full max-h-[26rem] w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
