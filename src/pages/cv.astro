@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { site, links } from '../data/site';
 import { papers } from '../data/research';
-import { repos, builds } from '../data/projects';
+import { repos, builds, flagship } from '../data/projects';
 import { peerReview, judging, speaking, volunteering } from '../data/service';
 import { certifications } from '../data/archive';
 
@@ -16,7 +16,36 @@ const contact = [
   { label: 'ORCID', value: '0009-0007-6589-6572', href: links.orcid },
 ];
 
-const artifactRepos = repos.filter((r) => r.doi);
+/* The homepage stat counts every DOI-bearing artifact, and ML Systems Lab is
+   one of them but lives outside `repos`. Including it here keeps the CV and the
+   homepage reporting the same number, which they previously did not. */
+const artifactRepos = [
+  ...repos.filter((r) => r.doi),
+  { name: flagship.slug, url: flagship.url, doi: flagship.doi },
+];
+
+/* Papers grouped by how far each has actually got. A single numbered list put
+   unsubmitted manuscripts in the same sequence as work under review at IEEE and
+   ACM, which reads as a twelve-item publication record that it is not. */
+const paperGroups = [
+  {
+    label: 'Under review',
+    note: 'Submitted, currently with reviewers.',
+    items: papers.filter((x) => /under review/i.test(x.status)),
+  },
+  {
+    label: 'In revision',
+    note: 'Reviewed, revision invited.',
+    items: papers.filter((x) => /revision/i.test(x.status)),
+  },
+  {
+    label: 'In preparation',
+    note: 'Complete and submission-ready, not yet submitted.',
+    items: papers.filter(
+      (x) => !/under review/i.test(x.status) && !/revision/i.test(x.status),
+    ),
+  },
+].filter((g) => g.items.length > 0);
 ---
 
 <Base
@@ -127,10 +156,16 @@ const artifactRepos = repos.filter((r) => r.doi);
 
     {/* publications */}
     <section class="cv-section">
-      <h2 class="cv-h">Papers</h2>
-      <ol class="space-y-4">
-        {
-          papers.map((p, i) => (
+      <h2 class="cv-h">Papers · {papers.length}</h2>
+      {
+        paperGroups.map((g) => (
+          <div class="cv-group">
+            <p class="cv-group-h">
+              {g.label} · {g.items.length}
+              <span class="cv-group-note">{g.note}</span>
+            </p>
+            <ol class="space-y-4">
+              {g.items.map((p, i) => (
             <li class="grid grid-cols-[2rem_1fr] gap-3">
               <span class="font-mono text-[0.75rem] text-[var(--fg-faint)] tabular-nums">
                 [{i + 1}]
@@ -138,7 +173,7 @@ const artifactRepos = repos.filter((r) => r.doi);
               <div>
                 <p class="leading-snug font-medium">{p.title}</p>
                 <p class="mt-1 font-mono text-[0.6875rem] text-[var(--fg-muted)]">
-                  {p.venue} · {p.status} · {p.year}
+                  {p.venue} · {p.year}
                   {p.artifact && (
                     <>
                       {' · '}
@@ -150,9 +185,11 @@ const artifactRepos = repos.filter((r) => r.doi);
                 </p>
               </div>
             </li>
-          ))
-        }
-      </ol>
+              ))}
+            </ol>
+          </div>
+        ))
+      }
     </section>
 
     {/* patent + artifacts */}
@@ -196,7 +233,7 @@ const artifactRepos = repos.filter((r) => r.doi);
 
     {/* awards */}
     <section class="cv-section">
-      <h2 class="cv-h">Awards</h2>
+      <h2 class="cv-h">Competition awards</h2>
       <ul class="space-y-2">
         {
           builds.map((b) => (
@@ -354,6 +391,31 @@ const artifactRepos = repos.filter((r) => r.doi);
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 1.1rem;
+  }
+
+  .cv-group + .cv-group {
+    margin-top: 1.5rem;
+  }
+
+  .cv-group-h {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+
+  .cv-group-note {
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--fg-faint);
   }
 
   .cv-item + .cv-item {
