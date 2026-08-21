@@ -527,15 +527,19 @@ html:not(.js) .hl-draw {
   .tag {
     display: inline-flex;
     align-items: center;
-    height: 1.5rem;
+    /* min-height, not height: a long award name has to be able to wrap on a
+       320px phone instead of punching through the right edge of the page. */
+    min-height: 1.5rem;
+    padding-block: 0.2rem;
     padding-inline: 0.5rem;
+    max-width: 100%;
     border: 1px solid var(--hairline);
     font-family: var(--font-mono);
     font-size: 0.625rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--fg-faint);
-    white-space: nowrap;
+    text-align: center;
   }
 
   .tag-accent {
@@ -771,6 +775,15 @@ html.js [data-reveal] {
 html.js [data-reveal].is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* Grid and flex items default to min-width:auto, so a lazy image's attribute
+   width can force its card wider than the track before the file loads. Found
+   as a 2px page overflow on /projects at 360px: the build cards measured 340px
+   inside a 310px grid. Zero is the sizing every card layout here wants. */
+.grid > *,
+.flex > figure {
+  min-width: 0;
 }
 
 @keyframes marquee {

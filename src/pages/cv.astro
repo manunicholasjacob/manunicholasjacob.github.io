@@ -80,7 +80,7 @@ const paperGroups = [
         contact.map((c) => (
           <div>
             <p class="label !text-[0.5625rem]">{c.label}</p>
-            <a href={c.href} class="mt-1 block font-mono text-[0.75rem] break-all text-[var(--fg)] hover:text-[var(--accent)]">
+            <a href={c.href} class="mt-0.5 inline-block py-1 font-mono text-[0.75rem] break-all text-[var(--fg)] hover:text-[var(--accent)]">
               {c.value}
             </a>
           </div>
@@ -180,7 +180,7 @@ const paperGroups = [
                   {p.artifact && (
                     <>
                       {' · '}
-                      <a class="text-[var(--accent)]" href={`https://doi.org/${p.artifact.doi}`}>
+                      <a class="inline-block py-1 text-[var(--accent)]" href={`https://doi.org/${p.artifact.doi}`}>
                         doi:{p.artifact.doi}
                       </a>
                     </>
@@ -211,7 +211,7 @@ const paperGroups = [
           public code and data for the papers above, archived on Zenodo:{' '}
           {artifactRepos.map((r, i) => (
             <>
-              <a class="font-mono text-[0.75rem] text-[var(--accent)]" href={r.url}>{r.name}</a>{i < artifactRepos.length - 1 ? ', ' : '.'}
+              <a class="inline-block py-0.5 font-mono text-[0.75rem] text-[var(--accent)]" href={r.url}>{r.name}</a>{i < artifactRepos.length - 1 ? ', ' : '.'}
             </>
           ))}
         </p>
@@ -377,7 +377,7 @@ const paperGroups = [
 
     <p class="mt-12 border-t border-[var(--hairline)] pt-5 font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
       Generated from the same data files as the rest of the site ·
-      <a class="text-[var(--accent)]" href="/manu-nicholas-jacob-cv.pdf" download>PDF</a> ·
+      <a class="inline-block py-1 text-[var(--accent)]" href="/manu-nicholas-jacob-cv.pdf" download>PDF</a> ·
       manunicholasjacob.com/cv
     </p>
   </div>

@@ -2,9 +2,15 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
-import Cadence from '../components/Cadence.astro';
 import DecodeRoofline from '../components/DecodeRoofline.astro';
 import { papers, researchThesis } from '../data/research';
+
+/* Chronological by submission date; the one undated paper (awaiting its CFP)
+   closes the list. The chart that used to sit above this list is gone: the
+   dates themselves carry the story. */
+const ordered = [...papers].sort((a, b) =>
+  (a.submitted ?? '9999').localeCompare(b.submitted ?? '9999'),
+);
 import { links } from '../data/site';
 
 const profiles = [
@@ -89,20 +95,11 @@ const headerMeta = [
     <DecodeRoofline />
   </Section>
 
-  {/* cadence: the shape of the year, which the list below flattens */}
-  <Section
-    label="Cadence"
-    heading="The work comes in bursts."
-    lede="The record by calendar rather than by row, grouped by month because the exact dates cluster too tightly to plot. Three went out in July and ten in August: four in the first week and five on one day, once the measurement harness stopped being the bottleneck."
-  >
-    <Cadence />
-  </Section>
-
   {/* full list */}
   <Section label={`Publications · ${papers.length}`}>
     <ol class="border-t border-[var(--hairline)]">
       {
-        papers.map((p, i) => (
+        ordered.map((p, i) => (
           <li
             id={p.id}
             class="group scroll-mt-24 border-b border-[var(--hairline)] py-9 transition-colors hover:bg-[var(--surface)]"
@@ -171,7 +168,7 @@ const headerMeta = [
                       href={`${links.github}/${p.artifact.repo}`}
                       target="_blank"
                       rel="noopener"
-                      class="link-u block font-mono text-[0.6875rem] break-all"
+                      class="link-u inline-block py-1 font-mono text-[0.6875rem] break-all"
                     >
                       {p.artifact.repo} ↗
                     </a>
@@ -179,7 +176,7 @@ const headerMeta = [
                       href={`https://doi.org/${p.artifact.doi}`}
                       target="_blank"
                       rel="noopener"
-                      class="link-u mt-1 block font-mono text-[0.6875rem] break-all text-[var(--fg-faint)]"
+                      class="link-u mt-0.5 inline-block py-1 font-mono text-[0.6875rem] break-all text-[var(--fg-faint)]"
                     >
                       {p.artifact.doi}
                     </a>

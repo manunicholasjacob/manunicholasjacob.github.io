@@ -133,8 +133,6 @@ export const interests: Interest[] = [
     name: 'Climbing',
     blurb:
       'Bouldering, mostly. A sport that is entirely about reading a problem before touching it, then finding out how much of the read was wrong.',
-    image: '/img/climbing.jpg',
-    imageAlt: 'Bouldering on an indoor wall',
   },
   {
     name: 'Metalworking',

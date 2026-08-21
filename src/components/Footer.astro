@@ -28,20 +28,20 @@ const elsewhere = [
         <p class="mt-5 max-w-sm text-sm leading-relaxed text-[var(--fg-muted)]">{site.tagline}</p>
         <a
           href={`mailto:${site.email}`}
-          class="link-u mt-6 inline-block font-mono text-sm break-all">{site.email}</a
+          class="link-u mt-6 inline-block py-1 font-mono text-sm break-all">{site.email}</a
         >
         <p class="label mt-6">{site.location}</p>
       </div>
 
       <div>
         <p class="label mb-4">Pages</p>
-        <ul class="space-y-2.5">
+        <ul class="space-y-0.5">
           {
             pages.map((item) => (
               <li>
                 <a
                   href={item.href}
-                  class="text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
+                  class="inline-block py-1 text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
                 >
                   {item.label}
                 </a>
@@ -53,7 +53,7 @@ const elsewhere = [
 
       <div>
         <p class="label mb-4">Elsewhere</p>
-        <ul class="space-y-2.5">
+        <ul class="space-y-0.5">
           {
             elsewhere.map((item) => (
               <li>
@@ -61,7 +61,7 @@ const elsewhere = [
                   href={item.href}
                   rel="me noopener"
                   target="_blank"
-                  class="group inline-flex items-center gap-1.5 text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
+                  class="group inline-flex items-center gap-1.5 py-1 text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
                 >
                   {item.label}
                   <span class="opacity-0 transition-opacity group-hover:opacity-100">↗</span>

@@ -12,7 +12,6 @@ export const imgDims: Record<string, readonly [number, number]> = {
   "/img/4sight.jpg": [806, 470],
   "/img/bench-work.jpg": [1000, 1000],
   "/img/booth-beacon.jpg": [716, 652],
-  "/img/climbing.jpg": [208, 206],
   "/img/dell.jpg": [226, 214],
   "/img/lovedale.jpg": [594, 1185],
   "/img/manu.jpg": [900, 900],

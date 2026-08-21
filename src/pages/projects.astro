@@ -72,7 +72,7 @@ const headerMeta = [
         <ol class="space-y-0">
           {
             flagship.architecture.map((a, i) => (
-              <li class="grid grid-cols-[9.5rem_1fr] items-baseline gap-4 border-t border-[var(--hairline)] py-3">
+              <li class="grid items-baseline gap-x-4 gap-y-1 border-t border-[var(--hairline)] py-3 sm:grid-cols-[9.5rem_1fr]">
                 <span class="flex items-center gap-2 font-mono text-[0.75rem] text-[var(--accent)]">
                   <span class="text-[var(--fg-faint)]">{String(i + 1).padStart(2, '0')}</span>
                   {a.step}
@@ -113,7 +113,7 @@ const headerMeta = [
             {
               flagship.related.map((r) => (
                 <li>
-                  <a href={r.href} class="link-u text-sm leading-snug">
+                  <a href={r.href} class="link-u inline-block py-1 text-sm leading-snug">
                     {r.title}
                   </a>
                 </li>
@@ -211,7 +211,7 @@ const headerMeta = [
           const open = u.prs.length - merged;
           return (
             <div class="flex flex-col bg-[var(--bg)] p-7">
-              <div class="flex items-baseline justify-between gap-4">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
                 <h3 class="text-xl font-medium tracking-tight">
                   {u.org}/<span class="text-[var(--accent)]">{u.project}</span>
                 </h3>
@@ -228,7 +228,7 @@ const headerMeta = [
                       href={pr.url}
                       target="_blank"
                       rel="noopener"
-                      class="group flex items-baseline gap-3"
+                      class="group flex items-baseline gap-3 py-1"
                     >
                       <span
                         class:list={[
@@ -242,7 +242,7 @@ const headerMeta = [
                       </span>
                       <span
                         class:list={[
-                          'text-sm leading-snug transition-colors group-hover:text-[var(--fg)]',
+                          'min-w-0 break-words text-sm leading-snug transition-colors group-hover:text-[var(--fg)]',
                           pr.merged ? 'text-[var(--fg)]' : 'text-[var(--fg-muted)]',
                         ]}
                       >
@@ -347,7 +347,7 @@ const headerMeta = [
                     href={b.url}
                     target="_blank"
                     rel="noopener"
-                    class="link-u font-mono text-[0.6875rem]"
+                    class="link-u inline-block py-1 font-mono text-[0.6875rem]"
                   >
                     Repository ↗
                   </a>
@@ -357,7 +357,7 @@ const headerMeta = [
                     href={m.href}
                     target="_blank"
                     rel="noopener"
-                    class="link-u font-mono text-[0.6875rem]"
+                    class="link-u inline-block py-1 font-mono text-[0.6875rem]"
                   >
                     {m.label} ↗
                   </a>
