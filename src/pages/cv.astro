@@ -62,13 +62,16 @@ const paperGroups = [
           {site.role} · {site.location}
         </p>
       </div>
-      <button
-        type="button"
-        class="btn btn-ghost print:hidden"
-        onclick="window.print()"
-      >
-        Print / save PDF
-      </button>
+      <div class="flex flex-wrap gap-2 print:hidden">
+        <a
+          href="/manu-nicholas-jacob-cv.pdf"
+          download
+          class="btn btn-primary"
+        >
+          Download PDF
+        </a>
+        <button type="button" class="btn btn-ghost" onclick="window.print()">Print</button>
+      </div>
     </header>
 
     {/* contact strip */}
@@ -93,7 +96,7 @@ const paperGroups = [
         debugging, and root-cause engineering. Independently runs a measurement-driven research
         program on edge machine-learning systems, with {papers.length} papers across memory
         bandwidth, energy, thermal behaviour and quantization, each backed by a public, DOI-archived
-        artifact. Named inventor on a U.S. patent filing.
+        artifact. Named inventor on an invention disclosure authorized for filing.
       </p>
     </section>
 
@@ -197,8 +200,9 @@ const paperGroups = [
       <h2 class="cv-h">Patents &amp; artifacts</h2>
       <div class="cv-item">
         <p class="cv-body">
-          <strong class="text-[var(--fg)]">U.S. patent filing (inventor)</strong>: filed with the
-          USPTO through Dell Technologies; additional internal invention disclosures.
+          <strong class="text-[var(--fg)]">Invention disclosure (named inventor)</strong>: approved
+          and authorized for filing through Dell Technologies. Formal USPTO filing pending; no
+          application number issued yet.
         </p>
       </div>
       <div class="cv-item">
@@ -372,7 +376,9 @@ const paperGroups = [
     </section>
 
     <p class="mt-12 border-t border-[var(--hairline)] pt-5 font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
-      Generated from the same data files as the rest of the site · manunicholasjacob.com/cv
+      Generated from the same data files as the rest of the site ·
+      <a class="text-[var(--accent)]" href="/manu-nicholas-jacob-cv.pdf" download>PDF</a> ·
+      manunicholasjacob.com/cv
     </p>
   </div>
 </Base>

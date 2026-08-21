@@ -68,7 +68,7 @@ const statusColor: Record<string, string> = {
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
       {
         machines.map((m, i) => (
-          <div class="flex flex-col bg-[var(--bg)]" data-reveal={String((i % 2) * 80)}>
+          <div class="flex flex-col bg-[var(--bg)]">
             {m.image && (
               <div class="overflow-hidden border-b border-[var(--hairline)]">
                 <img
@@ -122,7 +122,6 @@ const statusColor: Record<string, string> = {
         rules.map((r, i) => (
           <li
             class="grid gap-4 border-b border-[var(--hairline)] py-8 lg:grid-cols-[4rem_18rem_1fr] lg:gap-10"
-            data-reveal={String(Math.min(i, 4) * 60)}
           >
             <span class="font-mono text-sm text-[var(--fg-faint)] tabular-nums">
               {String(i + 1).padStart(2, '0')}

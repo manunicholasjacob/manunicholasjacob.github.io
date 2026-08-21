@@ -35,7 +35,7 @@ const fmt = (d: Date) =>
       ) : (
         <ul class="border-t border-[var(--hairline)]">
           {posts.map((post, i) => (
-            <li data-reveal={String(Math.min(i, 4) * 60)}>
+            <li>
               <a
                 href={`/writing/${post.id}`}
                 class="group grid gap-4 border-b border-[var(--hairline)] py-8 transition-colors hover:bg-[var(--surface)] lg:grid-cols-[9rem_1fr_2rem] lg:items-baseline lg:gap-10"

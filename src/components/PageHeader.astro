@@ -19,7 +19,7 @@ const { label, title, lede } = Astro.props;
     <p class="label mb-6 flex items-center gap-2">
       <span class="text-[var(--accent)]">//</span>{label}
     </p>
-    <h1 class="display max-w-4xl" data-reveal>{title}</h1>
-    {lede && <p class="lede mt-7 max-w-2xl" data-reveal="90">{lede}</p>}
+    <h1 class="display max-w-4xl">{title}</h1>
+    {lede && <p class="lede mt-7 max-w-2xl">{lede}</p>}
   </div>
 </header>

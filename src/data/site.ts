@@ -44,7 +44,7 @@ export const stats = [
   { value: '12', label: 'Papers' },
   { value: '7', label: 'Under review' },
   { value: '8', label: 'Artifact DOIs' },
-  { value: '1', label: 'US patent filed' },
+  { value: '1', label: 'Patent authorized' },
 ] as const;
 
 /** Scrolling keyword band. Pure texture, but it sets the subject matter fast. */

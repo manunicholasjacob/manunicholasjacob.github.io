@@ -53,7 +53,6 @@ const spec = [
       <div class="grid items-center gap-14 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
         <div>
           <p class="label mb-7 flex items-center gap-2.5">
-            <span class="blink text-[var(--accent)]">●</span>
             {site.name} &nbsp;/&nbsp; {site.location}
           </p>
 
@@ -62,13 +61,13 @@ const spec = [
             <span class="hl-draw text-[var(--accent)]">limits</span> a computer.
           </h1>
 
-          <p class="lede mt-8 max-w-xl" data-reveal="80">
+          <p class="lede mt-8 max-w-xl">
             Hardware engineer at Dell Technologies working on enterprise AI server platforms, and an
             independent researcher on what really governs machine-learning inference at the edge.
             Every number on this site was measured on real silicon.
           </p>
 
-          <div class="mt-10 flex flex-wrap items-center gap-3" data-reveal="160">
+          <div class="mt-10 flex flex-wrap items-center gap-3">
             <a href="/research" class="btn btn-primary">Read the research</a>
             <a href={links.github} target="_blank" rel="noopener" class="btn btn-ghost">
               GitHub ↗
@@ -77,7 +76,7 @@ const spec = [
         </div>
 
         {/* spec-sheet portrait */}
-        <div class="max-w-xs lg:justify-self-end" data-reveal="240">
+        <div class="max-w-xs lg:justify-self-end">
           <div class="card ticks group overflow-hidden">
             <img
               src="/img/manu.jpg"
@@ -170,7 +169,7 @@ const spec = [
   <Section label="The through-line">
     <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
       <h2 class="display-sm" data-reveal>{researchThesis.claim}</h2>
-      <div class="prose-block max-w-xl" data-reveal="90">
+      <div class="prose-block max-w-xl">
         <p>{researchThesis.body}</p>
         <div class="mt-6 flex flex-wrap gap-x-8 gap-y-2">
           <a href="/research" class="link-u font-mono text-sm">Full publication record →</a>
@@ -193,7 +192,6 @@ const spec = [
           <a
             href={`/research#${p.id}`}
             class="card-link group flex flex-col bg-[var(--bg)] p-7 transition-colors"
-            data-reveal={String(i * 90)}
           >
             <div class="flex items-start justify-between gap-3">
               <span class="ghost-num">{String(i + 1).padStart(2, '0')}</span>
@@ -232,7 +230,6 @@ const spec = [
             target="_blank"
             rel="noopener"
             class="card-link group relative bg-[var(--bg)] p-7"
-            data-reveal={String((i % 2) * 80)}
           >
             <div class="flex items-start justify-between gap-4">
               <h3 class="font-mono text-sm font-medium break-all text-[var(--fg)] group-hover:text-[var(--accent)]">
@@ -295,7 +292,6 @@ const spec = [
       <a
         href="/projects"
         class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
-        data-reveal="90"
       >
         <p class="label">Upstream</p>
         <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
@@ -316,7 +312,6 @@ const spec = [
       <a
         href="/service"
         class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
-        data-reveal="180"
       >
         <p class="label">Peer review</p>
         <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
@@ -341,7 +336,7 @@ const spec = [
       <Section label="Writing" heading="Recent notes.">
         <ul class="border-t border-[var(--hairline)]">
           {writing.map((post, i) => (
-            <li data-reveal={String(i * 70)}>
+            <li>
               <a
                 href={`/writing/${post.id}`}
                 class="group grid gap-2 border-b border-l-2 border-[var(--hairline)] border-l-transparent py-6 pl-4 transition-colors hover:border-l-[var(--accent)] hover:bg-[var(--surface)] sm:grid-cols-[8rem_1fr_2rem] sm:items-baseline sm:gap-8"

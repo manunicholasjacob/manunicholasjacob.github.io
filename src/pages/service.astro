@@ -25,7 +25,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
       {
         peerReview.map((p, i) => (
-          <div class="ticks relative flex flex-col bg-[var(--bg)] p-8" data-reveal={String(i * 90)}>
+          <div class="ticks relative flex flex-col bg-[var(--bg)] p-8">
             <div class="flex items-start justify-between gap-3">
               <p class="label">{p.period}</p>
               {p.tag && <span class="tag tag-accent">{p.tag}</span>}
@@ -47,7 +47,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
       {
         judging.map((j, i) => (
-          <div class="ticks relative bg-[var(--bg)] p-7" data-reveal={String(i * 80)}>
+          <div class="ticks relative bg-[var(--bg)] p-7">
             <div class="flex items-start justify-between gap-3">
               <p class="label">{j.period}</p>
             </div>
@@ -66,7 +66,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
           { src: '/img/vex-field-1.jpg', alt: 'A VEX V5 competition field mid-match, robots at both ends' },
           { src: '/img/vex-field-2.jpg', alt: 'A VEX V5 competition field set up before a match' },
         ].map((img, i) => (
-          <figure class="group overflow-hidden bg-[var(--bg)]" data-reveal={String(i * 90)}>
+          <figure class="group overflow-hidden bg-[var(--bg)]">
             <img
               src={img.src}
               alt={img.alt}
@@ -88,7 +88,6 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
         speaking.map((s, i) => (
           <li
             class="grid gap-3 border-b border-[var(--hairline)] py-7 lg:grid-cols-[10rem_1fr] lg:gap-10"
-            data-reveal={String(i * 70)}
           >
             <p class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--accent)] uppercase">
               {s.period}
@@ -114,7 +113,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
       {
         volunteering.map((v, i) => (
-          <div class="flex flex-col bg-[var(--bg)] p-7" data-reveal={String(i * 80)}>
+          <div class="flex flex-col bg-[var(--bg)] p-7">
             <h3 class="text-xl font-medium tracking-tight">{v.org}</h3>
             <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{v.role}</p>
             <p class="mt-4 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{v.blurb}</p>
@@ -132,7 +131,7 @@ import { peerReview, judging, speaking, volunteering } from '../data/service';
           {volunteering
             .filter((v) => v.image)
             .map((v) => (
-              <figure class="group overflow-hidden bg-[var(--bg)]" data-reveal>
+              <figure class="group overflow-hidden bg-[var(--bg)]">
                 <img
                   src={v.image}
                   alt={v.imageAlt ?? v.org}

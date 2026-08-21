@@ -98,7 +98,7 @@ const questions = [
   {/* bio */}
   <Section label="Background">
     <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
-      <div class="prose-block max-w-2xl" data-reveal>
+      <div class="prose-block max-w-2xl">
         <p>
           I am a hardware engineer at Dell Technologies, working on the enterprise server platforms
           that large-scale AI training and inference run on. The work sits where hardware, firmware
@@ -118,7 +118,7 @@ const questions = [
         </p>
       </div>
 
-      <div data-reveal="120">
+      <div>
         {/* photo pair */}
         <div class="grid grid-cols-2 gap-px border border-[var(--hairline)] bg-[var(--hairline)]">
           <figure class="group overflow-hidden bg-[var(--bg)]">
@@ -166,7 +166,6 @@ const questions = [
         experience.map((e, i) => (
           <li
             class="grid gap-4 border-b border-[var(--hairline)] py-9 lg:grid-cols-[14rem_1fr] lg:gap-12"
-            data-reveal={String(i * 80)}
           >
             <div>
               <p class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--accent)] uppercase">
@@ -193,7 +192,7 @@ const questions = [
   {/* education + patent */}
   <Section label="Education and invention">
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
-      <div class="bg-[var(--bg)] p-8" data-reveal>
+      <div class="bg-[var(--bg)] p-8">
         <p class="label">Degree</p>
         <h3 class="mt-5 text-2xl leading-tight font-medium tracking-tight">
           B.S. Electrical Engineering<br />B.S. Computer Engineering
@@ -206,12 +205,12 @@ const questions = [
         </p>
       </div>
 
-      <div class="bg-[var(--bg)] p-8" data-reveal="90">
+      <div class="bg-[var(--bg)] p-8">
         <p class="label">Invention</p>
         <h3 class="mt-5 text-2xl leading-tight font-medium tracking-tight">
-          Named inventor, one U.S. patent filing
+          Named inventor, one invention authorized for filing
         </h3>
-        <p class="mt-3 text-[var(--fg-muted)]">Filed with the USPTO through Dell Technologies</p>
+        <p class="mt-3 text-[var(--fg-muted)]">Approved through Dell Technologies; USPTO filing pending</p>
         <p class="mt-4 text-sm text-[var(--fg-muted)]">
           Plus internal invention disclosures and ongoing invention work. The patents and the
           publication record are two halves of the same body of work: the same measurement-driven
@@ -226,7 +225,7 @@ const questions = [
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
       {
         capabilities.map((c, i) => (
-          <div class="bg-[var(--bg)] p-7" data-reveal={String(i * 80)}>
+          <div class="bg-[var(--bg)] p-7">
             <p class="label">{c.group}</p>
             <ul class="mt-5 space-y-2.5">
               {c.items.map((it) => (
@@ -245,10 +244,10 @@ const questions = [
   {/* trajectory */}
   <Section label="Where this is going" tone="raised">
     <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-      <h2 class="display-sm" data-reveal>
+      <h2 class="display-sm">
         Building toward technical leadership, in public.
       </h2>
-      <div class="prose-block max-w-xl" data-reveal="90">
+      <div class="prose-block max-w-xl">
         <p>
           The long-term aim is architecture and engineering leadership: the kind of engineer who is
           trusted with technical direction because the record shows measurement, invention and
@@ -283,7 +282,7 @@ const questions = [
 
   {/* contact */}
   <Section label="Contact">
-    <div class="card ticks relative overflow-hidden p-10 sm:p-14" data-reveal>
+    <div class="card ticks relative overflow-hidden p-10 sm:p-14">
       <div class="dotgrid pointer-events-none absolute inset-0 opacity-70"></div>
       <div class="relative">
         <h2 class="display-sm max-w-2xl">

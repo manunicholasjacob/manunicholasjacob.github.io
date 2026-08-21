@@ -790,17 +790,3 @@ html.js [data-reveal].is-visible {
   animation-play-state: paused;
 }
 
-@keyframes blink {
-  0%,
-  45% {
-    opacity: 1;
-  }
-  50%,
-  95% {
-    opacity: 0.15;
-  }
-}
-
-.blink {
-  animation: blink 2.4s steps(1, end) infinite;
-}

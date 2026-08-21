@@ -21,7 +21,7 @@ const { label, heading, lede, tone = 'default', id, class: klass = '' } = Astro.
     {label && <p class="eyebrow label">{label}</p>}
     {
       (heading || lede) && (
-        <div class="mb-12 max-w-3xl" data-reveal>
+        <div class="mb-12 max-w-3xl">
           {heading && <h2 class="display-sm">{heading}</h2>}
           {lede && <p class="lede mt-5">{lede}</p>}
         </div>

@@ -28,7 +28,6 @@ const fmt = new Date(updated).toLocaleDateString('en-GB', {
         current.map((item, i) => (
           <li
             class="grid gap-4 border-b border-[var(--hairline)] py-8 lg:grid-cols-[4rem_1fr_8rem] lg:gap-10"
-            data-reveal={String(Math.min(i, 4) * 60)}
           >
             <span class="font-mono text-sm text-[var(--fg-faint)] tabular-nums">
               {String(i + 1).padStart(2, '0')}
