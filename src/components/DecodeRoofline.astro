@@ -1,0 +1,221 @@
+---
+/**
+ * The decode roofline, plotted from the measurements themselves.
+ *
+ * Every number below is lifted from the public edge-llm-memory-wall artifact:
+ * points and thread counts from results/L1_roofline.json (Pi) and
+ * results/pc_roofline.json (x86), and the two ceilings from the `peak_bw_GBs`
+ * and `peak_read_GBs` fields in those same files. Those are measured peak
+ * memory read bandwidth, not vendor spec sheet numbers and not a regression.
+ * Nothing here is illustrative. If the artifact changes, change these.
+ *
+ * Do not substitute a fitted slope for the ceiling. An earlier draft did, and
+ * the fit sat below the data, so every Pi point floated above its own ceiling.
+ *
+ * Why this shape: during decode a language model reads its whole weight file
+ * once per token, so tokens/s = bandwidth / model bytes. On log-log axes that
+ * is a straight line of slope -1, and a memory-bound workload sits just under
+ * it. The two platforms are parallel lines separated by their bandwidth ratio,
+ * which is the entire argument of the paper in one picture.
+ */
+
+type Pt = { name: string; mb: number; tg: number; util: number; threads: number };
+
+// Raspberry Pi 5, Cortex-A76, at each model's best thread count.
+const pi: Pt[] = [
+  { name: 'Qwen 0.5B Q4_K_M', mb: 397.8, tg: 28.05, util: 79.8, threads: 3 },
+  { name: 'Llama 1B Q4_K_M', mb: 807.7, tg: 14.41, util: 83.3, threads: 2 },
+  { name: 'Qwen 1.5B Q4_K_M', mb: 986.0, tg: 12.20, util: 86.0, threads: 2 },
+];
+
+// Intel i7-12700H, DDR5-4800 dual channel, at each model's best thread count.
+const pc: Pt[] = [
+  { name: 'Qwen 0.5B Q2_K', mb: 338.6, tg: 100.85, util: 81.1, threads: 8 },
+  { name: 'Qwen 0.5B Q4_K_M', mb: 397.8, tg: 85.64, util: 80.9, threads: 8 },
+  { name: 'Qwen 0.5B Q8', mb: 531.1, tg: 76.08, util: 96.0, threads: 8 },
+  { name: 'Llama 1B Q4_K_M', mb: 807.7, tg: 48.13, util: 92.3, threads: 14 },
+  { name: 'Qwen 1.5B Q4_K_M', mb: 986.0, tg: 37.65, util: 88.2, threads: 14 },
+  { name: 'Qwen 3B Q4_K_M', mb: 1929.9, tg: 20.35, util: 93.3, threads: 14 },
+  { name: 'Qwen 7B Q4_K_M', mb: 4683.1, tg: 9.62, util: 107.0, threads: 14 },
+];
+
+const PI_PEAK = 13.98; // GB/s, measured, L1_roofline.json peak_bw_GBs
+const PC_PEAK = 42.1; // GB/s, measured, pc_roofline.json peak_read_GBs
+
+/* ---- projection ---- */
+const W = 760, H = 460;
+const M = { l: 58, r: 16, t: 22, b: 44 };
+const pw = W - M.l - M.r;
+const ph = H - M.t - M.b;
+
+const X0 = Math.log10(300), X1 = Math.log10(5200);
+const Y0 = Math.log10(8), Y1 = Math.log10(150);
+
+const px = (mb: number) => M.l + ((Math.log10(mb) - X0) / (X1 - X0)) * pw;
+const py = (tg: number) => M.t + (1 - (Math.log10(tg) - Y0) / (Y1 - Y0)) * ph;
+
+/** A ceiling is tokens/s = bandwidth / bytes, clipped to the plotted window. */
+const ceiling = (bwGBs: number) => {
+  const tgAt = (mb: number) => (bwGBs * 1000) / mb;
+  const mbStart = Math.max(300, (bwGBs * 1000) / 150);
+  const mbEnd = Math.min(5200, (bwGBs * 1000) / 8);
+  return { x1: px(mbStart), y1: py(tgAt(mbStart)), x2: px(mbEnd), y2: py(tgAt(mbEnd)) };
+};
+
+const piLine = ceiling(PI_PEAK);
+const pcLine = ceiling(PC_PEAK);
+
+const xTicks = [500, 1000, 2000, 5000];
+const yTicks = [10, 25, 50, 100];
+const fmtMb = (v: number) => (v >= 1000 ? v / 1000 + ' GB' : v + ' MB');
+---
+
+<figure class="roofline">
+  <figcaption class="sr-only">
+    Decode throughput against model size on log-log axes for {pi.length + pc.length} measured
+    configurations. Points on both platforms sit just below their machine's measured peak memory
+    bandwidth, which is what a memory-bound workload looks like.
+  </figcaption>
+
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Decode roofline, measured">
+    {
+      xTicks.map((v) => (
+        <line class="grid" x1={px(v)} y1={M.t} x2={px(v)} y2={H - M.b} />
+      ))
+    }
+    {
+      yTicks.map((v) => (
+        <line class="grid" x1={M.l} y1={py(v)} x2={W - M.r} y2={py(v)} />
+      ))
+    }
+
+    <line class="axis" x1={M.l} y1={M.t} x2={M.l} y2={H - M.b} />
+    <line class="axis" x1={M.l} y1={H - M.b} x2={W - M.r} y2={H - M.b} />
+
+    <line class="ceil" x1={pcLine.x1} y1={pcLine.y1} x2={pcLine.x2} y2={pcLine.y2} />
+    <line class="ceil" x1={piLine.x1} y1={piLine.y1} x2={piLine.x2} y2={piLine.y2} />
+
+    <text class="ceil-label" x={pcLine.x1 + 8} y={pcLine.y1 - 7}>
+      i7-12700H peak, {PC_PEAK} GB/s
+    </text>
+    <text class="ceil-label" x={piLine.x1 + 8} y={piLine.y1 - 7}>
+      Raspberry Pi 5 peak, {PI_PEAK} GB/s
+    </text>
+
+    {/* measured points: shape carries the platform, not colour */}
+    {
+      pc.map((p) => (
+        <g class="pt">
+          <rect x={px(p.mb) - 4} y={py(p.tg) - 4} width="8" height="8" />
+          <title>{p.name} on x86, {p.threads} threads: {p.tg} tokens/s at {p.mb} MB, {p.util}% of peak bandwidth</title>
+        </g>
+      ))
+    }
+    {
+      pi.map((p) => (
+        <g class="pt">
+          <circle cx={px(p.mb)} cy={py(p.tg)} r="4.5" />
+          <title>{p.name} on Arm, {p.threads} threads: {p.tg} tokens/s at {p.mb} MB, {p.util}% of peak bandwidth</title>
+        </g>
+      ))
+    }
+
+    {
+      xTicks.map((v) => (
+        <text class="tick" x={px(v)} y={H - M.b + 18} text-anchor="middle">{fmtMb(v)}</text>
+      ))
+    }
+    {
+      yTicks.map((v) => (
+        <text class="tick" x={M.l - 8} y={py(v) + 4} text-anchor="end">{v}</text>
+      ))
+    }
+
+    <text class="axis-label" x={M.l + pw / 2} y={H - 6} text-anchor="middle">
+      Model size on disk
+    </text>
+    <text class="axis-label" x={-(M.t + ph / 2)} y={14} transform="rotate(-90)" text-anchor="middle">
+      Decode, tokens/s
+    </text>
+  </svg>
+
+  <p class="roofline-note">
+    Ten measured configurations, 339 MB to 4.7 GB, each at its best thread count. The dashed lines
+    are each machine's measured peak memory read bandwidth, not a spec sheet figure. Decode lands at
+    80 to 86 percent of peak on the Pi and 81 to 96 percent on the laptop. The 7B point reads at 107
+    percent, which means the peak benchmark slightly understates what the memory system delivers
+    under this access pattern, and it is left in rather than trimmed. Throughput here is set by how
+    fast the machine can read the weights, not by how fast it can multiply.
+  </p>
+</figure>
+
+<style>
+  .roofline {
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    padding: 1.25rem 1.25rem 1rem;
+  }
+
+  .roofline svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .grid {
+    stroke: var(--hairline);
+    stroke-width: 1;
+  }
+
+  .axis {
+    stroke: var(--hairline-strong);
+    stroke-width: 1;
+  }
+
+  .ceil {
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 4;
+    opacity: 0.75;
+  }
+
+  .ceil-label,
+  .tick,
+  .axis-label {
+    font-family: var(--font-mono);
+    fill: var(--fg-faint);
+  }
+
+  .ceil-label {
+    font-size: 11px;
+    fill: var(--accent);
+  }
+
+  .tick {
+    font-size: 10px;
+  }
+
+  .axis-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pt rect,
+  .pt circle {
+    fill: var(--fg);
+    stroke: var(--bg);
+    stroke-width: 1.5;
+  }
+
+  .roofline-note {
+    margin: 1rem 0 0;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--hairline);
+    max-width: 46rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+  }
+</style>

@@ -20,3 +20,6 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Working notes, not part of the site.
+SITE_UPDATE_PROMPT.md

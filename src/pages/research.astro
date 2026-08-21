@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import Cadence from '../components/Cadence.astro';
+import DecodeRoofline from '../components/DecodeRoofline.astro';
 import { papers, researchThesis } from '../data/research';
 import { links } from '../data/site';
 
@@ -55,6 +56,15 @@ const bibtex = (p: (typeof papers)[number]) =>
         </div>
       </div>
     </div>
+  </Section>
+
+  {/* the claim, plotted from the measurements rather than asserted */}
+  <Section
+    label="The evidence"
+    heading="What the measurements actually look like."
+    lede="Ten configurations across an Arm SBC and an x86 laptop, plotted from the public artifact. Each machine's measured memory bandwidth draws a ceiling, and decode runs right underneath it on both."
+  >
+    <DecodeRoofline />
   </Section>
 
   {/* cadence: the shape of the year, which the list below flattens */}
