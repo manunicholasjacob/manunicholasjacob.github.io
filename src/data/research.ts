@@ -46,11 +46,12 @@ export const papers: Paper[] = [
     headline: '~40x latency swing on identical weights, Cortex-A76',
     venue: 'IEEE Embedded Systems Letters',
     venueTier: 'Letters',
-    status: 'In revision, resubmission invited',
-    dateline: 'Submitted May 2026',
+    // IEEE-ESL-Jul-26-0553, received 21 Jul 2026, no decision yet.
+    status: 'Under review',
+    dateline: 'Submitted 21 Jul 2026',
     year: '2026',
     topics: ['Quantization', 'ONNX Runtime', 'Reproducibility'],
-    submitted: '2026-05-15',
+    submitted: '2026-07-21',
     artifact: { repo: 'rpi5-quantization-benchmark', doi: '10.5281/zenodo.21844863' },
   },
   {
@@ -62,10 +63,10 @@ export const papers: Paper[] = [
     venue: 'IEEE Embedded Systems Letters',
     venueTier: 'Letters',
     status: 'Under review',
-    dateline: 'Submitted Jul 2026',
+    dateline: 'Submitted 27 Jul 2026',
     year: '2026',
     topics: ['Thermal', 'Telemetry', 'Open dataset'],
-    submitted: '2026-07-15',
+    submitted: '2026-07-27',
     artifact: { repo: 'pi5-thermal-proxy', doi: '10.5281/zenodo.21844859' },
   },
   {
@@ -145,6 +146,37 @@ export const papers: Paper[] = [
     artifact: { repo: 'edge-llm-memory-wall', doi: '10.5281/zenodo.21844855' },
   },
 
+  {
+    // CAL-2026-08-0286, submitted 17 Aug 2026.
+    id: 'hybrid-core',
+    title: 'The Hybrid-Core Decode Cliff',
+    claim:
+      'On CPUs that mix performance and efficiency cores, LLM decode throughput does not scale smoothly with thread count. It collapses once the scheduler starts placing decode work on the efficiency cores, and the fastest configuration is not the widest one.',
+    headline: 'Decode throughput collapses on performance-plus-efficiency CPUs',
+    venue: 'IEEE Computer Architecture Letters',
+    venueTier: 'Letters',
+    status: 'Under review',
+    dateline: 'Submitted 17 Aug 2026',
+    year: '2026',
+    topics: ['LLM inference', 'Hybrid cores', 'Scheduling'],
+    submitted: '2026-08-17',
+  },
+  {
+    // DTSI-2026-08-0079, submitted 17 Aug 2026, invited special issue.
+    id: 'four-walls',
+    title: 'Four Walls Before Hello: Deploying LLMs at the Edge',
+    claim:
+      'A deployment guide rather than a new measurement: the four limits that decide whether an on-device language model is viable at all, drawn together from the bandwidth, cold-start, quantization and energy results and written for people shipping hardware.',
+    headline: 'Synthesises four measurement papers into one deployment guide',
+    venue: 'IEEE Design & Test',
+    venueTier: 'Journal',
+    status: 'Under review',
+    dateline: 'Submitted 17 Aug 2026',
+    year: '2026',
+    topics: ['LLM inference', 'Edge deployment', 'Invited special issue'],
+    submitted: '2026-08-17',
+  },
+
   /* ── Submission-ready, in queue order ───────────────────────────── */
   {
     id: 'anytime',
@@ -166,10 +198,11 @@ export const papers: Paper[] = [
     claim:
       'The wake transient for on-device LLMs, where the model is 50 to 100x larger than a CNN. A phase-level decomposition shows about a fifth of the tax is the loader rather than the storage device, and a purpose-built loader recovers it.',
     headline: 'A fifth of the LLM wake tax is software, and a better loader wins it back',
-    venue: 'IEEE Internet of Things Journal',
+    // TECS-2026-0241, submitted 17 Aug 2026. Venue moved from IEEE IoT-J.
+    venue: 'ACM Transactions on Embedded Computing Systems',
     venueTier: 'Journal',
-    status: 'Submission-ready',
-    dateline: 'Queued',
+    status: 'Under review',
+    dateline: 'Submitted 17 Aug 2026',
     year: '2026',
     topics: ['LLM inference', 'Duty cycling', 'Storage'],
   },
@@ -179,10 +212,11 @@ export const papers: Paper[] = [
     claim:
       'Post-training INT8 measured across three microarchitectures on Arm and x86. The dominant effect is dynamic versus static quantization, worth more than 4x; the export representation everyone argues about is worth about 18%. Grew out of correcting our own earlier misattribution.',
     headline: 'Dynamic vs static is worth >4x; the representation, ~18%',
+    // IEEE-ESL-Aug-26-0653, submitted 17 Aug 2026.
     venue: 'IEEE Embedded Systems Letters',
     venueTier: 'Letters',
-    status: 'Submission-ready',
-    dateline: 'Queued',
+    status: 'Under review',
+    dateline: 'Submitted 17 Aug 2026',
     year: '2026',
     topics: ['Quantization', 'Cross-platform', 'Correction'],
   },
@@ -192,10 +226,11 @@ export const papers: Paper[] = [
     claim:
       'For early-exit inference, the latency-optimal configuration costs about twice the energy of the energy-optimal one at shallow exits, and the first-order lever is thread count, not clock. A closed-form break-even rule predicts the right choice.',
     headline: 'Rule validated on 64 of 64 measured configurations',
+    // CAL-2026-08-0285, submitted 17 Aug 2026.
     venue: 'IEEE Computer Architecture Letters',
     venueTier: 'Letters',
-    status: 'Submission-ready',
-    dateline: 'Queued',
+    status: 'Under review',
+    dateline: 'Submitted 17 Aug 2026',
     year: '2026',
     topics: ['Energy', 'Early exit', 'Parallelism'],
   },
