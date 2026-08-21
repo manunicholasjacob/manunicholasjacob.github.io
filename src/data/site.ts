@@ -42,7 +42,7 @@ export const navSecondary = [
 /** The strip of numbers under the hero. Keep these honest and current. */
 export const stats = [
   { value: '14', label: 'Papers' },
-  { value: '12', label: 'Under review' },
+  { value: '13', label: 'Under review' },
   { value: '8', label: 'Artifact DOIs' },
   { value: '1', label: 'Patent authorized' },
 ] as const;

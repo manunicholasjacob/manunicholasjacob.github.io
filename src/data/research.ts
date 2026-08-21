@@ -186,11 +186,12 @@ export const papers: Paper[] = [
     headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
     venue: 'DATE 2027',
     venueTier: 'Conference',
-    status: 'Submission-ready, double-blind',
-    dateline: 'Deadline 20 Sep 2026',
+    // DATE 2027 submission 38X-B8H4G8E6D7, received 15 Aug 2026.
+    status: 'Under review',
+    dateline: 'Submitted 15 Aug 2026',
     year: '2027',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
-    deadline: '2026-09-20',
+    submitted: '2026-08-15',
   },
   {
     id: 'llm-cold-start',

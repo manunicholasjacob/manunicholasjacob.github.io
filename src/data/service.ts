@@ -25,10 +25,10 @@ export const peerReview: ServiceEntry[] = [
     tag: 'CORE A',
   },
   {
-    role: 'Registered reviewer',
+    role: 'Reviewer',
     org: 'Journal of Open Source Software',
     detail:
-      'Listed in the JOSS reviewer database since 17 August 2026, for software performance and systems submissions. Currently volunteering on open submissions. No review assigned yet.',
+      'Completed the review of Optiland, an open-source optical design package, working the full 31-item JOSS checklist. Currently assigned to three submissions.',
     period: '2026',
   },
 ];
