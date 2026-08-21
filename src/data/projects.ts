@@ -289,6 +289,38 @@ export const upstream: Upstream[] = [
         merged: true,
       },
       {
+        number: 2011,
+        title: 'fix: restore unreachable no-default-class error in load_plugin',
+        url: 'https://github.com/NVIDIA/garak/pull/2011',
+        merged: true,
+      },
+      {
+        number: 2012,
+        title: 'fix(probes): guard badchars ASCII selection against max_ascii bounds',
+        url: 'https://github.com/NVIDIA/garak/pull/2012',
+        merged: true,
+      },
+      {
+        number: 2013,
+        title: 'fix(detectors): pass response text to the Refusal judge',
+        url: 'https://github.com/NVIDIA/garak/pull/2013',
+      },
+      {
+        number: 2015,
+        title: 'probes: add HouYi prompt injection probe and detector',
+        url: 'https://github.com/NVIDIA/garak/pull/2015',
+      },
+      {
+        number: 2008,
+        title: 'probes: add email leak via virtualization latent injection',
+        url: 'https://github.com/NVIDIA/garak/pull/2008',
+      },
+      {
+        number: 2009,
+        title: 'buffs: add FormatSpread prompt-format-sensitivity buff',
+        url: 'https://github.com/NVIDIA/garak/pull/2009',
+      },
+      {
         number: 2030,
         title: 'harnesses: skip falsy intents instead of registering them',
         url: 'https://github.com/NVIDIA/garak/pull/2030',
