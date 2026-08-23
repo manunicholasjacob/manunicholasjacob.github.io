@@ -7,6 +7,19 @@
  *
  * Deliberately excluded: the 2025 TechRxiv preprints (pending cleanup) and the
  * two discarded drafts that presented simulation as measurement.
+ *
+ * Also excluded, and this one was on the page until 23 August 2026: "The INT8
+ * Configuration Cliff" (IEEE-ESL-Jul-26-0553). Its headline attributed a ~40x
+ * latency swing to the ONNX export format. That attribution is wrong: one arm of
+ * the experiment loaded a dynamically-quantized model rather than building the
+ * static one it claimed to build, so the swing was dynamic against static, which
+ * is a different and well-known effect. Papers 3 and 14 were written to correct
+ * it, and `int8-pays` below carries the corrected result. The manuscript is
+ * technically still open at the venue but its revise-and-resubmit window has
+ * lapsed, so it is not being pursued. A paper nobody is pursuing, whose headline
+ * two later papers retract, is not a publication record; it is a liability.
+ * The artifact repository stays public on /projects and opens with a correction
+ * notice, which is the honest place for it.
  */
 
 export type Paper = {
@@ -38,22 +51,6 @@ export type Paper = {
 
 export const papers: Paper[] = [
   /* ── Submitted, in submission order ─────────────────────────────── */
-  {
-    id: 'int8-cliff',
-    title: 'The INT8 Configuration Cliff',
-    claim:
-      'Given identical INT8 weights, the deployment configuration, not the weights, drives the latency. Most quantization benchmarks are measuring their toolchain.',
-    headline: '~40x latency swing on identical weights, Cortex-A76',
-    venue: 'IEEE Embedded Systems Letters',
-    venueTier: 'Letters',
-    // IEEE-ESL-Jul-26-0553, received 21 Jul 2026, no decision yet.
-    status: 'Under review',
-    dateline: 'Submitted 21 Jul 2026',
-    year: '2026',
-    topics: ['Quantization', 'ONNX Runtime', 'Reproducibility'],
-    submitted: '2026-07-21',
-    artifact: { repo: 'rpi5-quantization-benchmark', doi: '10.5281/zenodo.21844863' },
-  },
   {
     id: 'thermal-proxy',
     title: 'CPU Utilization as a Software-Only Thermal Proxy',
@@ -269,7 +266,7 @@ export const submittedCount = papers.filter((p) =>
 export const researchThesis = {
   claim: 'The memory wall, not compute, governs deep-neural-network inference on real hardware.',
   /** Home page: what the result is. */
-  intro: `The same bottleneck turns up in mobile CNNs, in Vision Transformers and in on-device language models. The machine spends its time moving weights, not multiplying them, so bandwidth predicts what a network will do and FLOPs do not. Fourteen papers follow that one idea from a Raspberry Pi to an x86 laptop, and next to enterprise servers.`,
+  intro: `The same bottleneck turns up in mobile CNNs, in Vision Transformers and in on-device language models. The machine spends its time moving weights, not multiplying them, so bandwidth predicts what a network will do and FLOPs do not. Every paper below follows that one idea from a Raspberry Pi to an x86 laptop, and next to enterprise servers.`,
   /** Research page: what standard it was held to. */
   body: `One physical idea carried across scales: from mobile CNNs, to Vision Transformers, to on-device language models, measured on Arm and revalidated on x86, and next headed for enterprise servers. Every headline number comes from real silicon, using hardware performance counters and on-board power instrumentation. Where a claim failed to reproduce, the paper was rewritten to whatever the data actually supported, negative results included, and two early drafts that presented simulation as measurement were discarded outright. That standard keeps costing claims, which is the point.`,
 };

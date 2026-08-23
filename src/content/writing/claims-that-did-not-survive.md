@@ -14,8 +14,9 @@ something you already wrote down as positive.
 
 Four claims came out of this programme, went into drafts, and then failed a
 recheck. One of them had already reached a public repository, which now carries a
-notice at the top of its README saying so. All four came off, and the papers that
-carried them were rewritten around whatever the data actually supported.
+notice at the top of its README saying so. All four came off. Three of the papers
+that carried them were rewritten around whatever the data actually supported. The
+fourth was not worth rewriting and is not being pursued.
 
 <figure>
 <!--FIG:fig-retractions-->

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import DecodeRoofline from '../components/DecodeRoofline.astro';
-import { papers, researchThesis } from '../data/research';
+import { papers, researchThesis, submittedCount } from '../data/research';
 
 /* Chronological by submission date; the one undated paper (awaiting its CFP)
    closes the list. The chart that used to sit above this list is gone: the
@@ -58,13 +58,13 @@ const headerMeta = [
 
 <Base
   title="Research"
-  description="Fourteen papers on what governs machine-learning inference on real hardware: memory bandwidth, thermal limits, energy, and quantization."
+  description={`${papers.length} papers on what governs machine-learning inference on real hardware: memory bandwidth, thermal limits, energy, and quantization.`}
 >
   <PageHeader
     label="Research"
     meta={headerMeta}
     title="Measured, not simulated."
-    lede="An independent research program on edge and embedded machine-learning systems: fourteen papers measured on Arm Cortex-A76 and x86 silicon with hardware performance counters and on-board power instrumentation, thirteen currently under review."
+    lede={`An independent research program on edge and embedded machine-learning systems: ${papers.length} papers measured on Arm Cortex-A76 and x86 silicon with hardware performance counters and on-board power instrumentation, ${submittedCount} currently under review.`}
   />
 
   {/* thesis */}
