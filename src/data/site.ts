@@ -39,11 +39,16 @@ export const navSecondary = [
   { href: '/archive', label: 'Archive' },
 ] as const;
 
-/** The strip of numbers under the hero. Keep these honest and current. */
-export const stats = [
-  { value: '14', label: 'Papers' },
-  { value: '13', label: 'Under review' },
-  { value: '8', label: 'Artifact DOIs' },
+/**
+ * The strip of numbers under the hero.
+ *
+ * Three of the four used to be typed in here by hand and went stale: the DOI
+ * count sat at 8 for a fortnight after the ninth and tenth were minted. Those
+ * three are now counted from `research.ts` and `projects.ts` in
+ * `pages/index.astro`, so adding a paper or an artifact moves the number on
+ * its own. Only the ones with no list behind them live here.
+ */
+export const handStats = [
   { value: '1', label: 'Patent authorized' },
 ] as const;
 

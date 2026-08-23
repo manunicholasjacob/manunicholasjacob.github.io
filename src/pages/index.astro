@@ -3,10 +3,26 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import TraceStrip from '../components/TraceStrip.astro';
-import { site, links, stats, keywords } from '../data/site';
-import { featuredPapers, researchThesis, papers } from '../data/research';
+import { site, links, handStats, keywords } from '../data/site';
+import { featuredPapers, researchThesis, papers, submittedCount } from '../data/research';
 import { repos, upstream, flagship } from '../data/projects';
 import { peerReview } from '../data/service';
+
+/**
+ * Counted, not typed. `doi` is deduplicated because the flagship also appears
+ * in the repo list on /projects, and counting it twice was the shape of the
+ * next mistake.
+ */
+const artifactDois = new Set(
+  [flagship.doi, ...repos.map((r) => r.doi)].filter(Boolean) as string[],
+);
+
+const stats = [
+  { value: String(papers.length), label: 'Papers' },
+  { value: String(submittedCount), label: 'Under review' },
+  { value: String(artifactDois.size), label: 'Artifact DOIs' },
+  ...handStats,
+];
 
 const allPrs = upstream.flatMap((u) => u.prs);
 const mergedPrs = allPrs.filter((pr) => pr.merged).length;
@@ -318,8 +334,8 @@ const spec = [
         </h3>
         <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
           Assessing submitted artifacts for functionality and reproducibility at a CORE A systems
-          venue. One completed journal review for the Journal of Open Source Software with three more
-          assigned, and a repeat judge at hackathons and VEX Robotics events.
+          venue. One review delivered for the Journal of Open Source Software and a second in
+          progress, plus repeat judging at hackathons and VEX Robotics events.
         </p>
         <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
           USENIX ATC 2026 · JOSS · HackTX · VEX Robotics

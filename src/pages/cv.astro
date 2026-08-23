@@ -240,7 +240,9 @@ const paperGroups = [
       <h2 class="cv-h">Competition awards</h2>
       <ul class="space-y-2">
         {
-          builds.map((b) => (
+          builds
+            .filter((b) => b.award)
+            .map((b) => (
             <li class="cv-row">
               <span>
                 <strong class="font-medium text-[var(--fg)]">{b.award}</strong>

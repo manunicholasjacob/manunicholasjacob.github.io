@@ -330,8 +330,10 @@ const headerMeta = [
               </div>
             )}
             <div class="flex flex-1 flex-col p-7">
-              <span class="tag tag-accent self-start">{b.award}</span>
-              <h3 class="mt-6 text-xl font-medium tracking-tight">{b.name}</h3>
+              {b.award && <span class="tag tag-accent self-start">{b.award}</span>}
+              <h3 class:list={['text-xl font-medium tracking-tight', b.award ? 'mt-6' : 'mt-[3.25rem]']}>
+                {b.name}
+              </h3>
               <p class="mt-1 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
                 {b.event}
               </p>

@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-08-18';
+export const updated = '2026-08-23';
 
 export type NowItem = {
   title: string;
@@ -15,9 +15,9 @@ export type NowItem = {
 
 export const current: NowItem[] = [
   {
-    title: 'Seven papers in review at once',
+    title: 'Thirteen manuscripts out at once',
     detail:
-      'Two at ACM TECS (the memory-wall model and its energy companion), three at IEEE Embedded Systems Letters, one at IEEE IoT Journal, one at IEEE Transactions on Computers. The next move on each is whatever the reviewers say.',
+      'Four at IEEE Embedded Systems Letters, three at ACM TECS, two at IEEE Computer Architecture Letters, one each at IEEE Internet of Things Journal, IEEE Transactions on Computers and IEEE Design & Test, and one at DATE 2027. Not one decision back yet. The next move on each is whatever the reviewers say.',
     status: 'In review',
   },
   {
@@ -27,9 +27,9 @@ export const current: NowItem[] = [
     status: 'Next up',
   },
   {
-    title: 'Three more ready to file',
+    title: 'Two waiting on a portal to open',
     detail:
-      'The LLM cold-start companion, the cross-platform INT8 study, and the break-even parallel speedup rule are all venue-checked and queued behind DATE.',
+      'The quantization-format paper is finished and waiting on HotMobile, which does not reopen until roughly October. The GPU profiling methodology paper is waiting on the EuroMLSys call, expected somewhere between November and January, and its own number audit says fix two things first.',
     status: 'Queued',
   },
   {
@@ -41,7 +41,7 @@ export const current: NowItem[] = [
   {
     title: 'Open-source contributions',
     detail:
-      'First pull request merged into NVIDIA garak, with more open there and at vLLM, in the same areas the research already touches: inference performance and LLM evaluation.',
+      'Three pull requests merged into NVIDIA garak, seven still open there, and four open at vLLM, in the same areas the research already touches: inference performance and LLM evaluation.',
     status: 'In motion',
   },
   {
@@ -53,8 +53,8 @@ export const current: NowItem[] = [
   {
     title: 'JOSS reviewing',
     detail:
-      'In the Journal of Open Source Software reviewer database since 17 August, volunteering on open submissions in software performance and systems. Nothing assigned yet.',
-    status: 'Volunteering',
+      'First review delivered on 19 August: Optiland, an optical design package, 31 checklist items and three issues that the authors resolved. A second review is open now for a library on non-stationary extreme value distributions, and a third assignment is waiting on its editor.',
+    status: 'Reviewing',
   },
   {
     title: 'One talk still out',

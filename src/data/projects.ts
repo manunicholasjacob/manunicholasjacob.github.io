@@ -116,6 +116,28 @@ export const repos: Repo[] = [
     kind: 'artifact',
   },
   {
+    slug: 'edge-format-tax',
+    name: 'edge-format-tax',
+    blurb:
+      'Matched-byte comparison of GGUF quantization formats on three CPU microarchitectures, with per-token energy from the Pi 5 PMIC. The label on the file turns out to be a poor predictor of what it costs to run.',
+    result: 'Same label, same bit width, up to 38% apart in decode speed',
+    stack: ['llama.cpp', 'Python', 'PMIC telemetry'],
+    url: gh('edge-format-tax'),
+    doi: '10.5281/zenodo.21938812',
+    kind: 'artifact',
+  },
+  {
+    slug: 'edge-breakeven-speedup',
+    name: 'edge-breakeven-speedup',
+    blurb:
+      'The energy identity behind multithreaded edge inference, measured rather than assumed: 831 runs across nine architectures, four clock frequencies and one to four threads, with power integrated from the on-board PMIC.',
+    result: 'Break-even speedup near 1.8x, sign predicted in 64 of 64 configurations',
+    stack: ['Python', 'ONNX Runtime', 'PMIC telemetry'],
+    url: gh('edge-breakeven-speedup'),
+    doi: '10.5281/zenodo.21987261',
+    kind: 'artifact',
+  },
+  {
     slug: 'llama-roofline',
     name: 'llama-roofline',
     blurb:
@@ -157,7 +179,12 @@ export const repos: Repo[] = [
 export type Build = {
   name: string;
   subtitle: string;
-  award: string;
+  /**
+   * Only where a placing was actually confirmed. The Booth Beacon
+   * "runner-up" was carried here for a while and could never be
+   * corroborated against anything HackUMass published, so it came off.
+   */
+  award?: string;
   event: string;
   blurb: string;
   stack: string[];
@@ -202,7 +229,6 @@ export const builds: Build[] = [
   {
     name: 'Booth Beacon',
     subtitle: 'Live dining-hall seating',
-    award: 'Runner-up, Best Hardware Hack',
     event: 'HackUMass IX',
     blurb:
       'RFID and distance sensors on dining-hall booths, surfaced as a live seat-availability map. First real 3D-printing and Raspberry Pi build.',

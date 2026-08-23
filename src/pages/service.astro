@@ -7,7 +7,7 @@ import { site } from '../data/site';
 import { dim } from '../data/img-dims';
 
 const headerMeta = [
-  ['Review venues', String(peerReview.length)],
+  ['Review venues', String(new Set(peerReview.map((p) => p.venue ?? p.org)).size)],
   ['Judging', String(judging.length)],
   ['Volunteering', String(volunteering.length)],
   ['Based', site.location],
@@ -43,6 +43,15 @@ const headerMeta = [
             <h3 class="mt-6 text-2xl leading-snug font-medium tracking-tight">{p.org}</h3>
             <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{p.role}</p>
             <p class="mt-5 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{p.detail}</p>
+            {p.link && (
+              <a
+                class="mt-5 inline-flex self-start font-mono text-[0.6875rem] tracking-[0.06em] text-[var(--accent)] underline underline-offset-4 hover:no-underline"
+                href={p.link.href}
+                rel="noopener"
+              >
+                {p.link.label}
+              </a>
+            )}
           </div>
         ))
       }

@@ -5,31 +5,70 @@ export type ServiceEntry = {
   period: string;
   /** Venue tier, where there is a real one. Same vocabulary as the research page. */
   tag?: string;
+  /** Public proof, where a public URL exists. Never a page that is not up yet. */
+  link?: { label: string; href: string };
+  /**
+   * The venue, where the heading names a single submission instead. Only the
+   * "Review venues" count on /service reads this, so that three reviews at one
+   * journal do not read as three journals.
+   */
+  venue?: string;
 };
 
 /**
  * Peer review and artifact evaluation at research venues. Kept separate from
  * competition judging below because they are not the same credential.
  *
- * Wording rule for JOSS: registration and volunteering are not assignment.
- * Nothing here may imply a review has been delivered. When one is actually
- * assigned, upgrade the entry then, not before.
+ * Wording rule, and it has three steps that are not interchangeable: being in
+ * the reviewer database, being assigned a submission, and having delivered a
+ * review. Say which one, every time. A delivered review is also not an
+ * accepted paper; the recommendation goes to an editor, who decides.
  */
 export const peerReview: ServiceEntry[] = [
   {
     role: 'Artifact Evaluation Committee',
     org: 'USENIX ATC 2026',
+    venue: 'USENIX ATC',
     detail:
-      'Assessing submitted research artifacts for functionality and reproducibility. Review window 22 September to 14 October 2026.',
+      'Invited by the committee chair, serving as an independent researcher. The work is assessing submitted research artifacts for availability, functionality and reproducibility, in a review window running 22 September to 14 October 2026. The roster is not published yet, so there is no page worth linking here until it is.',
     period: '2026',
     tag: 'CORE A',
   },
   {
-    role: 'Reviewer',
-    org: 'Journal of Open Source Software',
+    role: 'Reviewer, review delivered',
+    org: 'JOSS: Optiland',
+    venue: 'Journal of Open Source Software',
     detail:
-      'Completed the review of Optiland, an open-source optical design package, working the full 31-item JOSS checklist. Currently assigned to three submissions.',
+      'An open-source optical design package. All 31 checklist items worked and the recommendation sent to the editor on 19 August 2026. Three issues went to the authors and all three were resolved: a benchmark script behind a published table that was not in the repository, a paper example that could not run as a script, and a throughput collapse on a 4 GB card that shows up well before the memory actually runs out. The last of those came from building the package and running its own GPU benchmark rather than reading the number in the paper, and the maintainer reproduced it on a different card. The recommendation is not the decision; the paper sits with its editor.',
     period: '2026',
+    link: {
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/11170',
+    },
+  },
+  {
+    role: 'Reviewer, in progress',
+    org: 'JOSS: nsEVDx',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'A Python library for non-stationary extreme value distributions, assigned 21 August 2026. Most of the checklist work here is whether the samplers do what the paper says they do.',
+    period: '2026',
+    link: {
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/11187',
+    },
+  },
+  {
+    role: 'Listed reviewer',
+    org: 'JOSS reviewer database',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. A third submission has accepted the assignment and is waiting on its editor to open a review, which is why it is not listed above as a review.',
+    period: '2026',
+    link: {
+      label: 'reviewers.joss.theoj.org',
+      href: 'https://reviewers.joss.theoj.org/',
+    },
   },
 ];
 

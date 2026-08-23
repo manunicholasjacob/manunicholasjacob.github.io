@@ -237,6 +237,8 @@ export const papers: Paper[] = [
     submitted: '2026-08-17',
     year: '2026',
     topics: ['Energy', 'Early exit', 'Parallelism'],
+    // Artifact went public after submission, so the manuscript does not cite it.
+    artifact: { repo: 'edge-breakeven-speedup', doi: '10.5281/zenodo.21987261' },
   },
   {
     id: 'gpu-repro',
