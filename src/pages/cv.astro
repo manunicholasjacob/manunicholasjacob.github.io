@@ -346,7 +346,13 @@ const paperGroups = [
         {
           certifications.map((c) => (
             <li class="cv-row">
-              <span class="text-[var(--fg-muted)]">{c.title}</span>
+              {c.verifyUrl ? (
+                <a class="text-[var(--fg-muted)] print:no-underline" href={c.verifyUrl} rel="noopener">
+                  {c.title}
+                </a>
+              ) : (
+                <span class="text-[var(--fg-muted)]">{c.title}</span>
+              )}
               <span class="cv-when">
                 {c.issuer} · {c.date}
               </span>

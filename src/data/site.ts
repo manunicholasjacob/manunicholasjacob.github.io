@@ -20,6 +20,15 @@ export const links = {
   linkedin: 'https://www.linkedin.com/in/manu-nicholas-jacob/',
   orcid: 'https://orcid.org/0009-0007-6589-6572',
   scholar: 'https://scholar.google.com/citations?user=inrrUQIAAAAJ&hl=en',
+  /**
+   * Deliberately not rendered anywhere, and this is a decision rather than an
+   * oversight. The channel is 530 subscribers and 48 videos of study-abroad and
+   * university-application advice from about four years ago. It is real
+   * audience-building and it belongs on LinkedIn and in an MBA application, but
+   * on a site whose argument is edge-inference measurement it dilutes rather
+   * than supports. The podcast that came out of it is on /archive, framed as an
+   * archive, which is the right place for it. Do not add this to the footer.
+   */
   youtube: 'https://www.youtube.com/@manunicholasjacob',
 } as const;
 

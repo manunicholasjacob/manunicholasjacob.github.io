@@ -94,14 +94,27 @@ export const early: EarlyItem[] = [
   },
 ];
 
-export type Course = { title: string; issuer: string; date: string };
+export type Course = {
+  title: string;
+  issuer: string;
+  date: string;
+  /**
+   * Public verification URL for the credential. A certification nobody can
+   * check is the cheapest kind of doubt to leave lying around, and these are
+   * all trivially verifiable, so there is no reason for one to be missing.
+   * Credly badge page for Oracle and IBM, the edX certificate URL for HarvardX.
+   * Where to find each one is in `profile-evidence/CERT_VERIFY_LINKS.md`.
+   */
+  verifyUrl?: string;
+};
 
 /** The professionally relevant ones. Kept short on purpose. */
 export const certifications: Course[] = [
   {
-    title: 'Oracle Cloud Infrastructure 2025 Certified Generative AI Associate',
+    title: 'Oracle Cloud Infrastructure 2025 Certified Generative AI Professional',
     issuer: 'Oracle',
     date: '2025',
+    // verifyUrl: Credly badge page. See CERT_VERIFY_LINKS.md
   },
   {
     title: 'Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate',

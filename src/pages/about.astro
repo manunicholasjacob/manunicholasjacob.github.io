@@ -297,7 +297,18 @@ const headerMeta = [
       {
         certifications.map((c) => (
           <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-[var(--hairline)] py-5">
-            <span class="max-w-xl text-[var(--fg)]">{c.title}</span>
+            {c.verifyUrl ? (
+              <a
+                class="link-u max-w-xl text-[var(--fg)]"
+                href={c.verifyUrl}
+                rel="noopener"
+                target="_blank"
+              >
+                {c.title}
+              </a>
+            ) : (
+              <span class="max-w-xl text-[var(--fg)]">{c.title}</span>
+            )}
             <span class="font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
               {c.issuer} · {c.date}
             </span>
