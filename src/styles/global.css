@@ -686,6 +686,39 @@ html:not(.js) .hl-draw {
   font-size: inherit;
 }
 
+/* Figures in the case studies are inline SVG so they follow the theme toggle
+   instead of being baked light or dark. */
+.prose figure {
+  margin-block: 2.25rem;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  padding: 1.25rem 1.25rem 1rem;
+  overflow-x: auto;
+}
+
+.prose figure svg {
+  min-width: 34rem;
+}
+
+.prose figcaption {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  color: var(--fg-faint);
+}
+
+.prose figcaption a {
+  color: var(--fg-muted);
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
 .prose hr {
   border: 0;
   border-top: 1px solid var(--hairline);

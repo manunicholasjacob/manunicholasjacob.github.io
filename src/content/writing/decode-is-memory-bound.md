@@ -1,0 +1,152 @@
+---
+title: Your local language model is waiting on memory, and one command will prove it
+description: Text generation on a CPU is a memory problem wearing a compute problem's clothes. Here is the one-line rule that predicts it, the evidence from seven models on one laptop, and a tool that measures it on your machine.
+date: 2026-08-26
+kind: Measurement
+topics: ['llama.cpp', 'Memory bandwidth', 'Tooling', 'Roofline']
+readingTime: 6
+draft: true
+---
+
+There is a moment when you first run a language model on your own machine and it
+is slower than you hoped. My instinct was to reach for the processor: more
+threads, a higher clock, a build with better compiler flags. I spent about a week
+on that and got very little for it.
+
+The reason is simple once you see it, and it has almost nothing to do with the
+processor.
+
+When one of these models writes a word, it reads every one of its weights out of
+memory to do it. All of them, for one word, and then all of them again for the
+next word. Nothing is saved, nothing is reused. A model that occupies four
+gigabytes moves four gigabytes of data per word.
+
+So the speed you get is not really a question about arithmetic. It is a question
+about how fast your memory can hand over four gigabytes, which is a number your
+machine has and cannot exceed.
+
+```
+words per second  =  memory bandwidth  /  model size
+```
+
+That is the whole model. It is close to embarrassing how well it works.
+
+<figure>
+<!--FIG:fig-roofline-->
+<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t-roof d-roof" style="width:100%;height:auto;display:block;overflow:visible">
+<title id="t-roof">Decode throughput falls as one over model size across seven models on one laptop</title>
+<desc id="d-roof">Decode throughput falls as one over model size across seven models on one laptop</desc>
+<g font-family="ui-monospace, JetBrains Mono Variable, monospace" font-size="11">
+<line x1="62" y1="354" x2="698" y2="354" stroke="var(--hairline)" stroke-width="1"/>
+<line x1="62" y1="30" x2="62" y2="354" stroke="var(--hairline)" stroke-width="1"/>
+<text x="380.0" y="392" fill="var(--fg-faint)" text-anchor="middle" letter-spacing="0.08em">BYTES READ PER TOKEN (GB)</text>
+<text transform="translate(14,192.0) rotate(-90)" fill="var(--fg-faint)" text-anchor="middle" letter-spacing="0.08em">DECODE (TOKENS/S)</text>
+<line x1="62" y1="354.0" x2="698" y2="354.0" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="357.5" fill="var(--fg-faint)" text-anchor="end">0</text>
+<line x1="62" y1="246.0" x2="698" y2="246.0" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="249.5" fill="var(--fg-faint)" text-anchor="end">40</text>
+<line x1="62" y1="138.0" x2="698" y2="138.0" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="141.5" fill="var(--fg-faint)" text-anchor="end">80</text>
+<line x1="62" y1="30.0" x2="698" y2="30.0" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="33.5" fill="var(--fg-faint)" text-anchor="end">120</text>
+<line x1="62.0" y1="354" x2="62.0" y2="358" stroke="var(--hairline)"/>
+<text x="62.0" y="372" fill="var(--fg-faint)" text-anchor="middle">0</text>
+<line x1="189.2" y1="354" x2="189.2" y2="358" stroke="var(--hairline)"/>
+<text x="189.2" y="372" fill="var(--fg-faint)" text-anchor="middle">1</text>
+<line x1="316.4" y1="354" x2="316.4" y2="358" stroke="var(--hairline)"/>
+<text x="316.4" y="372" fill="var(--fg-faint)" text-anchor="middle">2</text>
+<line x1="443.6" y1="354" x2="443.6" y2="358" stroke="var(--hairline)"/>
+<text x="443.6" y="372" fill="var(--fg-faint)" text-anchor="middle">3</text>
+<line x1="570.8" y1="354" x2="570.8" y2="358" stroke="var(--hairline)"/>
+<text x="570.8" y="372" fill="var(--fg-faint)" text-anchor="middle">4</text>
+<line x1="698.0" y1="354" x2="698.0" y2="358" stroke="var(--hairline)"/>
+<text x="698.0" y="372" fill="var(--fg-faint)" text-anchor="middle">5</text>
+<polyline points="103.3,41.2 104.9,52.8 106.5,63.6 108.1,73.6 109.7,82.9 111.3,91.7 112.9,99.9 114.5,107.6 116.1,114.8 117.7,121.6 119.2,128.1 120.8,134.2 122.4,140.0 124.0,145.5 125.6,150.7 127.2,155.6 128.8,160.4 130.4,164.9 132.0,169.2 133.6,173.3 135.1,177.2 136.7,181.0 138.3,184.6 139.9,188.0 141.5,191.4 143.1,194.5 144.7,197.6 146.3,200.6 147.9,203.4 149.4,206.1 151.0,208.8 152.6,211.3 154.2,213.8 155.8,216.2 157.4,218.5 159.0,220.7 160.6,222.8 162.2,224.9 163.8,226.9 165.4,228.9 166.9,230.8 168.5,232.6 170.1,234.4 171.7,236.1 173.3,237.8 174.9,239.5 176.5,241.0 178.1,242.6 179.7,244.1 181.2,245.6 182.8,247.0 184.4,248.4 186.0,249.7 187.6,251.1 189.2,252.3 190.8,253.6 192.4,254.8 194.0,256.0 195.6,257.2 197.2,258.3 198.7,259.4 200.3,260.5 201.9,261.6 203.5,262.6 205.1,263.6 206.7,264.6 208.3,265.6 209.9,266.6 211.5,267.5 213.0,268.4 214.6,269.3 216.2,270.2 217.8,271.0 219.4,271.9 221.0,272.7 222.6,273.5 224.2,274.3 225.8,275.0 227.4,275.8 229.0,276.5 230.5,277.3 232.1,278.0 233.7,278.7 235.3,279.4 236.9,280.1 238.5,280.7 240.1,281.4 241.7,282.0 243.3,282.7 244.8,283.3 246.4,283.9 248.0,284.5 249.6,285.1 251.2,285.7 252.8,286.2 254.4,286.8 256.0,287.3 257.6,287.9 259.2,288.4 260.8,288.9 262.3,289.5 263.9,290.0 265.5,290.5 267.1,291.0 268.7,291.4 270.3,291.9 271.9,292.4 273.5,292.9 275.1,293.3 276.6,293.8 278.2,294.2 279.8,294.6 281.4,295.1 283.0,295.5 284.6,295.9 286.2,296.3 287.8,296.7 289.4,297.1 291.0,297.5 292.5,297.9 294.1,298.3 295.7,298.7 297.3,299.1 298.9,299.4 300.5,299.8 302.1,300.1 303.7,300.5 305.3,300.8 306.9,301.2 308.5,301.5 310.0,301.9 311.6,302.2 313.2,302.5 314.8,302.9 316.4,303.2 318.0,303.5 319.6,303.8 321.2,304.1 322.8,304.4 324.3,304.7 325.9,305.0 327.5,305.3 329.1,305.6 330.7,305.9 332.3,306.2 333.9,306.4 335.5,306.7 337.1,307.0 338.7,307.3 340.2,307.5 341.8,307.8 343.4,308.1 345.0,308.3 346.6,308.6 348.2,308.8 349.8,309.1 351.4,309.3 353.0,309.6 354.6,309.8 356.2,310.0 357.7,310.3 359.3,310.5 360.9,310.7 362.5,311.0 364.1,311.2 365.7,311.4 367.3,311.6 368.9,311.9 370.5,312.1 372.1,312.3 373.6,312.5 375.2,312.7 376.8,312.9 378.4,313.1 380.0,313.3 381.6,313.5 383.2,313.7 384.8,313.9 386.4,314.1 387.9,314.3 389.5,314.5 391.1,314.7 392.7,314.9 394.3,315.1 395.9,315.3 397.5,315.5 399.1,315.6 400.7,315.8 402.3,316.0 403.8,316.2 405.4,316.3 407.0,316.5 408.6,316.7 410.2,316.9 411.8,317.0 413.4,317.2 415.0,317.4 416.6,317.5 418.2,317.7 419.8,317.9 421.3,318.0 422.9,318.2 424.5,318.3 426.1,318.5 427.7,318.6 429.3,318.8 430.9,318.9 432.5,319.1 434.1,319.2 435.7,319.4 437.2,319.5 438.8,319.7 440.4,319.8 442.0,320.0 443.6,320.1 445.2,320.3 446.8,320.4 448.4,320.5 450.0,320.7 451.6,320.8 453.1,320.9 454.7,321.1 456.3,321.2 457.9,321.3 459.5,321.5 461.1,321.6 462.7,321.7 464.3,321.9 465.9,322.0 467.4,322.1 469.0,322.2 470.6,322.4 472.2,322.5 473.8,322.6 475.4,322.7 477.0,322.8 478.6,323.0 480.2,323.1 481.8,323.2 483.3,323.3 484.9,323.4 486.5,323.5 488.1,323.7 489.7,323.8 491.3,323.9 492.9,324.0 494.5,324.1 496.1,324.2 497.7,324.3 499.2,324.4 500.8,324.5 502.4,324.6 504.0,324.7 505.6,324.9 507.2,325.0 508.8,325.1 510.4,325.2 512.0,325.3 513.6,325.4 515.2,325.5 516.7,325.6 518.3,325.7 519.9,325.8 521.5,325.9 523.1,326.0 524.7,326.1 526.3,326.1 527.9,326.2 529.5,326.3 531.0,326.4 532.6,326.5 534.2,326.6 535.8,326.7 537.4,326.8 539.0,326.9 540.6,327.0 542.2,327.1 543.8,327.2 545.4,327.2 547.0,327.3 548.5,327.4 550.1,327.5 551.7,327.6 553.3,327.7 554.9,327.8 556.5,327.9 558.1,327.9 559.7,328.0 561.3,328.1 562.8,328.2 564.4,328.3 566.0,328.3 567.6,328.4 569.2,328.5 570.8,328.6 572.4,328.7 574.0,328.7 575.6,328.8 577.2,328.9 578.8,329.0 580.3,329.1 581.9,329.1 583.5,329.2 585.1,329.3 586.7,329.4 588.3,329.4 589.9,329.5 591.5,329.6 593.1,329.7 594.6,329.7 596.2,329.8 597.8,329.9 599.4,329.9 601.0,330.0 602.6,330.1 604.2,330.2 605.8,330.2 607.4,330.3 609.0,330.4 610.6,330.4 612.1,330.5 613.7,330.6 615.3,330.6 616.9,330.7 618.5,330.8 620.1,330.8 621.7,330.9 623.3,331.0 624.9,331.0 626.4,331.1 628.0,331.2 629.6,331.2 631.2,331.3 632.8,331.3 634.4,331.4 636.0,331.5 637.6,331.5 639.2,331.6 640.8,331.7 642.4,331.7 643.9,331.8 645.5,331.8 647.1,331.9 648.7,332.0 650.3,332.0 651.9,332.1 653.5,332.1 655.1,332.2 656.7,332.3 658.2,332.3 659.8,332.4 661.4,332.4 663.0,332.5 664.6,332.5 666.2,332.6 667.8,332.7 669.4,332.7 671.0,332.8 672.6,332.8 674.1,332.9 675.7,332.9 677.3,333.0 678.9,333.0 680.5,333.1 682.1,333.1 683.7,333.2 685.3,333.3 686.9,333.3 688.5,333.4 690.1,333.4 691.6,333.5 693.2,333.5 694.8,333.6 696.4,333.6 698.0,333.7" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+<circle cx="104.3" cy="48.1" r="4" fill="var(--fg)"/>
+<circle cx="111.8" cy="112.8" r="4" fill="var(--fg)"/>
+<circle cx="128.8" cy="141.8" r="4" fill="var(--fg)"/>
+<circle cx="163.7" cy="223.8" r="4" fill="var(--fg)"/>
+<circle cx="186.7" cy="247.9" r="4" fill="var(--fg)"/>
+<circle cx="306.7" cy="297.4" r="4" fill="var(--fg)"/>
+<circle cx="656.9" cy="323.9" r="4" fill="var(--fg)"/>
+<text x="112" y="52" fill="var(--fg-muted)" font-size="10.5">Q2_K, 333 MB</text>
+<text x="649" y="316" fill="var(--fg-muted)" text-anchor="end" font-size="10.5">Q4_K_M, 4.7 GB</text>
+<text x="698" y="34" fill="var(--accent)" text-anchor="end" font-size="11.5">tokens/s = 37.65 GB/s / model bytes</text>
+</g>
+</svg>
+<!--/FIG-->
+<figcaption>
+Seven models from 0.5 to 7 billion parameters on one Intel i7-12700H laptop,
+llama.cpp, CPU only. The curve is not fitted to look good; it is one number
+divided by model size. The fit is R-squared 0.987, and the effective bandwidth it
+implies is 70 percent of what the same machine's memory measures on a plain read
+benchmark. Data and tool:
+<a href="https://github.com/manunicholasjacob/llama-roofline">llama-roofline</a>.
+</figcaption>
+</figure>
+
+## What the fit is actually saying
+
+Seven different models. Different architectures, different quantizations, sizes
+spanning a factor of fourteen. One line through all of them, and the line has one
+free parameter, which is the bandwidth.
+
+If arithmetic were the limit, this plot would be a mess. Models with different
+shapes do wildly different amounts of arithmetic per byte. They land on the same
+line anyway, because the arithmetic finishes long before the data arrives, and
+what you are watching is the data arriving.
+
+On this laptop the models sustain about 37.65 gigabytes per second. The machine's
+raw memory read speed, measured separately, is 53.9. So generation is running at
+around 70 percent of the physical ceiling, which is high enough that there is not
+much software left to win.
+
+I checked the same thing on a Raspberry Pi 5, a machine with roughly a quarter
+of the memory bandwidth. Same law, same quality of fit, different constant. That
+is the part that convinced me the rule is about the hardware and not about
+llama.cpp.
+
+## The practical consequences are unromantic
+
+**Model size is the dial.** Halving the bytes roughly doubles the speed. There is
+no configuration change that competes with this, which is why quantization is the
+lever everybody actually pulls, whether or not they know why.
+
+**More threads stop helping early.** Once the memory is saturated, extra cores
+queue for it. This laptop has six fast cores and eight slow ones, and generation
+peaks near the fast-core count. Running all twenty threads, which pulls the slow
+cores in, cost the smallest model 37 percent of its peak. Prompt processing,
+which is genuinely compute-bound, kept scaling the whole way to twenty. The two
+halves of the same workload want different thread counts, and the usual advice to
+just use every core gets one of them wrong.
+
+**A faster clock buys very little.** A stalled core stalls faster.
+
+**You can size a model for a target speed before you download it.** Take your
+machine's bandwidth, divide by the speed you want, and that is your byte budget.
+
+## Measuring it on your machine
+
+I wrote a tool for this because I got tired of doing it by hand.
+
+```bash
+pip install llama-roofline
+llama-roofline run --models ~/models/*.gguf
+```
+
+It finds your `llama-bench`, measures your actual sustainable memory bandwidth
+with a read kernel rather than trusting a spec sheet, sweeps thread counts, fits
+the line, and then prints a report card in English that tells you whether your
+decode is memory-bound and what to do about it. On the laptop above it takes
+about half an hour, most of which is benchmarking models.
+
+The code is on [GitHub](https://github.com/manunicholasjacob/llama-roofline) and
+archived at
+[10.5281/zenodo.21842493](https://doi.org/10.5281/zenodo.21842493). Both example
+report cards in the repository are real runs, not illustrations.
+
+The thing I would most like is a report card from a machine with a memory system
+I cannot get at. Apple Silicon, a server with eight memory channels, anything
+where the ratio between compute and bandwidth is somewhere other than where mine
+sits. If the line bends on your hardware, that is more interesting than all seven
+of my points.

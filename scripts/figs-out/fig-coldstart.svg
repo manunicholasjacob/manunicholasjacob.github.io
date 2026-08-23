@@ -1,0 +1,19 @@
+<svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t-cold d-cold" style="width:100%;height:auto;display:block;overflow:visible">
+<title id="t-cold">Breakdown of the wake transient on a duty-cycled edge device</title>
+<desc id="d-cold">Breakdown of the wake transient on a duty-cycled edge device</desc>
+<g font-family="ui-monospace, JetBrains Mono Variable, monospace" font-size="11">
+<rect x="40.0" y="96" width="473.7" height="54" fill="var(--accent)" stroke="var(--accent)" stroke-width="1"/>
+<text x="276.8" y="127.0" fill="var(--on-accent)" text-anchor="middle" font-size="11.5">reading the weights off flash</text>
+<text x="276.8" y="86.0" fill="var(--fg-faint)" text-anchor="middle" font-size="10">74%</text>
+<rect x="513.7" y="96" width="109.4" height="54" fill="none" stroke="var(--hairline)" stroke-width="1"/>
+<text x="568.4" y="164.0" fill="var(--fg-muted)" text-anchor="middle" font-size="10">building the graph</text>
+<line x1="568.4" y1="150" x2="568.4" y2="154.0" stroke="var(--hairline)"/>
+<text x="568.4" y="86.0" fill="var(--fg-faint)" text-anchor="middle" font-size="10">17%</text>
+<rect x="623.1" y="96" width="56.9" height="54" fill="none" stroke="var(--hairline)" stroke-width="1"/>
+<text x="651.5" y="180.0" fill="var(--fg-muted)" text-anchor="middle" font-size="10">first inference</text>
+<line x1="651.5" y1="150" x2="651.5" y2="170.0" stroke="var(--hairline)"/>
+<text x="651.5" y="86.0" fill="var(--fg-faint)" text-anchor="middle" font-size="10">9%</text>
+<text x="40" y="64" fill="var(--fg)" font-size="11.5">one wake, broken into what it spent the time on</text>
+<text x="40" y="198" fill="var(--fg-muted)" font-size="10.5">the first inference itself runs at full speed, so there is nothing to warm up</text>
+</g>
+</svg>

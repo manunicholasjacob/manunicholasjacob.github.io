@@ -1,0 +1,57 @@
+<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t-fmt d-fmt" style="width:100%;height:auto;display:block;overflow:visible">
+<title id="t-fmt">Decode throughput against file size for eight quantization formats of the same model on a Raspberry Pi 5</title>
+<desc id="d-fmt">Decode throughput against file size for eight quantization formats of the same model on a Raspberry Pi 5</desc>
+<g font-family="ui-monospace, JetBrains Mono Variable, monospace" font-size="11">
+<line x1="62" y1="354" x2="698" y2="354" stroke="var(--hairline)" stroke-width="1"/>
+<line x1="62" y1="30" x2="62" y2="354" stroke="var(--hairline)" stroke-width="1"/>
+<text x="380.0" y="392" fill="var(--fg-faint)" text-anchor="middle" letter-spacing="0.08em">GGUF FILE SIZE (MB)</text>
+<text transform="translate(14,192.0) rotate(-90)" fill="var(--fg-faint)" text-anchor="middle" letter-spacing="0.08em">DECODE (TOKENS/S)</text>
+<line x1="62" y1="354.0" x2="698" y2="354.0" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="357.5" fill="var(--fg-faint)" text-anchor="end">15</text>
+<line x1="62" y1="289.2" x2="698" y2="289.2" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="292.7" fill="var(--fg-faint)" text-anchor="end">20.4</text>
+<line x1="62" y1="224.4" x2="698" y2="224.4" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="227.9" fill="var(--fg-faint)" text-anchor="end">25.8</text>
+<line x1="62" y1="159.6" x2="698" y2="159.6" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="163.1" fill="var(--fg-faint)" text-anchor="end">31.2</text>
+<line x1="62" y1="94.8" x2="698" y2="94.8" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="98.3" fill="var(--fg-faint)" text-anchor="end">36.6</text>
+<line x1="62" y1="30.0" x2="698" y2="30.0" stroke="var(--hairline)" stroke-dasharray="2 4"/>
+<text x="54" y="33.5" fill="var(--fg-faint)" text-anchor="end">42</text>
+<line x1="62.0" y1="354" x2="62.0" y2="358" stroke="var(--hairline)"/>
+<text x="62.0" y="372" fill="var(--fg-faint)" text-anchor="middle">380</text>
+<line x1="221.0" y1="354" x2="221.0" y2="358" stroke="var(--hairline)"/>
+<text x="221.0" y="372" fill="var(--fg-faint)" text-anchor="middle">460</text>
+<line x1="380.0" y1="354" x2="380.0" y2="358" stroke="var(--hairline)"/>
+<text x="380.0" y="372" fill="var(--fg-faint)" text-anchor="middle">540</text>
+<line x1="539.0" y1="354" x2="539.0" y2="358" stroke="var(--hairline)"/>
+<text x="539.0" y="372" fill="var(--fg-faint)" text-anchor="middle">620</text>
+<line x1="698.0" y1="354" x2="698.0" y2="358" stroke="var(--hairline)"/>
+<text x="698.0" y="372" fill="var(--fg-faint)" text-anchor="middle">700</text>
+<polyline points="62.0,64.7 72.6,71.2 83.2,77.5 93.8,83.7 104.4,89.7 115.0,95.5 125.6,101.2 136.2,106.7 146.8,112.1 157.4,117.4 168.0,122.5 178.6,127.5 189.2,132.4 199.8,137.1 210.4,141.8 221.0,146.3 231.6,150.8 242.2,155.1 252.8,159.4 263.4,163.5 274.0,167.6 284.6,171.6 295.2,175.4 305.8,179.2 316.4,183.0 327.0,186.6 337.6,190.2 348.2,193.7 358.8,197.1 369.4,200.5 380.0,203.8 390.6,207.0 401.2,210.2 411.8,213.3 422.4,216.3 433.0,219.3 443.6,222.2 454.2,225.1 464.8,228.0 475.4,230.7 486.0,233.5 496.6,236.1 507.2,238.8 517.8,241.3 528.4,243.9 539.0,246.4 549.6,248.8 560.2,251.2 570.8,253.6 581.4,255.9 592.0,258.2 602.6,260.5 613.2,262.7 623.8,264.9 634.4,267.0 645.0,269.2 655.6,271.2 666.2,273.3 676.8,275.3 687.4,277.3 698.0,279.3" fill="none" stroke="var(--fg-muted)" stroke-width="1.25" stroke-dasharray="5 4"/>
+<text x="555" y="239" fill="var(--fg-muted)">if only bytes mattered</text>
+<circle cx="131.9" cy="152.4" r="3.5" fill="var(--fg)"/>
+<text x="119.9" y="168.4" fill="var(--fg)" text-anchor="end" font-size="10.5">Q2_K</text>
+<circle cx="157.4" cy="123.2" r="5" fill="var(--accent)"/>
+<text x="111.4" y="121.2" fill="var(--accent)" text-anchor="end" font-size="10.5">IQ4_XS</text>
+<line x1="157.4" y1="123.2" x2="119.7" y2="121.8" stroke="var(--accent)" stroke-width="0.75" opacity="0.45"/>
+<circle cx="158.9" cy="118.1" r="3.5" fill="var(--fg)"/>
+<text x="148.9" y="104.1" fill="var(--fg)" text-anchor="end" font-size="10.5">Q4_0</text>
+<circle cx="163.1" cy="123.2" r="3.5" fill="var(--fg)"/>
+<text x="177.1" y="113.2" fill="var(--fg)" text-anchor="start" font-size="10.5">IQ4_NL</text>
+<line x1="163.1" y1="123.2" x2="174.6" y2="116.0" stroke="var(--fg)" stroke-width="0.75" opacity="0.45"/>
+<circle cx="165.4" cy="133.8" r="3.5" fill="var(--fg)"/>
+<text x="199.4" y="149.8" fill="var(--fg)" text-anchor="middle" font-size="10.5">Q3_K_M</text>
+<line x1="165.4" y1="133.8" x2="193.3" y2="145.4" stroke="var(--fg)" stroke-width="0.75" opacity="0.45"/>
+<circle cx="283.4" cy="225.9" r="5" fill="var(--accent)"/>
+<text x="283.4" y="243.9" fill="var(--accent)" text-anchor="middle" font-size="10.5">Q4_K_M</text>
+<line x1="283.4" y1="225.9" x2="283.4" y2="238.9" stroke="var(--accent)" stroke-width="0.75" opacity="0.45"/>
+<circle cx="599.4" cy="253.3" r="3.5" fill="var(--fg)"/>
+<text x="599.4" y="271.3" fill="var(--fg)" text-anchor="middle" font-size="10.5">Q6_K</text>
+<line x1="599.4" y1="253.3" x2="599.4" y2="266.2" stroke="var(--fg)" stroke-width="0.75" opacity="0.45"/>
+<circle cx="649.7" cy="267.3" r="3.5" fill="var(--fg)"/>
+<text x="649.7" y="254.3" fill="var(--fg)" text-anchor="middle" font-size="10.5">Q8_0</text>
+<line x1="283.4" y1="225.9" x2="157.4" y2="123.2" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 3" opacity="0.8"/>
+<text x="72" y="34" fill="var(--accent)" font-size="11.5">the default is 33% slower and uses 44% more energy per token</text>
+</g>
+</svg>
