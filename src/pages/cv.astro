@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site, links } from '../data/site';
-import { papers } from '../data/research';
+import { papers, submittedCount } from '../data/research';
 import { repos, builds, flagship } from '../data/projects';
 import { peerReview, judging, speaking, volunteering } from '../data/service';
 import { certifications } from '../data/archive';
@@ -23,6 +23,12 @@ const artifactRepos = [
   ...repos.filter((r) => r.doi),
   { name: flagship.slug, url: flagship.url, doi: flagship.doi },
 ];
+
+/* The summary used to say every paper was backed by a DOI-archived artifact.
+   Five of the thirteen are. The artifacts are real and there are ten of them,
+   but they do not map one to one onto the papers, so the two numbers are now
+   reported separately rather than implying a relationship that is not there. */
+const artifactCount = artifactRepos.length;
 
 /* Papers grouped by how far each has actually got. A single numbered list put
    unsubmitted manuscripts in the same sequence as work under review at IEEE and
@@ -95,8 +101,9 @@ const paperGroups = [
         Hardware engineer working on enterprise AI server platforms: validation, system-level
         debugging, and root-cause engineering. Independently runs a measurement-driven research
         program on edge machine-learning systems, with {papers.length} papers across memory
-        bandwidth, energy, thermal behaviour and quantization, each backed by a public, DOI-archived
-        artifact. Named inventor on an invention disclosure authorized for filing.
+        bandwidth, energy, thermal behaviour and quantization, {submittedCount} of them currently
+        under review, and {artifactCount} public DOI-archived artifacts released alongside them.
+        Named inventor on an invention disclosure authorized for filing.
       </p>
     </section>
 
@@ -460,7 +467,15 @@ const paperGroups = [
     max-width: 46rem;
   }
 
-  /* ---- print ---- */
+  /* ---- print ----
+     Nearly everything on this page is sized in rem, which is relative to the
+     root and not to `.cv`. So the old `.cv { font-size: 11px }` moved almost
+     nothing and the CV printed to five pages. Scaling the root is what
+     actually shrinks a rem-based layout. */
+  @page {
+    margin: 12mm 12mm;
+  }
+
   @media print {
     :global(header.sticky),
     :global(footer) {
@@ -469,17 +484,22 @@ const paperGroups = [
 
     :global(html) {
       color-scheme: light;
+      font-size: 9px;
     }
 
     .cv {
       max-width: none;
       padding: 0;
-      font-size: 11px;
     }
 
     .cv-section {
       break-inside: avoid;
-      padding-block: 0.9rem;
+      padding-block: 0.55rem;
+    }
+
+    /* Keep a heading with the block it introduces. */
+    .cv-h {
+      break-after: avoid;
     }
 
     :global([data-reveal]) {
