@@ -1,7 +1,7 @@
 ---
 title: Four numbers I published that turned out to be wrong
 description: Four headline claims from my own measurement work did not survive being rechecked. What each one was, how it broke, and the thing three of the four have in common.
-date: 2026-09-03
+date: 2026-09-05
 kind: Method
 topics: ['Reproducibility', 'Negative results', 'Method']
 readingTime: 8

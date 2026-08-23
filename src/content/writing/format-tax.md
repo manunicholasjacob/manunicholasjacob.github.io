@@ -1,7 +1,7 @@
 ---
 title: Two model files, almost the same size, a third apart in speed
 description: The label on a quantized model file is not a promise about what it costs to run. On a Raspberry Pi 5 the most popular format was the slowest thing I measured that week, and it used 44 percent more power to get there.
-date: 2026-08-24
+date: 2026-12-04
 kind: Measurement
 topics: ['Quantization', 'llama.cpp', 'Raspberry Pi 5', 'Energy']
 readingTime: 7

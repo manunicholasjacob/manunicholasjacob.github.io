@@ -1,7 +1,7 @@
 ---
 title: The first prediction after a device wakes up costs twenty of the others
 description: Almost every benchmark for edge machine learning reports the speed a model reaches once it is warm. A lot of real devices never get warm. Here is what the first inference after a wake actually costs, and where the time goes.
-date: 2026-09-01
+date: 2026-10-14
 kind: Measurement
 topics: ['Duty cycling', 'Storage', 'Raspberry Pi 5', 'Cache policy']
 readingTime: 7

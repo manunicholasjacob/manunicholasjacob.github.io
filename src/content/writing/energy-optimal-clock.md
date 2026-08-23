@@ -1,7 +1,7 @@
 ---
 title: Running the processor flat out wasted a fifth of the battery
 description: Every edge device I have measured runs its clock as high as it will go, on the theory that finishing sooner saves power. Across eight networks on a Raspberry Pi 5 that theory cost about 20 percent of the energy, and the reason is not where I expected to find it.
-date: 2026-08-28
+date: 2026-10-09
 kind: Measurement
 topics: ['Energy', 'DVFS', 'Raspberry Pi 5', 'Power telemetry']
 readingTime: 7

@@ -1,7 +1,7 @@
 ---
 title: INT8 was supposed to be four times faster. The best I ever measured was 2.7
 description: Quantizing a network to eight-bit integers is treated as a free optimization. Across nine networks on three processors the best case was 2.7 times, two networks got slower, and which two depends on the instruction set. This started as a correction to my own mistake.
-date: 2026-08-30
+date: 2026-09-26
 kind: Measurement
 topics: ['Quantization', 'ONNX Runtime', 'Cross-platform', 'Correction']
 readingTime: 8

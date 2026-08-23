@@ -1,7 +1,7 @@
 ---
 title: I had five benchmark harnesses and they did not agree with each other
 description: Every paper grew its own set of scripts, and by the fifth one I could no longer tell whether a difference between two results was the hardware or the harness. Rebuilding them as one framework was the only way to find out.
-date: 2026-09-05
+date: 2026-09-19
 kind: Method
 topics: ['Reproducibility', 'Tooling', 'Benchmarking', 'Method']
 readingTime: 7
