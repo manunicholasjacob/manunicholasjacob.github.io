@@ -77,10 +77,10 @@ That is the whole model. It is close to embarrassing how well it works.
 <!--/FIG-->
 <figcaption>
 Seven models from 0.5 to 7 billion parameters on one Intel i7-12700H laptop,
-llama.cpp, CPU only. The curve is not fitted to look good; it is one number
-divided by model size. The fit is R-squared 0.987, and the effective bandwidth it
-implies is 70 percent of what the same machine's memory measures on a plain read
-benchmark. Data and tool:
+llama.cpp, CPU only, each model taken at its own best thread count. The curve is
+not fitted to look good; it is one number divided by model size. The fit is
+R-squared 0.987, and the effective bandwidth it implies is 70 percent of what the
+same machine's memory measures on a plain read benchmark. Data and tool:
 <a href="https://github.com/manunicholasjacob/llama-roofline">llama-roofline</a>.
 </figcaption>
 </figure>
