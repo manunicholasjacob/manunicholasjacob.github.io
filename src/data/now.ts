@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-08-23';
+export const updated = '2026-08-24';
 
 export type NowItem = {
   title: string;
@@ -15,16 +15,10 @@ export type NowItem = {
 
 export const current: NowItem[] = [
   {
-    title: 'Thirteen manuscripts out at once',
+    title: 'Twelve manuscripts out at once',
     detail:
-      'Four at IEEE Embedded Systems Letters, three at ACM TECS, two at IEEE Computer Architecture Letters, one each at IEEE Internet of Things Journal, IEEE Transactions on Computers and IEEE Design & Test, and one at DATE 2027. Not one decision back yet. The next move on each is whatever the reviewers say.',
+      'Four at IEEE Embedded Systems Letters, three at ACM TECS, two at IEEE Computer Architecture Letters, and one each at IEEE Internet of Things Journal, IEEE Transactions on Computers and IEEE Design & Test. Not one decision back yet. The next move on each is whatever the reviewers say.',
     status: 'In review',
-  },
-  {
-    title: 'DATE 2027, the one fixed deadline',
-    detail:
-      'The anytime-inference paper is format-checked and double-blind clean. Abstract registration 13 September, full paper 20 September 2026.',
-    status: 'Next up',
   },
   {
     title: 'Two waiting on a portal to open',
@@ -47,7 +41,7 @@ export const current: NowItem[] = [
   {
     title: 'Artifact evaluation for USENIX ATC 2026',
     detail:
-      'On the Artifact Evaluation Committee. The review window is 22 September to 14 October 2026, which lands directly on top of the DATE deadline, so the calendar is the constraint this autumn.',
+      'On the Artifact Evaluation Committee. The review window is 22 September to 14 October 2026, and it is the fixed point the rest of the autumn has to work around.',
     status: 'Committed',
   },
   {

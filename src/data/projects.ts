@@ -5,6 +5,14 @@ const gh = (slug: string) => `${links.github}/${slug}`;
 /**
  * The flagship platform: gets a full-width feature on /projects and a card on
  * the homepage. Everything here is quoted from the repo README; keep in sync.
+ *
+ * The repo enforces its own half of that with `tests/test_readme_claims.py`, which
+ * recomputes each figure from the shipped records. Nothing enforces this half, and
+ * it has already drifted once: the agreement figure sat at 1.6% here for weeks
+ * after the repo corrected it to 1.7%, because 1.6 came from the most flattering
+ * of three denominators. When a number here changes, run that test file and copy
+ * what it asserts, and quote the least flattering denominator as it does. The
+ * homepage card in `pages/index.astro` repeats this figure; change both.
  */
 export const flagship = {
   name: 'ML Systems Lab',
@@ -28,7 +36,7 @@ export const flagship = {
     'RTX 3050 via ONNX Runtime DirectML: modeled as its own device',
   ],
   result:
-    'Reproduces the IEEE Transactions on Computers submission’s roofline fits exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.6%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64.',
+    'Reproduces the IEEE Transactions on Computers submission’s roofline fits exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.7%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64.',
   related: [
     { title: 'The Memory Wall at the Edge of Language', href: '/research#edge-llm' },
     { title: 'The Memory Wall Governs Edge DNN Inference', href: '/research#memory-wall' },
