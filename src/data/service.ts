@@ -59,11 +59,23 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
+    role: 'Reviewer, in progress',
+    org: 'JOSS: PySlyde',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'A toolkit for preprocessing digital pathology whole-slide images, review opened 24 August 2026. One of three reviewers on it. The interesting part of this one is that the claims are about throughput and memory on slides too large to hold at once, which is the same question as everything else here in a different domain.',
+    period: '2026',
+    link: {
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/11196',
+    },
+  },
+  {
     role: 'Listed reviewer',
     org: 'JOSS reviewer database',
     venue: 'Journal of Open Source Software',
     detail:
-      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. A third submission has accepted the assignment and is waiting on its editor to open a review, which is why it is not listed above as a review.',
+      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Three review assignments have come through it so far, all three of them open reviews.',
     period: '2026',
     link: {
       label: 'reviewers.joss.theoj.org',

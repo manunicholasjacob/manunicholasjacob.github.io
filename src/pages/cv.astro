@@ -4,7 +4,7 @@ import { site, links } from '../data/site';
 import { papers, submittedCount } from '../data/research';
 import { repos, builds, flagship } from '../data/projects';
 import { peerReview, judging, speaking, volunteering } from '../data/service';
-import { certifications } from '../data/archive';
+import { certifications, coursework } from '../data/archive';
 
 /* One page, print-first. Everything renders from the same data files as the
    rest of the site, so the CV cannot drift out of date independently. */
@@ -353,6 +353,23 @@ const paperGroups = [
               ) : (
                 <span class="text-[var(--fg-muted)]">{c.title}</span>
               )}
+              <span class="cv-when">
+                {c.issuer} · {c.date}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* course-completion certificates, not counted as certifications */}
+    <section class="cv-section">
+      <h2 class="cv-h">Coursework</h2>
+      <ul class="space-y-2">
+        {
+          coursework.map((c) => (
+            <li class="cv-row">
+              <span class="text-[var(--fg-muted)]">{c.title}</span>
               <span class="cv-when">
                 {c.issuer} · {c.date}
               </span>

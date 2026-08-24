@@ -133,6 +133,27 @@ export const certifications: Course[] = [
     verifyUrl:
       'https://catalog-education.oracle.com/ords/certview/sharebadge?id=D6339BA10465AFA09847AFA1868044000A5A46958508C13590FCA69B13E4DE83',
   },
+];
+
+/**
+ * Course-completion certificates, kept separate from the list above on purpose.
+ *
+ * The dividing line is a proctored exam. The three Oracle credentials are that.
+ * These are not, and neither is the NVIDIA Fundamentals credential, which is the
+ * prep course for the NCA-AIIO exam rather than the exam. Counting them all as
+ * "certifications" put five on this site against three on the resume, and three
+ * is the number that survives being checked. All of these are real and worth
+ * listing; they are just not certifications.
+ *
+ * NCA-AIIO is a real proctored exam. When it passes, it goes in the list above
+ * and the count becomes four.
+ */
+export const coursework: Course[] = [
+  {
+    title: 'AI Infrastructure and Operations Fundamentals',
+    issuer: 'NVIDIA',
+    date: 'Aug 2026',
+  },
   { title: 'Data Science: Probability (PH125.3x)', issuer: 'HarvardX', date: 'Jun 2020' },
   { title: 'AI for Everyone: Master the Basics', issuer: 'IBM', date: 'May 2020' },
 ];
