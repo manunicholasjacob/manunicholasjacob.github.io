@@ -66,7 +66,7 @@ export const repos: Repo[] = [
     name: 'edge-llm-memory-wall',
     blurb:
       'Decode-side roofline for on-device language models, plus the KV-cache capacity wall and an energy-aware serving policy.',
-    result: 'Decode roofline R^2 = 0.994',
+    result: 'Decode roofline R^2 = 0.98, on Arm and on x86',
     stack: ['llama.cpp', 'C++', 'Python'],
     url: gh('edge-llm-memory-wall'),
     doi: '10.5281/zenodo.21844855',

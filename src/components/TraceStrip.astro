@@ -8,10 +8,17 @@
  * doubled SVG by -50% loops seamlessly.
  */
 
+/*
+ * These are the Pi 5 figures the papers actually use. The strip previously read
+ * "BW 11.34 GB/s" and "R² 0.994", which are the size sweep on its own and appear
+ * nowhere else in the record; the fit that the paper reports, and that holds on
+ * x86 as well, is 10.7 GB/s at R² 0.98. Do not put the higher pair back without
+ * the words "size sweep" next to them.
+ */
 const readout = [
   'PMIC 2.063 W idle',
-  'BW 11.34 GB/s',
-  'R² 0.994',
+  'BW 10.7 GB/s',
+  'R² 0.98',
   'A76 × 4 @ 2.4 GHz',
 ];
 

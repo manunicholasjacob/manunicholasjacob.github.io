@@ -132,7 +132,7 @@ export const papers: Paper[] = [
     title: 'The Memory Wall at the Edge of Language',
     claim:
       'The bandwidth ceiling that governs CNN inference governs on-device LLM decode too, and the KV cache turns it into a hard capacity wall. The same law holds on x86 at three times the bandwidth, so the roofline is the platform-independent part.',
-    headline: 'Decode roofline R^2 = 0.994 on Arm, R^2 = 0.98 revalidated on x86',
+    headline: 'Decode roofline R^2 = 0.98, unchanged on x86 at three times the bandwidth',
     venue: 'IEEE Transactions on Computers',
     venueTier: 'Journal',
     status: 'Under review',

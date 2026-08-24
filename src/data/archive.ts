@@ -102,8 +102,10 @@ export type Course = {
    * Public verification URL for the credential. A certification nobody can
    * check is the cheapest kind of doubt to leave lying around, and these are
    * all trivially verifiable, so there is no reason for one to be missing.
-   * Credly badge page for Oracle and IBM, the edX certificate URL for HarvardX.
-   * Where to find each one is in `profile-evidence/CERT_VERIFY_LINKS.md`.
+   * Oracle issues these through its own certification catalogue rather than
+   * Credly; the share-badge URL is the public one. HarvardX and IBM are still
+   * missing and render fine without one, so this stays optional. The NVIDIA
+   * certifications get theirs when they are earned, starting with NCA-AIIO.
    */
   verifyUrl?: string;
 };
@@ -114,17 +116,22 @@ export const certifications: Course[] = [
     title: 'Oracle Cloud Infrastructure 2025 Certified Generative AI Professional',
     issuer: 'Oracle',
     date: '2025',
-    // verifyUrl: Credly badge page. See CERT_VERIFY_LINKS.md
+    verifyUrl:
+      'https://catalog-education.oracle.com/ords/certview/sharebadge?id=83A82055D544FA484F6D56EA07E70DF466452B21822322AD2E934B8706E14E97',
   },
   {
     title: 'Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate',
     issuer: 'Oracle',
     date: 'Oct 2025',
+    verifyUrl:
+      'https://catalog-education.oracle.com/ords/certview/sharebadge?id=420AA30445D82A062410D985057C726EE10B724516DC92550BEDA0D0DA94DB68',
   },
   {
     title: 'Oracle Cloud Infrastructure 2025 Certified Foundations Associate',
     issuer: 'Oracle',
     date: 'Oct 2025',
+    verifyUrl:
+      'https://catalog-education.oracle.com/ords/certview/sharebadge?id=D6339BA10465AFA09847AFA1868044000A5A46958508C13590FCA69B13E4DE83',
   },
   { title: 'Data Science: Probability (PH125.3x)', issuer: 'HarvardX', date: 'Jun 2020' },
   { title: 'AI for Everyone: Master the Basics', issuer: 'IBM', date: 'May 2020' },

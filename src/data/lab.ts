@@ -45,10 +45,16 @@ export const machines: Machine[] = [
     note: 'Framed to the hardware vintage: NUMA, memory wall, CPU-inference energy. Deliberately not a modern-LLM story.',
   },
   {
-    name: 'Consumer GPU host',
-    role: 'Reproducibility methodology',
-    spec: ['Clock-gated measurement protocol', 'Run-to-run and host-to-host variance'],
+    name: 'i7-12700H laptop',
+    role: 'Cross-architecture check, and the hybrid-core work',
+    spec: [
+      '6 performance cores, 8 efficiency cores, DDR5',
+      'RTX 3050 Laptop, treated as a separate device by the harness',
+      'Intel RAPL energy counters',
+      'Roughly four times the memory bandwidth of the Pi',
+    ],
     status: 'Active',
+    note: 'This machine is why the results are not a Raspberry Pi story. The memory-bandwidth law was re-measured here on a completely different architecture and held with the same goodness of fit, and the mixed performance and efficiency cores are the subject of their own paper. The GPU in it used to be listed separately, which flattered the bench: it is one laptop.',
   },
   {
     name: 'iMac G3, 1998',
@@ -65,7 +71,11 @@ export type Rule = { title: string; body: string };
 export const rules: Rule[] = [
   {
     title: 'Measure the machine, not the toolchain',
-    body: 'The INT8 work exists because a 40x latency swing turned out to be export format and graph optimisation rather than the weights. A benchmark that does not control for its own toolchain is measuring the wrong thing.',
+    body: 'A benchmark that does not control for its own toolchain is measuring the wrong thing. This rule is here because I broke it: I once reported a fortyfold latency swing and attributed it to the export format, and one arm of that experiment had quietly loaded a model quantized a different way instead of building the one it claimed to build. The swing was real and the cause was wrong. Two later papers exist to correct it.',
+  },
+  {
+    title: 'Record the state of the machine, not just the number',
+    body: 'Every run writes down the clock speed, the temperature, the throttle bits and the power draw alongside the result. That caught five measurements taken while something else was running on the board, with a run-to-run spread of 30 to 103 percent against a campaign norm under 2.5 percent. Without the record they would have gone quietly into an average.',
   },
   {
     title: 'Publish the negative result',
@@ -86,9 +96,16 @@ export const rules: Rule[] = [
 ];
 
 /** Concrete numbers pulled from the published work, for the counters row. */
+/**
+ * Four numbers, each from a released dataset. Two of the previous four had to
+ * go. "40x INT8 config latency swing" was the attribution this page's first rule
+ * now describes as wrong, and it had no business being a headline. "0.994" was
+ * the size sweep alone, which the rest of the record never uses; the fit that
+ * appears in the paper, and that holds on two architectures, is 0.98.
+ */
 export const benchFacts = [
   { value: '9', label: 'CNNs + 1 ViT characterised' },
   { value: '13 h', label: 'Open telemetry dataset' },
-  { value: '0.994', label: 'Decode roofline R²' },
-  { value: '40x', label: 'INT8 config latency swing' },
+  { value: '0.98', label: 'Decode roofline R², Arm and x86' },
+  { value: '2 of 9', label: 'INT8 results that reverse sign across ISAs' },
 ] as const;
