@@ -71,11 +71,23 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
+    role: 'Reviewer, assigned at pre-review',
+    org: 'JOSS: Battflow',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'An automated workflow for predicting battery properties. Sole listed reviewer, assigned at the pre-review stage, which means the review itself has not opened yet. Listed here at exactly that stage and no further.',
+    period: '2026',
+    link: {
+      label: 'The pre-review thread',
+      href: 'https://github.com/openjournals/joss-reviews/issues/10661',
+    },
+  },
+  {
     role: 'Listed reviewer',
     org: 'JOSS reviewer database',
     venue: 'Journal of Open Source Software',
     detail:
-      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Three review assignments have come through it so far, all three of them open reviews.',
+      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Four assignments have come through it, and the four entries above are all of them.',
     period: '2026',
     link: {
       label: 'reviewers.joss.theoj.org',
