@@ -181,11 +181,17 @@ export const papers: Paper[] = [
     claim:
       'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime where it actually pays, and shows quantization compresses the exit ladder enough to shrink the controller’s authority.',
     headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
-    venue: 'DATE 2027',
-    venueTier: 'Conference',
-    // DATE 2027 submission 38X-B8H4G8E6D7, received 15 Aug 2026.
-    status: 'Under review',
-    dateline: 'Submitted 15 Aug 2026',
+    venue: 'IEEE Embedded Systems Letters',
+    venueTier: 'Letters',
+    /* Withdrawn from DATE 2027 on 24 Aug 2026 (submission 38X-B8H4G8E6D7, received
+       15 Aug 2026). DATE is in-person only, forbids non-author presenters, and pulls
+       a paper from the proceedings if no author attends; a single-author portfolio
+       has no substitute presenter. Recut from 6pp to a 4pp ESL letter, which is
+       rolling, free and needs no travel. NOT yet submitted, so this is deliberately
+       not 'Under review' and the site's under-review count is 11 while that holds.
+       Move it back to 'Under review' with the date on the day it goes in. */
+    status: 'Ready to submit',
+    dateline: 'Withdrawn from DATE, recut for IEEE ESL',
     year: '2027',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
     submitted: '2026-08-15',

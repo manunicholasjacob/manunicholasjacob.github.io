@@ -7,6 +7,17 @@ topics: ['Quantization', 'llama.cpp', 'Raspberry Pi 5', 'Energy']
 readingTime: 7
 draft: true
 ---
+<!-- HOLD, 24 August 2026. Do not publish and do not clear `draft: true`.
+     The matched-byte spread this piece is built on does not reproduce in
+     paper16-format-tax's own later data: 30.1% in pi5_results.jsonl against
+     3.9% in pi5_canonical.jsonl, on the same board and the same protocol. The
+     probable cause is llama.cpp runtime weight repacking, which the manuscript
+     does not mention. Two further problems are local to this file: "33 percent
+     behind" is 25.0 percent on the strict denominator, and the two files named
+     are 491.4 MB against 428.0 MB, so the title's "almost the same size" is
+     wrong about them. The 44 percent energy figure does survive.
+     Full working: profile-evidence/FORMAT-TAX-HOLD.md -->
+
 
 I was trying to settle an argument with myself about which quantized model to put
 on a Raspberry Pi, and I expected the answer to be boring. Smaller file, faster
