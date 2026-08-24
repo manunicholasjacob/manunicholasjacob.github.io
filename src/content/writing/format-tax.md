@@ -1,22 +1,21 @@
 ---
-title: Two model files, almost the same size, a third apart in speed
-description: The label on a quantized model file is not a promise about what it costs to run. On a Raspberry Pi 5 the most popular format was the slowest thing I measured that week, and it used 44 percent more power to get there.
+title: Two model files with the same name, 38 percent apart
+description: The label on a quantized model file is not a promise about what it costs to run. On a Raspberry Pi 5 the most popular four-bit format was the slowest of them, and it used 44 percent more energy per word to get there.
 date: 2026-12-04
 kind: Measurement
 topics: ['Quantization', 'llama.cpp', 'Raspberry Pi 5', 'Energy']
 readingTime: 7
 draft: true
 ---
-<!-- HOLD, 24 August 2026. Do not publish and do not clear `draft: true`.
-     The matched-byte spread this piece is built on does not reproduce in
-     paper16-format-tax's own later data: 30.1% in pi5_results.jsonl against
-     3.9% in pi5_canonical.jsonl, on the same board and the same protocol. The
-     probable cause is llama.cpp runtime weight repacking, which the manuscript
-     does not mention. Two further problems are local to this file: "33 percent
-     behind" is 25.0 percent on the strict denominator, and the two files named
-     are 491.4 MB against 428.0 MB, so the title's "almost the same size" is
-     wrong about them. The 44 percent energy figure does survive.
-     Full working: profile-evidence/FORMAT-TAX-HOLD.md -->
+<!-- Content gate LIFTED 24 Aug 2026 on prong 1's Paper 16 verdict. The earlier
+     hold was an audit of paper/main.tex, retired 15 Aug; the live draft is
+     paper-hotmobile/main.tex and this piece was already written against it.
+     Four numbers were corrected in the same pass: "33 percent behind" was the
+     wrong denominator and is 25, "24 percent behind" at best-vs-best is 19,
+     the description called the default the slowest thing measured when Q8_0 and
+     Q6_K are slower, and the old title said "almost the same size" of two files
+     14.8 percent apart. Still draft:true because the SCHEDULE is 4 December.
+     Publish with scripts/publish_post.py on the day, not by editing this line. -->
 
 
 I was trying to settle an argument with myself about which quantized model to put
@@ -88,7 +87,7 @@ out within four megabytes of each other. They do not run at the same speed.
 <circle cx="649.7" cy="267.3" r="3.5" fill="var(--fg)"/>
 <text x="649.7" y="254.3" fill="var(--fg)" text-anchor="middle" font-size="10.5">Q8_0</text>
 <line x1="283.4" y1="225.9" x2="157.4" y2="123.2" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 3" opacity="0.8"/>
-<text x="72" y="34" fill="var(--accent)" font-size="11.5">the default is 33% slower and uses 44% more energy per token</text>
+<text x="72" y="34" fill="var(--accent)" font-size="11.5">the default is 25% slower and uses 44% more energy per token</text>
 </g>
 </svg>
 <!--/FIG-->
@@ -109,8 +108,10 @@ Q4_K_M is the format almost everybody downloads. It is what the popular model
 repositories put at the top of the list, it is what most tutorials tell you to
 use, and on this board it was the slowest four-bit option I measured, by a
 distance. Against IQ4_XS, a format of near-identical quality on the standard
-perplexity check, it ran 33 percent behind and drew 44 percent more energy for
-every word it produced.
+perplexity check, it ran 25 percent behind and drew 44 percent more energy for
+every word it produced. Turn that around and IQ4_XS is 33 percent faster; the
+two are the same gap counted from opposite ends, and 25 is the honest one to
+put next to a 44.
 
 That last number is the one I did not expect. Energy per word is supposed to
 track time per word fairly closely, because the board draws roughly the same
@@ -118,7 +119,7 @@ power either way. Here the gap in energy was wider than the gap in speed, which
 means the slower format was also drawing more watts while it was slow.
 
 Q4_K_M does slightly better if you give it three threads instead of two. Even at
-its own best setting it is still 24 percent behind, so the thread count is not
+its own best setting it is still 19 percent behind IQ4_XS at IQ4_XS's best, so the thread count is not
 the explanation.
 
 ## Same label, different file
