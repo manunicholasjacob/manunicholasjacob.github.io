@@ -9,23 +9,41 @@ interface Props {
   /** 'raised' gives the section a full-bleed band background, breaking the
       page out of one uniform field. Alternate them; never stack two. */
   tone?: 'default' | 'raised';
+  /** 'split' puts the heading left and the lede right on large screens.
+      Every section header stacking identically is its own kind of template;
+      use this on one or two sections per page, never all of them. */
+  align?: 'stack' | 'split';
   id?: string;
   class?: string;
 }
 
-const { label, heading, lede, tone = 'default', id, class: klass = '' } = Astro.props;
+const {
+  label,
+  heading,
+  lede,
+  tone = 'default',
+  align = 'stack',
+  id,
+  class: klass = '',
+} = Astro.props;
 ---
 
 <div class:list={[tone === 'raised' && 'section-raised']}>
   <section id={id} class:list={['mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24', klass]}>
     {label && <p class="eyebrow label">{label}</p>}
     {
-      (heading || lede) && (
-        <div class="mb-12 max-w-3xl">
-          {heading && <h2 class="display-sm">{heading}</h2>}
-          {lede && <p class="lede mt-5">{lede}</p>}
-        </div>
-      )
+      (heading || lede) &&
+        (align === 'split' && heading && lede ? (
+          <div class="mb-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-16">
+            <h2 class="display-sm">{heading}</h2>
+            <p class="lede max-w-xl">{lede}</p>
+          </div>
+        ) : (
+          <div class="mb-12 max-w-3xl">
+            {heading && <h2 class="display-sm">{heading}</h2>}
+            {lede && <p class="lede mt-5">{lede}</p>}
+          </div>
+        ))
     }
     <slot />
   </section>

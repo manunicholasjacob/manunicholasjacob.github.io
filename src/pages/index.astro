@@ -125,32 +125,22 @@ const spec = [
 
     <TraceStrip />
 
-    {/* keyword marquee */}
-    {/* Two identical copies, spacing carried inside each item and no flex gap
-        on the track, so translateX(-50%) lands exactly on the seam. */}
-    <div class="marquee relative overflow-hidden border-t border-[var(--hairline)] py-3">
-      <div class="marquee-track flex w-max" aria-hidden="true">
+    {/* Working vocabulary, stated once. This used to be an infinite marquee;
+        a scrolling keyword ticker is one of the most recognisable stock
+        landing-page devices, and a list of topics does not need to move. */}
+    <div class="border-t border-[var(--hairline)] py-3">
+      <p
+        class="mx-auto flex max-w-6xl flex-wrap items-baseline gap-x-3 gap-y-1.5 px-5 font-mono text-[0.6875rem] tracking-[0.16em] text-[var(--fg-faint)] uppercase sm:px-8"
+      >
         {
-          [0, 1].map(() => (
-            <div class="flex shrink-0">
-              {keywords.map((k) => (
-                <span class="flex items-center gap-7 pr-7 font-mono text-[0.6875rem] tracking-[0.16em] whitespace-nowrap text-[var(--fg-faint)] uppercase">
-                  {k}
-                  <span class="text-[var(--accent)] opacity-60">/</span>
-                </span>
-              ))}
-            </div>
+          keywords.map((k, i) => (
+            <>
+              {i > 0 && <span class="text-[var(--accent)] opacity-60">/</span>}
+              <span>{k}</span>
+            </>
           ))
         }
-      </div>
-      <div
-        class="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[var(--bg)] to-transparent"
-      >
-      </div>
-      <div
-        class="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[var(--bg)] to-transparent"
-      >
-      </div>
+      </p>
     </div>
 
     {/* stats */}
@@ -201,20 +191,69 @@ const spec = [
     lede="Three papers from the current program. Each headline number was reproduced on hardware before it was written down."
     tone="raised"
   >
-    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] md:grid-cols-3">
+    {/*
+      One anchor result at full weight, two beside it. Three identical towers
+      is the single most templated layout on the web, and it also implied the
+      three papers matter equally, which they do not: the memory-wall result
+      is the thesis, the other two are consequences of it.
+    */}
+    <div
+      class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-[1.45fr_1fr] lg:grid-rows-2"
+    >
       {
         featuredPapers.map((p, i) => (
           <a
             href={`/research#${p.id}`}
-            class="card-link group flex flex-col bg-[var(--bg)] p-7 transition-colors"
+            class:list={[
+              'card-link group flex flex-col bg-[var(--bg)] transition-colors',
+              i === 0 ? 'p-8 sm:p-10 lg:row-span-2' : 'p-7',
+            ]}
           >
             <div class="flex items-start justify-between gap-3">
               <span class="ghost-num">{String(i + 1).padStart(2, '0')}</span>
               <span class="tag tag-accent">{p.venueTier}</span>
             </div>
 
-            <h3 class="mt-6 text-xl leading-snug font-medium tracking-tight">{p.title}</h3>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">{p.claim}</p>
+            <h3
+              class:list={[
+                'mt-6 leading-snug font-medium tracking-tight',
+                i === 0 ? 'text-2xl sm:text-3xl sm:leading-tight' : 'text-xl',
+              ]}
+            >
+              {p.title}
+            </h3>
+            <p
+              class:list={[
+                'mt-4 leading-relaxed text-[var(--fg-muted)]',
+                i === 0 ? 'max-w-xl text-[0.9375rem]' : 'flex-1 text-sm',
+              ]}
+            >
+              {p.claim}
+            </p>
+
+            {
+              i === 0 && p.facts && (
+                <dl class="mt-8 border border-[var(--hairline)]">
+                  {p.facts.map(([k, v], j) => (
+                    <div
+                      class:list={[
+                        'flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 px-4 py-3',
+                        j !== 0 && 'border-t border-[var(--hairline)]',
+                      ]}
+                    >
+                      <dt class="font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+                        {k}
+                      </dt>
+                      <dd class="text-right font-mono text-[0.6875rem] text-[var(--fg-muted)]">
+                        {v}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              )
+            }
+
+            {i === 0 && <span class="flex-1" aria-hidden="true" />}
 
             <p class="mt-6 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
               {p.headline}
@@ -236,6 +275,7 @@ const spec = [
     label="Open source"
     heading="The code behind the numbers."
     lede="Every published result ships with the harness that produced it, archived on Zenodo with a citable DOI."
+    align="split"
   >
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
       {

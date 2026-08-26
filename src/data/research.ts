@@ -43,6 +43,11 @@ export type Paper = {
   submitted?: string;
   /** A future fixed deadline, drawn on the axis as an open mark. */
   deadline?: string;
+  /**
+   * Spec-table rows for the anchor slot on the home page. Only numbers that
+   * already appear elsewhere on the site; this is presentation, not new claims.
+   */
+  facts?: readonly (readonly [string, string])[];
   year: string;
   topics: string[];
   artifact?: { repo: string; doi: string };
@@ -72,6 +77,11 @@ export const papers: Paper[] = [
     claim:
       'Thread scaling, multi-tenant interference and INT8 speedups are not three separate phenomena. All three fall out of a single measured bandwidth ceiling.',
     headline: '20.5% leave-one-model-out prediction error across 9 CNNs and a ViT',
+    facts: [
+      ['Models', '9 CNNs + 1 ViT'],
+      ['Silicon', 'Arm Cortex-A76, revalidated on x86'],
+      ['Instrumentation', 'perf counters + PMIC power'],
+    ],
     venue: 'ACM Transactions on Embedded Computing Systems',
     venueTier: 'Journal',
     status: 'Under review',
