@@ -70,6 +70,22 @@
 
   --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Damped-spring easings, traced with linear(). --spring settles in ~400ms
+     with a barely-there overshoot (about 1%); --spring-soft is looser, for
+     larger moves. Springs are for transform and opacity only: colour changes
+     on a spring read as flicker. */
+  --spring: linear(
+    0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077,
+    1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%,
+    1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%,
+    0.997 69.8%, 1.003 76.9%, 1
+  );
+  --spring-soft: linear(
+    0, 0.007, 0.029 2.2%, 0.118 4.7%, 0.625 14.4%, 0.826 19.1%, 0.902, 0.962,
+    1.008 28.2%, 1.041 31.5%, 1.052 34.7%, 1.05 38.7%, 1.017 49.7%,
+    0.996 59.7%, 0.992 64.9%, 1.003 87.9%, 1
+  );
 }
 
 /* ============================================================================
@@ -115,6 +131,13 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Spring the utility-driven transform transitions (arrow nudges, chevrons).
+   Colour transitions keep their bezier; only movement gets momentum. */
+.transition-transform {
+  transition-duration: 0.4s;
+  transition-timing-function: var(--spring);
 }
 
 /* ---- scrollbar: thin, theme-aware, quiet ---- */
@@ -448,7 +471,7 @@ html:not(.js) .hl-draw {
       background-color 0.18s ease,
       color 0.18s ease,
       border-color 0.18s ease,
-      transform 0.18s ease;
+      transform 0.4s var(--spring);
   }
 
   .btn:active {

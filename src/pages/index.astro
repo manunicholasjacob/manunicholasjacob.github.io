@@ -186,7 +186,6 @@ const spec = [
 
   {/* ══════════════════════════ FEATURED PAPERS ══════════════════════════ */}
   <Section
-    label="Selected findings"
     heading="Results that changed how I build."
     lede="Three papers from the current program. Each headline number was reproduced on hardware before it was written down."
     tone="raised"
@@ -272,10 +271,8 @@ const spec = [
 
   {/* ══════════════════════════ CODE ══════════════════════════ */}
   <Section
-    label="Open source"
     heading="The code behind the numbers."
     lede="Every published result ships with the harness that produced it, archived on Zenodo with a citable DOI."
-    align="split"
   >
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
       {
@@ -317,7 +314,6 @@ const spec = [
 
   {/* ══════════════════════════ BEYOND THE PAPERS ══════════════════════════ */}
   <Section
-    label="Beyond the papers"
     heading="The rest of the practice."
     lede="A research program needs infrastructure, and a field needs people who maintain it, review it, and judge it. All three are part of the job."
     tone="raised"
@@ -388,7 +384,7 @@ const spec = [
   {/* ══════════════════════════ WRITING ══════════════════════════ */}
   {
     writing.length > 0 && (
-      <Section label="Writing" heading="Recent notes.">
+      <Section heading="Recent notes.">
         <ul class="border-t border-[var(--hairline)]">
           {writing.map((post, i) => (
             <li>

@@ -27,7 +27,6 @@ const headerMeta = [
 
   {/* peer review: the research-venue half, kept separate from competition judging */}
   <Section
-    label="Peer review"
     heading="Reviewing at research venues."
     lede="Artifact evaluation and journal review. Listed exactly as far as it has actually gone, and no further."
     tone="raised"
@@ -59,7 +58,6 @@ const headerMeta = [
   </Section>
 
   <Section
-    label="Judging"
     heading="On the panel."
     lede="Hackathon and robotics competition judging."
   >
@@ -97,12 +95,12 @@ const headerMeta = [
         ))
       }
       <figcaption class="bg-[var(--bg)] px-5 py-3 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase sm:col-span-2">
-        // From the field · VEX V5 events I judge
+        VEX V5 events I judge
       </figcaption>
     </div>
   </Section>
 
-  <Section label="Speaking" heading="Talks and posters.">
+  <Section heading="Talks and posters.">
     <ul class="border-t border-[var(--hairline)]">
       {
         speaking.map((s, i) => (
@@ -126,7 +124,6 @@ const headerMeta = [
   </Section>
 
   <Section
-    label="Teaching and volunteering"
     heading="Before any of the rest of it."
     lede="Work with three foundations in India, mostly teaching and mostly with people who had very little margin for error."
   >

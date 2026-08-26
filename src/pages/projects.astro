@@ -148,7 +148,7 @@ const headerMeta = [
       const items = repos.filter((r) => r.kind === g.key);
       const { cols, last } = gridFor(items.length);
       return (
-        <Section label={g.label} heading={g.label} lede={g.lede}>
+        <Section heading={g.label} lede={g.lede}>
           <div class:list={['grid gap-px border border-[var(--hairline)] bg-[var(--hairline)]', cols]}>
             {items.map((r, i) => (
               <a
@@ -200,7 +200,6 @@ const headerMeta = [
 
   {/* upstream contributions */}
   <Section
-    label="Upstream"
     heading="Contributions to the infrastructure itself."
     lede="Contributions to the projects this research already depends on. Root-cause habits transfer: read the failing system, isolate the fault, fix the cause rather than the symptom."
   >
@@ -266,7 +265,6 @@ const headerMeta = [
 
   {/* senior design */}
   <Section
-    label="Capstone"
     heading="Seeing potholes coming."
     lede="A year-long, team-built in-vehicle detection system: stereo depth sensing, CNN detection on embedded hardware, a custom PCB, and a driver alert display. Shipped as a product, not a demo."
   >
@@ -309,7 +307,6 @@ const headerMeta = [
   </Section>
   {/* hardware builds */}
   <Section
-    label="Origins"
     heading="Where the hardware habit started."
     tone="raised"
     lede="Award-winning weekend builds from before the research program. Kept here because everything above traces back to them."
