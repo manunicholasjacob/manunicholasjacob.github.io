@@ -94,7 +94,33 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
          [data-reveal] elements. */
       const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      /* Magnetic pull on primary buttons: the button leans a few pixels
+         toward a nearby fine pointer and springs home on leave (the return
+         rides the .btn transform spring in CSS). Small enough to read as
+         weight rather than a trick: 6px cap. Skipped entirely for touch,
+         coarse pointers, and reduced motion. */
+      const initMagnetic = () => {
+        if (reduced() || !window.matchMedia('(pointer: fine)').matches) return;
+        document.querySelectorAll<HTMLElement>('.btn-primary').forEach((btn) => {
+          if (btn.dataset.magnet) return;
+          btn.dataset.magnet = '1';
+          btn.addEventListener('pointermove', (e) => {
+            const r = btn.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2);
+            const dy = e.clientY - (r.top + r.height / 2);
+            const pull = 6;
+            btn.style.transitionDuration = '0.12s';
+            btn.style.transform = `translate(${((dx / r.width) * 2 * pull).toFixed(1)}px, ${((dy / r.height) * 2 * pull).toFixed(1)}px)`;
+          });
+          btn.addEventListener('pointerleave', () => {
+            btn.style.transitionDuration = '';
+            btn.style.transform = '';
+          });
+        });
+      };
+
       const initPage = () => {
+        initMagnetic();
         const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
 
         const reveal = (el: HTMLElement) => el.classList.add('is-visible');

@@ -19,19 +19,22 @@
   /* text colour that sits on top of a filled accent block */
   --on-accent: #0a0a0a;
 
-  /* dark is the default identity */
-  --bg: #0a0a0a;
-  --bg-raised: #101010;
-  --surface: rgb(255 255 255 / 0.02);
-  --surface-hover: rgb(255 255 255 / 0.045);
+  /* Dark is the default identity. Lifted from #0a0a0a on 27 Aug 2026 because
+     near-black read as a void on bright screens; #141416 keeps the identity
+     while giving surfaces and hairlines something to sit against. The greys
+     moved with it so the contrast arithmetic below stays true. */
+  --bg: #141416;
+  --bg-raised: #1a1a1d;
+  --surface: rgb(255 255 255 / 0.03);
+  --surface-hover: rgb(255 255 255 / 0.055);
   --fg: #fafafa;
-  --fg-muted: #a1a1a1;
-  /* #838383 rather than a darker grey so the 11px mono labels clear
-     WCAG AA (5.0:1) instead of failing it at 3.8:1 */
-  --fg-faint: #838383;
-  --hairline: rgb(255 255 255 / 0.09);
-  --hairline-strong: rgb(255 255 255 / 0.16);
-  --dot: rgb(255 255 255 / 0.05);
+  --fg-muted: #a8a8ad;
+  /* #8b8b90 rather than a darker grey so the 11px mono labels clear
+     WCAG AA (5.4:1 on this background) instead of failing it */
+  --fg-faint: #8b8b90;
+  --hairline: rgb(255 255 255 / 0.1);
+  --hairline-strong: rgb(255 255 255 / 0.17);
+  --dot: rgb(255 255 255 / 0.055);
   --shadow: 0 1px 2px rgb(0 0 0 / 0.6);
 
   color-scheme: dark;

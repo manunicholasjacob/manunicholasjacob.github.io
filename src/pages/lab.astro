@@ -123,20 +123,64 @@ const headerMeta = [
     heading="Rules a result has to survive."
     lede="Written down because they cost something. Each of these has, at least once, meant deleting a result that would have made a better headline."
   >
-    <ol class="border-t border-[var(--hairline)]">
+    {/*
+      A sticky stack, and the one place on the site the pattern is motivated:
+      the rules are sequential and cumulative, so each card pinning on top of
+      the ones before it is the content's own shape, not decoration. Pure
+      position:sticky, no library, no scroll hijack; the reader's scroll is
+      the only controller, and reading order is preserved exactly for
+      keyboard, screen-reader and reduced-motion users because nothing here
+      is animation at all. Earlier cards stay visible as a ledger of headers.
+    */}
+    <ol class="rule-stack">
       {
         rules.map((r, i) => (
-          <li
-            class="grid gap-4 border-b border-[var(--hairline)] py-8 lg:grid-cols-[4rem_18rem_1fr] lg:gap-10"
-          >
-            <span class="font-mono text-sm text-[var(--fg-faint)] tabular-nums">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 class="text-lg leading-snug font-medium tracking-tight">{r.title}</h3>
-            <p class="max-w-2xl text-sm leading-relaxed text-[var(--fg-muted)]">{r.body}</p>
+          <li class="rule-card" style={`--i: ${i}`}>
+            <div class="flex items-baseline gap-6 border-b border-[var(--hairline)] px-6 py-4 sm:px-8">
+              <span class="font-mono text-sm text-[var(--accent)] tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 class="text-lg leading-snug font-medium tracking-tight">{r.title}</h3>
+            </div>
+            <p class="max-w-2xl px-6 py-6 text-sm leading-relaxed text-[var(--fg-muted)] sm:px-8 sm:py-8">
+              {r.body}
+            </p>
           </li>
         ))
       }
     </ol>
   </Section>
 </Base>
+
+<style>
+  .rule-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .rule-card {
+    /* Pin below the 3.5rem nav, each card a step lower so the covered cards
+       remain readable as a stack of numbered headers. */
+    position: sticky;
+    top: calc(4.5rem + var(--i) * 3.4rem);
+    background: var(--bg-raised);
+    border: 1px solid var(--hairline);
+    box-shadow: 0 -8px 24px rgb(0 0 0 / 0.35);
+  }
+
+  /* Give the stack scroll distance to play out; without it the cards pin for
+     only a few pixels and the effect reads as a glitch instead of a stack. */
+  .rule-card:not(:last-child) {
+    min-height: 14rem;
+  }
+
+  /* The stacked ledger needs headroom under the nav on short viewports; if
+     five headers cannot fit, fall back to an ordinary list. */
+  @media (max-height: 620px), (max-width: 640px) {
+    .rule-card {
+      position: static;
+      min-height: 0;
+    }
+  }
+</style>
