@@ -38,7 +38,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL('/img/manu.jpg', Astro.site ?? site.url)} />
+    {/* A purpose-built 1200x630 card in the site's own type and palette;
+        the square portrait cropped badly in link previews. Regenerate per
+        scripts/build_og_card.md when the identity changes. Deliberately no
+        live counts on it: a static image with fast-moving numbers goes
+        stale the way the CV PDF once did. */}
+    <meta property="og:image" content={new URL('/img/og.png', Astro.site ?? site.url)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <script

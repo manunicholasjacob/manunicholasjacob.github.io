@@ -111,6 +111,10 @@ body {
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Light text on a dark ground reads slightly tighter than the same setting
+     on paper; a hair more tracking compensates. Display type and labels set
+     their own letter-spacing, so this reaches running prose only. */
+  letter-spacing: 0.01em;
 }
 
 ::selection {
@@ -121,6 +125,13 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+/* The text caret is a browser surface too; on defaults it ships as a white
+   bar that belongs to no palette. */
+input,
+textarea {
+  caret-color: var(--accent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -307,18 +318,6 @@ html:not(.js) .hl-draw {
   .trace-strip svg {
     animation: none;
   }
-}
-
-/* Ghost numerals: large, light, low-contrast ordinals for genuinely ranked
-   content (the featured-results cards). */
-.ghost-num {
-  font-family: var(--font-mono);
-  font-size: 4.5rem;
-  font-weight: 200;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--hairline-strong);
-  user-select: none;
 }
 
 /* The nav earns depth only once content actually scrolls beneath it. */

@@ -208,10 +208,7 @@ const spec = [
               i === 0 ? 'p-8 sm:p-10 lg:row-span-2' : 'p-7',
             ]}
           >
-            <div class="flex items-start justify-between gap-3">
-              <span class="ghost-num">{String(i + 1).padStart(2, '0')}</span>
-              <span class="tag tag-accent">{p.venueTier}</span>
-            </div>
+            <span class="tag tag-accent self-start">{p.venueTier}</span>
 
             <h3
               class:list={[
