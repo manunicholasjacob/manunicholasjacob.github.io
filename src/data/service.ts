@@ -27,10 +27,14 @@ export type ServiceEntry = {
 export const peerReview: ServiceEntry[] = [
   {
     role: 'Artifact Evaluation Committee',
-    org: 'USENIX ATC 2026',
-    venue: 'USENIX ATC',
+    // The venue renamed for 2026: it is now the ACM SIGOPS Annual Technical
+    // Conference, the continuation of USENIX ATC. The chair's invitation and
+    // the HotCRP site both carry the ACM SIGOPS name; CORE rates the
+    // conference A under its USENIX name, so say the lineage, not just the tag.
+    org: "ATC '26 (ACM SIGOPS)",
+    venue: 'ACM SIGOPS ATC',
     detail:
-      'Invited by the committee chair, serving as an independent researcher. The work is assessing submitted research artifacts for availability, functionality and reproducibility, in a review window running 22 September to 14 October 2026. The roster is not published yet, so there is no page worth linking here until it is.',
+      "Invited by the committee chair, serving as an independent researcher, on the annual technical conference now run by ACM SIGOPS as the continuation of USENIX ATC, which CORE rates A under that name. The work is assessing submitted research artifacts for availability, functionality and reproducibility, in a review window running 22 September to 14 October 2026. The roster is not published yet, so there is no page worth linking here until it is.",
     period: '2026',
     tag: 'CORE A',
   },
@@ -51,7 +55,7 @@ export const peerReview: ServiceEntry[] = [
     org: 'JOSS: nsEVDx',
     venue: 'Journal of Open Source Software',
     detail:
-      'A Python library for non-stationary extreme value distributions, assigned 21 August 2026. Most of the checklist work here is whether the samplers do what the paper says they do.',
+      'A Python library for non-stationary extreme value distributions, assigned 20 August 2026. Most of the checklist work here is whether the samplers do what the paper says they do.',
     period: '2026',
     link: {
       label: 'The review, in the open',

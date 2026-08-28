@@ -39,7 +39,7 @@ export const current: NowItem[] = [
     status: 'In motion',
   },
   {
-    title: 'Artifact evaluation for USENIX ATC 2026',
+    title: "Artifact evaluation for ATC '26 (ACM SIGOPS, formerly USENIX ATC)",
     detail:
       'On the Artifact Evaluation Committee. The review window is 22 September to 14 October 2026, and it is the fixed point the rest of the autumn has to work around.',
     status: 'Committed',
