@@ -83,7 +83,7 @@ const headerMeta = [
           <div class="bg-[var(--bg)] p-7">
             <div class="flex items-baseline justify-between gap-4">
               <h3 class="text-lg font-medium tracking-tight">{e.title}</h3>
-              <span class="font-mono text-[0.625rem] text-[var(--fg-faint)]">{e.year}</span>
+              <span class="font-mono text-[0.6875rem] text-[var(--fg-faint)]">{e.year}</span>
             </div>
             <p class="mt-1.5 font-mono text-[0.6875rem] text-[var(--accent)]">{e.org}</p>
             <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{e.detail}</p>
@@ -135,8 +135,7 @@ const headerMeta = [
                 </div>
               )}
               <div class:list={['p-7', wide && 'lg:flex lg:max-w-2xl lg:flex-col lg:justify-center']}>
-                <p class="label">{String(i + 1).padStart(2, '0')}</p>
-                <h3 class="mt-4 text-xl font-medium tracking-tight">{it.name}</h3>
+                <h3 class="text-xl font-medium tracking-tight">{it.name}</h3>
                 <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">{it.blurb}</p>
               </div>
             </div>
@@ -153,7 +152,7 @@ const headerMeta = [
         earlyCourses.map((c) => (
           <li class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-[var(--hairline)] py-4">
             <span class="text-sm text-[var(--fg-muted)]">{c.title}</span>
-            <span class="font-mono text-[0.625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+            <span class="font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
               {c.issuer} · {c.date}
             </span>
           </li>

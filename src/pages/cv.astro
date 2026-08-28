@@ -81,12 +81,15 @@ const paperGroups = [
     </header>
 
     {/* contact strip */}
-    <div class="grid grid-cols-2 gap-x-8 gap-y-2 border-b border-[var(--hairline)] py-5 sm:grid-cols-4">
+    <div class="grid grid-cols-2 gap-x-8 gap-y-2 border-b border-[var(--hairline)] py-5 sm:grid-cols-[1.4fr_1fr_1fr_1fr]">
       {
         contact.map((c) => (
-          <div>
-            <p class="label !text-[0.5625rem]">{c.label}</p>
-            <a href={c.href} class="mt-0.5 inline-block py-1 font-mono text-[0.75rem] break-all text-[var(--fg)] hover:text-[var(--accent)]">
+          <div class="min-w-0">
+            <p class="label !text-[0.6875rem]">{c.label}</p>
+            <a
+              href={c.href}
+              class="mt-0.5 inline-block max-w-full overflow-hidden py-1 font-mono text-[0.75rem] text-ellipsis whitespace-nowrap text-[var(--fg)] hover:text-[var(--accent)]"
+            >
               {c.value}
             </a>
           </div>
@@ -407,7 +410,7 @@ const paperGroups = [
       </div>
     </section>
 
-    <p class="mt-12 border-t border-[var(--hairline)] pt-5 font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+    <p class="mt-12 border-t border-[var(--hairline)] pt-5 font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
       Generated from the same data files as the rest of the site ·
       <a class="inline-block py-1 text-[var(--accent)]" href="/manu-nicholas-jacob-cv.pdf" download>PDF</a> ·
       manunicholasjacob.com/cv

@@ -12,10 +12,37 @@ const all = [...nav, ...navSecondary];
 
     <div class="relative mx-auto flex min-h-[52vh] max-w-6xl flex-col justify-center px-5 py-24 sm:px-8">
       <p class="label mb-6 flex items-center gap-2"><span class="text-[var(--accent)]">//</span>Error 404</p>
-      <h1 class="display max-w-3xl">No signal on that address.</h1>
-      <p class="lede mt-7 max-w-lg">
-        The page moved when this site was rebuilt. Everything is still here, just somewhere tidier.
-      </p>
+
+      <div class="grid items-center gap-10 lg:grid-cols-[1fr_22rem]">
+        <div>
+          <h1 class="display max-w-3xl">No signal on that address.</h1>
+          <p class="lede mt-7 max-w-lg">
+            The page moved when this site was rebuilt. Everything is still here, just somewhere
+            tidier.
+          </p>
+        </div>
+
+        {/* The site's own joke: one measurement sitting nowhere near the
+            roofline. Decoration everywhere else is banned; here the 404 IS
+            the anomalous data point, so the chart is the message. */}
+        <figure class="hidden border border-[var(--hairline)] bg-[var(--surface)] p-4 lg:block">
+          <svg viewBox="0 0 320 190" role="img" aria-label="A roofline chart with one point far below the ceiling, labelled: this page">
+            <line x1="24" y1="12" x2="24" y2="160" stroke="var(--hairline-strong)" stroke-width="1"></line>
+            <line x1="24" y1="160" x2="308" y2="160" stroke="var(--hairline-strong)" stroke-width="1"></line>
+            <line x1="24" y1="150" x2="240" y2="22" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.75"></line>
+            <line x1="240" y1="22" x2="308" y2="22" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.75"></line>
+            <circle cx="84" cy="118" r="4" fill="var(--fg)"></circle>
+            <circle cx="132" cy="90" r="4" fill="var(--fg)"></circle>
+            <circle cx="182" cy="61" r="4" fill="var(--fg)"></circle>
+            <circle cx="256" cy="142" r="4.5" fill="none" stroke="var(--accent)" stroke-width="1.5"></circle>
+            <text x="256" y="128" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--accent)">this page</text>
+            <text x="30" y="150" font-family="var(--font-mono)" font-size="9" fill="var(--fg-faint)">EXPECTED: ON THE ROOFLINE</text>
+          </svg>
+          <figcaption class="mt-3 border-t border-[var(--hairline)] pt-2 font-mono text-[0.6875rem] leading-relaxed text-[var(--fg-faint)]">
+            Measured throughput of this URL: none. Root cause: it does not exist.
+          </figcaption>
+        </figure>
+      </div>
 
       <div class="mt-10">
         <a href="/" class="btn btn-primary">Back to start</a>
@@ -31,7 +58,7 @@ const all = [...nav, ...navSecondary];
               <span class="text-sm text-[var(--fg-muted)] group-hover:text-[var(--accent)]">
                 {item.label}
               </span>
-              <span class="font-mono text-[0.625rem] text-[var(--fg-faint)] group-hover:text-[var(--accent)]">
+              <span class="font-mono text-[0.6875rem] text-[var(--fg-faint)] group-hover:text-[var(--accent)]">
                 {item.href}
               </span>
             </a>

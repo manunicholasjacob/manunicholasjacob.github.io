@@ -111,7 +111,7 @@ const spec = [
                     i !== 0 && 'border-t border-[var(--hairline)]',
                   ]}
                 >
-                  <dt class="font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+                  <dt class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
                     {k}
                   </dt>
                   <dd class="text-right font-mono text-[0.6875rem] text-[var(--fg-muted)]">{v}</dd>
@@ -119,6 +119,33 @@ const spec = [
               ))
             }
           </dl>
+          {/* The proof row: the recruiter's and the verifier's next click,
+              in the spec card where both are already looking. */}
+          <div
+            class="flex items-stretch justify-between gap-px border border-t-0 border-[var(--hairline)] bg-[var(--hairline)]"
+          >
+            <a
+              href="/cv"
+              class="flex-1 bg-[var(--bg)] px-3 py-2 text-center font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-muted)] uppercase transition-colors hover:bg-[var(--surface-hover)] hover:text-[var(--accent)]"
+            >
+              CV
+            </a>
+            <a
+              href="/manu-nicholas-jacob-cv.pdf"
+              download
+              class="flex-1 bg-[var(--bg)] px-3 py-2 text-center font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-muted)] uppercase transition-colors hover:bg-[var(--surface-hover)] hover:text-[var(--accent)]"
+            >
+              PDF
+            </a>
+            <a
+              href={links.orcid}
+              target="_blank"
+              rel="noopener"
+              class="flex-1 bg-[var(--bg)] px-3 py-2 text-center font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-muted)] uppercase transition-colors hover:bg-[var(--surface-hover)] hover:text-[var(--accent)]"
+            >
+              ORCID
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -208,11 +235,9 @@ const spec = [
               i === 0 ? 'p-8 sm:p-10 lg:row-span-2' : 'p-7',
             ]}
           >
-            <span class="tag tag-accent self-start">{p.venueTier}</span>
-
             <h3
               class:list={[
-                'mt-6 leading-snug font-medium tracking-tight',
+                'leading-snug font-medium tracking-tight',
                 i === 0 ? 'text-2xl sm:text-3xl sm:leading-tight' : 'text-xl',
               ]}
             >
@@ -227,6 +252,8 @@ const spec = [
               {p.claim}
             </p>
 
+            {i === 0 && <span class="flex-1" aria-hidden="true" />}
+
             {
               i === 0 && p.facts && (
                 <dl class="mt-8 border border-[var(--hairline)]">
@@ -237,7 +264,7 @@ const spec = [
                         j !== 0 && 'border-t border-[var(--hairline)]',
                       ]}
                     >
-                      <dt class="font-mono text-[0.625rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
+                      <dt class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--fg-faint)] uppercase">
                         {k}
                       </dt>
                       <dd class="text-right font-mono text-[0.6875rem] text-[var(--fg-muted)]">
@@ -248,8 +275,6 @@ const spec = [
                 </dl>
               )
             }
-
-            {i === 0 && <span class="flex-1" aria-hidden="true" />}
 
             <p class="mt-6 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
               {p.headline}

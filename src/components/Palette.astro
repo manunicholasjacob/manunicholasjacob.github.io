@@ -57,13 +57,13 @@ const index: Item[] = [
         class="h-12 w-full bg-transparent font-mono text-sm text-[var(--fg)] outline-none placeholder:text-[var(--fg-faint)]"
       />
       <kbd
-        class="hidden shrink-0 border border-[var(--hairline)] px-1.5 py-0.5 font-mono text-[0.5625rem] text-[var(--fg-faint)] sm:block"
+        class="hidden shrink-0 border border-[var(--hairline)] px-1.5 py-0.5 font-mono text-[0.6875rem] text-[var(--fg-faint)] sm:block"
         >ESC</kbd
       >
     </div>
     <ul id="palette-list" class="max-h-[50vh] overflow-y-auto py-1.5"></ul>
     <div
-      class="flex items-center gap-4 border-t border-[var(--hairline)] px-4 py-2 font-mono text-[0.5625rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase"
+      class="flex items-center gap-4 border-t border-[var(--hairline)] px-4 py-2 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase"
     >
       <span>↑↓ navigate</span>
       <span>↵ open</span>
@@ -107,7 +107,7 @@ const index: Item[] = [
 
       const kind = document.createElement('span');
       kind.className =
-        'shrink-0 w-12 font-mono text-[0.5625rem] tracking-[0.1em] text-[var(--fg-faint)]';
+        'shrink-0 w-12 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)]';
       kind.textContent = KINDS[item.k] || '';
 
       const title = document.createElement('span');
@@ -115,7 +115,7 @@ const index: Item[] = [
       title.textContent = item.t;
 
       const sub = document.createElement('span');
-      sub.className = 'ml-auto max-w-[40%] truncate font-mono text-[0.625rem] text-[var(--fg-faint)]';
+      sub.className = 'ml-auto max-w-[40%] truncate font-mono text-[0.6875rem] text-[var(--fg-faint)]';
       sub.textContent = item.s;
 
       a.append(kind, title, sub);
