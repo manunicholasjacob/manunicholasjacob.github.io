@@ -50,11 +50,12 @@ export const machines: Machine[] = [
     spec: [
       '6 performance cores, 8 efficiency cores, DDR5',
       'RTX 3050 Laptop, treated as a separate device by the harness',
+      'Single-node k3s cluster in WSL2, containerd runtime',
       'Intel RAPL energy counters',
       'Roughly four times the memory bandwidth of the Pi',
     ],
     status: 'Active',
-    note: 'This machine is why the results are not a Raspberry Pi story. The memory-bandwidth law was re-measured here on a completely different architecture and held with the same goodness of fit, and the mixed performance and efficiency cores are the subject of their own paper. The GPU in it used to be listed separately, which flattered the bench: it is one laptop.',
+    note: 'This machine is why the results are not a Raspberry Pi story. The memory-bandwidth law was re-measured here on a completely different architecture and held with the same goodness of fit, and the mixed performance and efficiency cores are the subject of their own paper. The GPU in it used to be listed separately, which flattered the bench: it is one laptop. The k3s cluster is on this row for the same reason. It is a Kubernetes control plane and its pods running on these cores, not a second machine, and the harness has to be told they share a CPU so it does not run them against each other and call the contention a result.',
   },
   {
     name: 'iMac G3, 1998',
@@ -84,6 +85,10 @@ export const rules: Rule[] = [
   {
     title: 'Ship the harness',
     body: 'Every published result has a public repository with the code and data that produced it, archived on Zenodo with a citable DOI. If a reviewer cannot re-run it, it is an anecdote.',
+  },
+  {
+    title: 'Record what constrained the run, not only what ran it',
+    body: 'A throughput number taken under a CPU quota is not comparable to one taken without, so every run in a container writes down the cgroup ceilings that applied to it, read from inside the container rather than copied out of the config that asked for them. The two disagree more often than you would like: a limit can be rewritten by an admission controller, rounded by the runtime, or turned into a reservation because Kubernetes copies limits into requests when requests are absent. Believe the container, not the file.',
   },
   {
     title: 'Instrument power, do not model it',

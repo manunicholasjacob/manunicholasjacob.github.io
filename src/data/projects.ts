@@ -13,6 +13,12 @@ const gh = (slug: string) => `${links.github}/${slug}`;
  * of three denominators. When a number here changes, run that test file and copy
  * what it asserts, and quote the least flattering denominator as it does. The
  * homepage card in `pages/index.astro` repeats this figure; change both.
+ *
+ * The containerisation figures below are covered by that test file too, as of
+ * v0.2.0: it reads results/containerization/summary.json and fails if the README
+ * table and the records disagree. So the same rule applies to them. Do not round
+ * the +2.3% to "about 2" or the 64% to "roughly two thirds" here; a number that
+ * cannot be matched against the assertion is a number that will drift.
  */
 export const flagship = {
   name: 'ML Systems Lab',
@@ -21,28 +27,32 @@ export const flagship = {
   doi: '10.5281/zenodo.21867055',
   tagline: 'One config file, one command, every machine on the bench.',
   description:
-    'A reproducible benchmarking framework for ML inference across heterogeneous hardware. One YAML config drives llama.cpp and ONNX Runtime sweeps on laptops, Raspberry Pi over SSH, and GPUs; every run produces a self-describing record carrying the hardware, backend versions, measured metrics, and the physical state of the machine while they were measured: power, temperature, clocks, throttle flags, utilization. The analysis layer turns a directory of records into publication-quality tables and figures.',
+    'A reproducible benchmarking framework for ML inference across heterogeneous hardware. One YAML config drives llama.cpp and ONNX Runtime sweeps on laptops, Raspberry Pi over SSH, GPUs, and Kubernetes pods, sequentially or across every machine at once; every run produces a self-describing record carrying the hardware, backend versions, measured metrics, the cgroup ceilings that applied, and the physical state of the machine while they were measured: power, temperature, clocks, throttle flags, utilization. The analysis layer turns a directory of records into publication-quality tables and figures.',
   architecture: [
     { step: 'config.yaml', detail: 'machines, models, and the sweep matrix, declared once' },
     { step: 'RunSpecs', detail: 'deterministic run ids; interrupted campaigns resume by skipping what is on disk' },
-    { step: 'Device', detail: 'local subprocess or agent pushed over SSH; a new machine is a config block, not code' },
+    { step: 'Device', detail: 'local subprocess, agent pushed over SSH, or agent streamed into a Kubernetes pod; a new machine is a config block, not code, and no backend knows which kind it is talking to' },
     { step: 'Agent', detail: 'pure standard library, runs on the device under test; nothing crosses the network inside a measurement window' },
-    { step: 'RunRecord', detail: 'raw output parsed on the host, so a parser bug is a re-parse, not a re-run; failures are records too' },
+    { step: 'Scheduler', detail: 'optional concurrent sweeps with per-device limits, resource groups for devices that are secretly the same machine, circuit breakers, and retries only for transport failures' },
+    { step: 'RunRecord', detail: 'raw output parsed on the host, so a parser bug is a re-parse, not a re-run; failures are records too, and a run under a CPU quota carries the quota it actually ran under' },
+    { step: 'Observability', detail: 'Prometheus exporter and a checked-in Grafana dashboard for watching a sweep; the records stay the result, the exporter is never in the write path' },
     { step: 'Analysis', detail: 'text, Markdown and LaTeX tables; roofline and scaling figures' },
   ],
   hardware: [
     'Raspberry Pi 5, Cortex-A76: SSH agent, PMIC per-rail power, throttle bits, DVFS control',
     'i7-12700H laptop, Windows: local agent, 20-thread sweeps, models up to 7B',
     'RTX 3050 via ONNX Runtime DirectML: modeled as its own device',
+    'Kubernetes pods on k3s: cgroup ceilings read from inside the container, not copied from the config',
   ],
   result:
-    'Reproduces the IEEE Transactions on Computers submission’s roofline fits exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.7%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64.',
+    'Reproduces the IEEE Transactions on Computers submission’s roofline fits exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.7%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64. Used it to measure what containerisation costs a benchmark: across 50 runs a pod is within +2.3% of a bare process and 14 of 15 comparisons cannot be separated from noise, while a CPU quota set below the thread count costs 64.1% and is resolved on every point. The ranking of five quantizations is identical in all five arms.',
   related: [
     { title: 'The Memory Wall at the Edge of Language', href: '/research#edge-llm' },
     { title: 'The Memory Wall Governs Edge DNN Inference', href: '/research#memory-wall' },
     { title: 'The Cold-Start Tax', href: '/research#cold-start' },
+    { title: 'Kubernetes did not slow my benchmark down', href: '/writing/quota-not-the-container' },
   ],
-  stack: ['Python', 'llama.cpp', 'ONNX Runtime', 'SSH agents', 'PMIC / RAPL telemetry'],
+  stack: ['Python', 'llama.cpp', 'ONNX Runtime', 'Kubernetes', 'Docker', 'Prometheus', 'SSH agents', 'PMIC / RAPL telemetry'],
 } as const;
 
 export type Repo = {

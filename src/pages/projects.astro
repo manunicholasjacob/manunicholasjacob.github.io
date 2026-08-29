@@ -1,9 +1,29 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import { repos, builds, engineering, upstream, flagship } from '../data/projects';
 import { dim } from '../data/img-dims';
+
+/**
+ * Drop related links that point at a post which is not in this build.
+ *
+ * A drafted post is deliberately absent from production, so a project entry that
+ * links to one ships a 404. That happened the moment the first project cited a
+ * piece written ahead of its publication date, and it is not the sort of thing
+ * anyone notices by reading the data file. Anchors and external links pass
+ * through untouched; only /writing/<id> is checked, against the same filter the
+ * writing index uses.
+ */
+const liveWriting = new Set(
+  (await getCollection('writing', ({ data }) => import.meta.env.DEV || !data.draft)).map(
+    (p) => `/writing/${p.id}`,
+  ),
+);
+
+const isLive = (href: string) =>
+  !href.startsWith('/writing/') || liveWriting.has(href.replace(/\/$/, ''));
 
 const groups = [
   {
@@ -111,7 +131,7 @@ const headerMeta = [
           <p class="label mb-4">Related publications</p>
           <ul class="space-y-2">
             {
-              flagship.related.map((r) => (
+              flagship.related.filter((r) => isLive(r.href)).map((r) => (
                 <li>
                   <a href={r.href} class="link-u inline-block py-1 text-sm leading-snug">
                     {r.title}

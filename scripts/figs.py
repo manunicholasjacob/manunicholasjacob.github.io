@@ -193,17 +193,29 @@ def fig_format_tax():
         f'x2="{sx(b["bytes"]/1e6,xlo,xhi):.1f}" y2="{sy(b["tok_s"],ylo,yhi):.1f}" '
         f'stroke="{ACCENT}" stroke-width="1" stroke-dasharray="3 3" opacity="0.8"/>'
     )
-    gap = (b["tok_s"] / a["tok_s"] - 1) * 100
+    # Two directions, and they are not interchangeable in a caption.
+    #
+    #   faster_pct  how much quicker IQ4_XS is, against Q4_K_M as the base
+    #   slower_pct  how far Q4_K_M falls short, against IQ4_XS as the base
+    #
+    # The sentence is "the default is X% slower", so X is slower_pct. The post
+    # settled this explicitly: the two are the same gap counted from opposite
+    # ends, and the smaller one is the honest thing to put next to a 44 percent
+    # energy figure. This used to emit faster_pct into a caption that said
+    # "slower", which overwrote the corrected figure every time anyone re-ran
+    # inject_figs.py. Do not swap these back.
+    faster = (b["tok_s"] / a["tok_s"] - 1) * 100
+    slower = (1 - a["tok_s"] / b["tok_s"]) * 100
     en = (a["mJ_per_tok"] / b["mJ_per_tok"] - 1) * 100
     s.append(
         f'<text x="{PAD_L+10}" y="{PAD_T+4}" fill="{ACCENT}" font-size="11.5">'
-        f"the default is {gap:.0f}% slower and uses {en:.0f}% more energy per token"
+        f"the default is {slower:.0f}% slower and uses {en:.0f}% more energy per token"
         "</text>"
     )
     s += tail()
     write("fig-format-tax", s)
-    fair = (b["tok_s"] / anybest["Q4_K_M"]["tok_s"] - 1) * 100
-    return {"gap_pct": gap, "energy_pct": en, "points": len(pts),
+    fair = (1 - anybest["Q4_K_M"]["tok_s"] / anybest["IQ4_XS"]["tok_s"]) * 100
+    return {"gap_pct": slower, "faster_pct": faster, "energy_pct": en, "points": len(pts),
             "gap_at_own_best_pct": fair,
             "q4km_best_threads": anybest["Q4_K_M"]["threads"]}
 
@@ -344,6 +356,68 @@ def fig_int8(models):
 
 
 # ---------------------------------------------------------------------------
+# FIG 8  the container costs nothing measurable; the quota costs 64 percent
+# ---------------------------------------------------------------------------
+def fig_container(arms):
+    """arms: [(label, mean_pct, [per-model pct], resolvable_band_pct)]
+
+    Horizontal, because the story is one bar sitting a long way from the others
+    and that reads better across than up. The shaded band is the width this
+    measurement can actually resolve, so a bar inside it is a bar you are not
+    allowed to interpret.
+    """
+    s = head("container", "Decode throughput in a Kubernetes pod relative to an "
+                          "uncontainerised process on the same machine")
+    n = len(arms)
+    row = 46
+    top = 78
+    bottom = top + n * row + 26
+    s[0] = s[0].replace(f'viewBox="0 0 {W} {H}"', f'viewBox="0 0 {W} {bottom}"')
+
+    lo, hi = -75.0, 15.0
+    x0, x1 = 178, W - 34
+    zero = x0 + (0.0 - lo) / (hi - lo) * (x1 - x0)
+    band = arms[0][3]
+    bl = x0 + (-band - lo) / (hi - lo) * (x1 - x0)
+    br = x0 + (band - lo) / (hi - lo) * (x1 - x0)
+
+    s.append(f'<rect x="{bl:.1f}" y="{top-18}" width="{br-bl:.1f}" '
+             f'height="{n*row - 4}" fill="{MUTED}" opacity="0.09"/>')
+    s.append(f'<text x="{(bl+br)/2:.1f}" y="{top-26}" fill="{MUTED}" '
+             'text-anchor="middle" font-size="10.5">cannot resolve</text>')
+
+    for v in (-75, -60, -45, -30, -15, 0, 15):
+        x = x0 + (v - lo) / (hi - lo) * (x1 - x0)
+        s.append(f'<line x1="{x:.1f}" y1="{top-18}" x2="{x:.1f}" '
+                 f'y2="{top + n*row - 22}" stroke="{HAIR}" stroke-dasharray="2 4"/>')
+        s.append(f'<text x="{x:.1f}" y="{top + n*row - 6}" fill="{FAINT}" '
+                 f'text-anchor="middle">{v:+g}%</text>')
+    s.append(f'<line x1="{zero:.1f}" y1="{top-18}" x2="{zero:.1f}" '
+             f'y2="{top + n*row - 22}" stroke="{MUTED}" stroke-width="1.25"/>')
+
+    for i, (label, mean, points, _b) in enumerate(arms):
+        y = top + i * row
+        col = ACCENT if abs(mean) > band else FG
+        s.append(f'<text x="168" y="{y+4}" fill="{FG}" text-anchor="end" '
+                 f'font-size="10.5">{label}</text>')
+        xm = x0 + (mean - lo) / (hi - lo) * (x1 - x0)
+        s.append(f'<line x1="{zero:.1f}" y1="{y}" x2="{xm:.1f}" y2="{y}" '
+                 f'stroke="{col}" stroke-width="7" stroke-linecap="butt" opacity="0.85"/>')
+        for pv in points:
+            xp = x0 + (pv - lo) / (hi - lo) * (x1 - x0)
+            s.append(f'<circle cx="{xp:.1f}" cy="{y+13}" r="2.4" fill="{col}" '
+                     'opacity="0.75"/>')
+        s.append(f'<text x="{xm + (7 if mean > 0 else -7):.1f}" y="{y+4}" fill="{col}" '
+                 f'text-anchor="{"start" if mean > 0 else "end"}" font-size="10.5">'
+                 f'{mean:+.1f}%</text>')
+
+    s.append(f'<text x="24" y="{top-26}" fill="{FAINT}" font-size="10.5">'
+             "each dot is one model</text>")
+    s += tail()
+    write("fig-container", s)
+
+
+# ---------------------------------------------------------------------------
 # FIG 5  where the cold-start wake actually goes
 # ---------------------------------------------------------------------------
 def fig_coldstart(phases):
@@ -456,6 +530,70 @@ def load_energy_rows(model="mobilenetv2-12.onnx", threads=3):
             if r["model"] == model and int(r["threads"]) == threads:
                 by_freq.setdefault(int(r["freq"]), []).append(float(r["E_tot_mJ"]))
     return [(f, sum(v) / len(v), "") for f, v in sorted(by_freq.items())]
+
+
+def load_container_arms():
+    """What a pod costs against a host process, from the containerisation study.
+
+    Read from the 50 shipped records rather than the generated summary, so this
+    figure and the repo's own report have to agree by construction instead of by
+    somebody remembering to copy a number across.
+    """
+    import statistics
+
+    src = ROOT / "ml-systems-lab/results/containerization"
+    rows = []
+    for pas in ("pass1", "pass2"):
+        for rec in sorted((src / pas).rglob("*.json")):
+            d = json.loads(rec.read_text(encoding="utf-8"))
+            if d.get("status") != "ok":
+                continue
+            rows.append({
+                "device": d["device"]["device_id"],
+                "model": d["workload"]["model"],
+                "decode": d["metrics"]["decode_tps"],
+                "spread": d["metrics"].get("stdev_pct"),
+                "reps": d["knobs"].get("repetitions") or 1,
+            })
+
+    def mean_of(device, model, key="decode"):
+        vals = [r[key] for r in rows if r["device"] == device and r["model"] == model
+                and r[key] is not None]
+        return statistics.mean(vals) if vals else None
+
+    def sem(device, model):
+        """Standard error of the mean, which is what a difference is judged against."""
+        m, sp = mean_of(device, model), mean_of(device, model, "spread")
+        reps = statistics.mean([r["reps"] for r in rows if r["device"] == device
+                                and r["model"] == model])
+        if m is None or sp is None:
+            return None
+        return (sp / 100.0) * m / (reps ** 0.5)
+
+    models = sorted({r["model"] for r in rows})
+    labels = [("k8s-unlimited", "pod, no CPU quota"),
+              ("k8s-cpu8", "pod, quota 8 cores"),
+              ("k8s-cpu4", "pod, quota 4 cores"),
+              ("k8s-cpu2", "pod, quota 2 cores")]
+
+    out, widths = [], []
+    for device, label in labels:
+        deltas = []
+        for model in models:
+            base, val = mean_of("wsl-host", model), mean_of(device, model)
+            if not base or not val:
+                continue
+            deltas.append(100.0 * (val / base - 1.0))
+            sa, sb = sem("wsl-host", model), sem(device, model)
+            if sa and sb:
+                widths.append(200.0 * ((sa ** 2 + sb ** 2) ** 0.5) / base)
+        out.append([label, statistics.mean(deltas), deltas, 0.0])
+
+    # One band for the whole chart: the median of the per-point two-sigma widths.
+    band = statistics.median(widths)
+    for entry in out:
+        entry[3] = band
+    return [tuple(e) for e in out], band, len(rows), models
 
 
 def load_int8_rows():
@@ -586,12 +724,16 @@ if __name__ == "__main__":
     fig_retractions(RETRACTIONS)
     ag = load_agreement()
     fig_agreement(ag)
+    ca, band, nrec, cmodels = load_container_arms()
+    fig_container(ca)
     print()
     print("numbers, for the prose:")
     print(f"  format tax   at 2 threads the default is {f1['gap_pct']:.1f}% behind and burns "
           f"{f1['energy_pct']:.1f}% more energy per token, over {f1['points']} formats; at its "
           f"own best ({f1['q4km_best_threads']} threads) it is still "
           f"{f1['gap_at_own_best_pct']:.1f}% behind")
+    print(f"               the same gap the other way round is {f1['faster_pct']:.1f}% faster "
+          "for IQ4_XS. Quote the first one; it is the smaller and the honest one")
     print(f"  roofline     {f2['bw']:.2f} GB/s fitted over {f2['n']} models")
     lo = min(er, key=lambda r: r[1])
     hi = er[-1]
@@ -604,3 +746,9 @@ if __name__ == "__main__":
     print("  cold start   " + ", ".join(f"{l} {v*100:.0f}%" for l, v in cs))
     for lab, bw, r2, pts in ag:
         print(f"  agreement    {lab}: {len(pts)} points on {bw} GB/s, R2 {r2}")
+    print(f"  container    {nrec} records over {len(cmodels)} models; this measurement "
+          f"resolves differences wider than {band:.1f}%")
+    for lab, mean, pts, _b in ca:
+        verdict = "outside it" if abs(mean) > band else "inside the noise"
+        print(f"               {lab:<20} {mean:+6.2f}%  "
+              f"[{min(pts):+.1f} to {max(pts):+.1f}]  {verdict}")
