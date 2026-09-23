@@ -412,7 +412,7 @@ const spec = [
             <li>
               <a
                 href={`/writing/${post.id}`}
-                class="group grid gap-2 border-b border-l-2 border-[var(--hairline)] border-l-transparent py-6 pl-4 transition-colors hover:border-l-[var(--accent)] hover:bg-[var(--surface)] sm:grid-cols-[8rem_1fr_2rem] sm:items-baseline sm:gap-8"
+                class="group grid gap-2 border-b border-l-2 border-[var(--hairline)] border-l-transparent py-6 pl-4 transition-colors hover:border-l-[var(--accent)] hover:bg-[var(--surface)] sm:grid-cols-[8rem_1fr_6rem] sm:items-baseline sm:gap-8"
               >
                 <span class="font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
                   {fmtDate(post.data.date)}
@@ -425,9 +425,22 @@ const spec = [
                     {post.data.description}
                   </span>
                 </span>
-                <span class="hidden text-[var(--fg-faint)] transition-all group-hover:translate-x-1 group-hover:text-[var(--accent)] sm:block sm:text-right">
-                  →
-                </span>
+                {
+                  post.data.card ? (
+                    <img
+                      src={post.data.card}
+                      alt=""
+                      width="1200"
+                      height="1200"
+                      loading="lazy"
+                      class="hidden w-24 self-center border border-[var(--hairline)] transition-transform duration-500 group-hover:scale-[1.03] sm:block"
+                    />
+                  ) : (
+                    <span class="hidden text-[var(--fg-faint)] transition-all group-hover:translate-x-1 group-hover:text-[var(--accent)] sm:block sm:text-right">
+                      →
+                    </span>
+                  )
+                }
               </a>
             </li>
           ))}

@@ -55,6 +55,33 @@ const headerMeta = [
         ))
       }
     </div>
+
+    {/* the two reviewing commitments, as notebook cards */}
+    <div class="mt-px grid gap-px border border-t-0 border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
+      <figure class="overflow-hidden bg-[var(--bg)]">
+        <img
+          src="/img/cards/atc-aec-card.png"
+          alt="A light engineering-grid notebook card for the ATC '26 Artifact Evaluation Committee: a row of artifact checks marked OK or flagged, and the review window opening 22 September."
+          width="1200"
+          height="1200"
+          loading="lazy"
+          class="w-full"
+        />
+      </figure>
+      <figure class="overflow-hidden bg-[var(--bg)]">
+        <img
+          src="/img/cards/joss-first-review-card.png"
+          alt="A light engineering-grid notebook card for the first JOSS review: six software versions bisected to three real bugs, with the full 31-item checklist complete."
+          width="1200"
+          height="1200"
+          loading="lazy"
+          class="w-full"
+        />
+      </figure>
+      <figcaption class="bg-[var(--bg)] px-5 py-3 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase sm:col-span-2">
+        The review bench: artifact evaluation and journal review
+      </figcaption>
+    </div>
   </Section>
 
   <Section

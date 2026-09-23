@@ -104,8 +104,18 @@ const headerMeta = [
         </ol>
       </div>
 
-      {/* right: hardware, result, links */}
+      {/* right: the device-abstraction card, then hardware, result, links */}
       <div class="flex flex-col gap-px bg-[var(--hairline)]">
+        <figure class="overflow-hidden bg-[var(--bg)]">
+          <img
+            src="/img/cards/pod-as-a-device-card.png"
+            alt="A light engineering-grid notebook card: a laptop, a Raspberry Pi over SSH and a Kubernetes pod drawn as three interchangeable devices, headed a pod is just another machine."
+            width="1200"
+            height="1200"
+            loading="lazy"
+            class="w-full"
+          />
+        </figure>
         <div class="bg-[var(--bg)] p-8">
           <p class="label mb-4">Supported hardware</p>
           <ul class="space-y-2.5">

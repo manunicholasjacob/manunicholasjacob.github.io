@@ -6,6 +6,7 @@ kind: Method
 topics: ['Reproducibility', 'Negative results', 'Method']
 readingTime: 8
 draft: false
+card: '/img/writing/claims-card.png'
 ---
 
 The rule I put on the lab page is that a negative result gets published. It is

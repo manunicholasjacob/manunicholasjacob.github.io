@@ -6,6 +6,7 @@ kind: Method
 topics: ['Reproducibility', 'Tooling', 'Benchmarking', 'Method']
 readingTime: 7
 draft: false
+card: '/img/writing/five-harnesses-card.png'
 ---
 
 Every measurement project I started grew its own scripts. That is how these

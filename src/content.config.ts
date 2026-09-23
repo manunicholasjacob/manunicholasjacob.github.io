@@ -19,6 +19,8 @@ const writing = defineCollection({
     draft: z.boolean().default(false),
     /** Minutes. Left manual so it never lies. */
     readingTime: z.number().optional(),
+    /** Square title card, shown as a thumbnail on the index. */
+    card: z.string().optional(),
   }),
 });
 

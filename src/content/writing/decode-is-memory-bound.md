@@ -6,6 +6,7 @@ kind: Measurement
 topics: ['llama.cpp', 'Memory bandwidth', 'Tooling', 'Roofline']
 readingTime: 6
 draft: false
+card: '/img/writing/decode-cliff-card.png'
 ---
 
 There is a moment when you first run a language model on your own machine and it

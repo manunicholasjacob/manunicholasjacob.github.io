@@ -92,6 +92,34 @@ const headerMeta = [
     lede="Ten configurations across an Arm SBC and an x86 laptop, plotted from the public artifact. Each machine's measured memory bandwidth draws a ceiling, and decode runs right underneath it on both."
   >
     <DecodeRoofline />
+
+    {/* Two findings as they left the bench: the notebook cards each result
+        went out under. Light on purpose; this is the longest page on the site. */}
+    <div class="mt-14 grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2">
+      <a href="#cold-start" class="group overflow-hidden bg-[var(--bg)]">
+        <img
+          src="/img/cards/cold-start-card.png"
+          alt="A light engineering-grid notebook card: latency spikes at the first inference after a device wakes, 5 to 23 times slower than every one after it, then settles to steady state."
+          width="1200"
+          height="1200"
+          loading="lazy"
+          class="w-full transition-transform duration-500 group-hover:scale-[1.015]"
+        />
+      </a>
+      <a href="/writing" class="group overflow-hidden bg-[var(--bg)]">
+        <img
+          src="/img/cards/measurement-notebook-card.png"
+          alt="A light engineering-grid notebook card: four small trace rows, one per shipped default that turned out to be quietly wrong, captioned 2026 edge inference measurement notebook."
+          width="1200"
+          height="1200"
+          loading="lazy"
+          class="w-full transition-transform duration-500 group-hover:scale-[1.015]"
+        />
+      </a>
+      <p class="bg-[var(--bg)] px-5 py-3 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase sm:col-span-2">
+        Two of the findings, as they left the bench
+      </p>
+    </div>
   </Section>
 
   {/* full list */}
