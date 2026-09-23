@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import sharp from 'sharp';
 
 const out = {};
-for (const f of fs.readdirSync('public/img').sort()) {
+for (const f of fs.readdirSync('public/img', { withFileTypes: true }).filter((e) => e.isFile()).map((e) => e.name).sort()) {
   const m = await sharp('public/img/' + f).metadata();
   out['/img/' + f] = [m.width, m.height];
 }

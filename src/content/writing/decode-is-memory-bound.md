@@ -1,17 +1,21 @@
 ---
 title: Your local language model is waiting on memory, and one command will prove it
 description: Text generation on a CPU is a memory problem wearing a compute problem's clothes. Here is the one-line rule that predicts it, the evidence from seven models on one laptop, and a tool that measures it on your machine.
-date: 2026-08-26
+date: 2026-09-23
 kind: Measurement
 topics: ['llama.cpp', 'Memory bandwidth', 'Tooling', 'Roofline']
 readingTime: 6
-draft: true
+draft: false
 ---
 
 There is a moment when you first run a language model on your own machine and it
 is slower than you hoped. My instinct was to reach for the processor: more
 threads, a higher clock, a build with better compiler flags. I spent about a week
 on that and got very little for it.
+
+<figure>
+<img src="/img/writing/decode-cliff-card.png" alt="A dark measurement card: decode throughput against thread count on an i7-12700H rises to a peak at 8 threads and falls 37.5 percent by 20; caption reads more cores made it slower." width="1200" height="1200" loading="lazy" style="width:100%;height:auto;display:block" />
+</figure>
 
 The reason is simple once you see it, and it has almost nothing to do with the
 processor.

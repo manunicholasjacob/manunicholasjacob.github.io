@@ -64,11 +64,14 @@ export const papers: Paper[] = [
     headline: 'Open 13-hour telemetry dataset, no added hardware',
     venue: 'IEEE Embedded Systems Letters',
     venueTier: 'Letters',
+    // IEEE-ESL-Sep-26-0719. The July manuscript (0569) was desk-declined on
+    // 3 Sep for a missing SOTA comparison; the revision added one on the
+    // released dataset and went back the same week.
     status: 'Under review',
-    dateline: 'Submitted 27 Jul 2026',
+    dateline: 'Revised and resubmitted 5 Sep 2026',
     year: '2026',
     topics: ['Thermal', 'Telemetry', 'Open dataset'],
-    submitted: '2026-07-27',
+    submitted: '2026-09-05',
     artifact: { repo: 'pi5-thermal-proxy', doi: '10.5281/zenodo.21844859' },
   },
   {
@@ -112,10 +115,13 @@ export const papers: Paper[] = [
     claim:
       'An honest operating-regime study of convex thermal allocation for multi-tenant edge inference, including the regimes where the controller is the wrong answer.',
     headline: 'Maps the regime boundary rather than claiming a universal win',
-    venue: 'IEEE Embedded Systems Letters',
-    venueTier: 'Letters',
-    status: 'Under review',
-    dateline: 'Submitted 6 Aug 2026',
+    // Declined at IEEE ESL (3 Sep) and IoT-J (7 Sep). Rebuilt in full with
+    // matched baselines and open-loop arrivals; the rebuilt result is more
+    // honest than the original headline was. Headed for IEEE TSUSC.
+    venue: 'IEEE Trans. on Sustainable Computing',
+    venueTier: 'Journal',
+    status: 'Rebuilt, ready to resubmit',
+    dateline: 'Declined twice, rebuilt with matched baselines',
     year: '2026',
     topics: ['Thermal', 'Control', 'Multi-tenant'],
     submitted: '2026-08-06',
@@ -143,10 +149,12 @@ export const papers: Paper[] = [
     claim:
       'The bandwidth ceiling that governs CNN inference governs on-device LLM decode too, and the KV cache turns it into a hard capacity wall. The same law holds on x86 at three times the bandwidth, so the roofline is the platform-independent part.',
     headline: 'Decode roofline R^2 = 0.98, unchanged on x86 at three times the bandwidth',
-    venue: 'IEEE Transactions on Computers',
+    // TC-2026-08-0905 declined 8 Sep 2026; TC bars modified versions, so the
+    // paper is rehomed rather than revised for the same venue.
+    venue: 'IEEE Internet of Things Journal',
     venueTier: 'Journal',
-    status: 'Under review',
-    dateline: 'Submitted 7 Aug 2026',
+    status: 'Ready to resubmit',
+    dateline: 'Declined at IEEE TC, rebuilt for IoT-J',
     year: '2026',
     topics: ['LLM inference', 'KV cache', 'llama.cpp'],
     submitted: '2026-08-07',
@@ -160,10 +168,13 @@ export const papers: Paper[] = [
     claim:
       'On CPUs that mix performance and efficiency cores, LLM decode throughput does not scale smoothly with thread count. It collapses once the scheduler starts placing decode work on the efficiency cores, and the fastest configuration is not the widest one.',
     headline: 'Decode throughput collapses on performance-plus-efficiency CPUs',
-    venue: 'IEEE Computer Architecture Letters',
-    venueTier: 'Letters',
-    status: 'Under review',
-    dateline: 'Submitted 17 Aug 2026',
+    // CAL-2026-08-0286 declined 6 Sep on novelty; the reviewer advice was to
+    // extend it, and the extension is done: regular-paper length, new
+    // measurements, artifact public at edge-decode-thread-scaling.
+    venue: 'IEEE Trans. on Parallel and Distributed Systems',
+    venueTier: 'Journal',
+    status: 'Extended, ready to submit',
+    dateline: 'Declined at IEEE CAL, extended for TPDS',
     year: '2026',
     topics: ['LLM inference', 'Hybrid cores', 'Scheduling'],
     submitted: '2026-08-17',
@@ -191,8 +202,8 @@ export const papers: Paper[] = [
     claim:
       'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime where it actually pays, and shows quantization compresses the exit ladder enough to shrink the controller’s authority.',
     headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
-    venue: 'IEEE Embedded Systems Letters',
-    venueTier: 'Letters',
+    venue: 'IEEE Trans. on Sustainable Computing',
+    venueTier: 'Journal',
     /* Withdrawn from DATE 2027 on 24 Aug 2026 (submission 38X-B8H4G8E6D7, received
        15 Aug 2026). DATE is in-person only, forbids non-author presenters, and pulls
        a paper from the proceedings if no author attends; a single-author portfolio
@@ -201,7 +212,7 @@ export const papers: Paper[] = [
        not 'Under review' and the site's under-review count is 11 while that holds.
        Move it back to 'Under review' with the date on the day it goes in. */
     status: 'Ready to submit',
-    dateline: 'Withdrawn from DATE, recut for IEEE ESL',
+    dateline: 'Withdrawn from DATE, expanded for IEEE TSUSC',
     year: '2027',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
     submitted: '2026-08-15',
@@ -242,16 +253,34 @@ export const papers: Paper[] = [
     claim:
       'For early-exit inference, the latency-optimal configuration costs about twice the energy of the energy-optimal one at shallow exits, and the first-order lever is thread count, not clock. A closed-form break-even rule predicts the right choice.',
     headline: 'Rule validated on 64 of 64 measured configurations',
-    // CAL-2026-08-0285, submitted 17 Aug 2026.
-    venue: 'IEEE Computer Architecture Letters',
-    venueTier: 'Letters',
+    // TC-2026-09-1048, received 7 Sep 2026. The CAL Letter (0285) was
+    // declined 5 Sep with one strongly positive review; the regular-paper
+    // version answers the other two.
+    venue: 'IEEE Transactions on Computers',
+    venueTier: 'Journal',
     status: 'Under review',
-    dateline: 'Submitted 17 Aug 2026',
-    submitted: '2026-08-17',
+    dateline: 'Resubmitted as a regular paper 6 Sep 2026',
+    submitted: '2026-09-06',
     year: '2026',
     topics: ['Energy', 'Early exit', 'Parallelism'],
     // Artifact went public after submission, so the manuscript does not cite it.
     artifact: { repo: 'edge-breakeven-speedup', doi: '10.5281/zenodo.21987261' },
+  },
+  {
+    // hotmobile27.hotcrp.com submission 13, 22 Sep 2026. Notification 16 Dec.
+    id: 'format-tax',
+    title: 'Your Quantization Format Is Not Free',
+    claim:
+      'Same-size, same-label GGUF files decode very differently on edge CPUs: the label records the conversion recipe, not what the file was converted from. On Cortex-A76 the spread reaches 30% in latency with a 33% energy premium for I-quants; on x86 the equal-cost assumption holds.',
+    headline: 'Same size, same label, 30% apart on Cortex-A76',
+    venue: 'HotMobile 2027',
+    venueTier: 'Workshop',
+    status: 'Under review',
+    dateline: 'Submitted 22 Sep 2026',
+    year: '2027',
+    topics: ['Quantization', 'GGUF', 'Energy'],
+    submitted: '2026-09-22',
+    artifact: { repo: 'edge-format-tax', doi: '10.5281/zenodo.21938812' },
   },
   {
     id: 'gpu-repro',
@@ -259,10 +288,10 @@ export const papers: Paper[] = [
     claim:
       'A clock-gated methodology that makes consumer-GPU inference numbers reproducible between runs, kept honest by a drift artifact we caught in our own background jobs and left in as the counterexample.',
     headline: 'Clock-gated protocol for repeatable GPU measurement',
-    venue: 'EuroMLSys (EuroSys workshop)',
-    venueTier: 'Workshop',
-    status: 'Ready, awaiting CFP',
-    dateline: 'CFP expected Nov 2026',
+    venue: 'IEEE Computer Architecture Letters',
+    venueTier: 'Letters',
+    status: 'Ready to submit',
+    dateline: 'Staged for IEEE CAL, Sep 2026',
     year: '2027',
     topics: ['GPU', 'Methodology', 'Reproducibility'],
   },

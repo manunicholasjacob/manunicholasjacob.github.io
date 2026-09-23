@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-08-24';
+export const updated = '2026-09-23';
 
 export type NowItem = {
   title: string;
@@ -15,46 +15,40 @@ export type NowItem = {
 
 export const current: NowItem[] = [
   {
-    title: 'Twelve manuscripts out at once',
+    title: 'Nine manuscripts in review, after a bruising September',
     detail:
-      'Four at IEEE Embedded Systems Letters, three at ACM TECS, two at IEEE Computer Architecture Letters, and one each at IEEE Internet of Things Journal, IEEE Transactions on Computers and IEEE Design & Test. Not one decision back yet. The next move on each is whatever the reviewers say.',
+      'The first decisions arrived: five rejections in six days in early September. Three of those papers are already rebuilt, one is back under review at IEEE TC as a regular paper, and the thermal-proxy letter was revised and resubmitted the same week it was declined. Now in review: three at ACM TECS, two at IEEE ESL, and one each at IEEE IoT-J, IEEE TC, IEEE Design & Test and HotMobile 2027.',
     status: 'In review',
   },
   {
-    title: 'Two waiting on a portal to open',
+    title: 'Artifact evaluation for ATC \'26, in the window',
     detail:
-      'The quantization-format paper is finished and waiting on HotMobile, which does not reopen until roughly October. The GPU profiling methodology paper is waiting on the EuroMLSys call, expected somewhere between November and January, and its own number audit says fix two things first.',
-    status: 'Queued',
+      'The Artifact Evaluation Committee review window opened 22 September and runs to 14 October. This is the fixed point the rest of the autumn works around.',
+    status: 'Reviewing now',
+  },
+  {
+    title: 'Embedded Vision Summit 2027: talk accepted',
+    detail:
+      'Accepted in September. First draft slides are due 7 October; the deck is built, checked by a 95-assertion gate against the measured data, and waiting on the official template.',
+    status: 'Preparing',
+  },
+  {
+    title: 'JOSS reviewing',
+    detail:
+      'Two reviews delivered: Optiland (recommendation with the editor) and nsEVDx, which was accepted and published in September. A third review is open for a pathology imaging toolkit, and a fourth assignment waits at pre-review.',
+    status: 'Reviewing',
+  },
+  {
+    title: 'Open-source contributions',
+    detail:
+      'Three pull requests merged into NVIDIA garak and one into ai-dynamo AIPerf, with seven more open at garak, six at AIPerf and three at vLLM. Plus a new public kernel study: a quantized GEMV ladder measured against its own bandwidth roof on five NVIDIA GPUs.',
+    status: 'In motion',
   },
   {
     title: 'Server-class measurement',
     detail:
       'Bringing the Cisco UCS bench up for NUMA and CPU-inference energy work: the same memory-wall thesis, one scale up, on hardware old enough to be honest about.',
     status: 'Building',
-  },
-  {
-    title: 'Open-source contributions',
-    detail:
-      'Three pull requests merged into NVIDIA garak, seven still open there, and four open at vLLM, in the same areas the research already touches: inference performance and LLM evaluation.',
-    status: 'In motion',
-  },
-  {
-    title: "Artifact evaluation for ATC '26 (ACM SIGOPS, formerly USENIX ATC)",
-    detail:
-      'On the Artifact Evaluation Committee. The review window is 22 September to 14 October 2026, and it is the fixed point the rest of the autumn has to work around.',
-    status: 'Committed',
-  },
-  {
-    title: 'JOSS reviewing',
-    detail:
-      'First review delivered on 19 August: Optiland, an optical design package, 31 checklist items and three issues that the authors resolved. A second review is open now for a library on non-stationary extreme value distributions, and a third assignment is waiting on its editor.',
-    status: 'Reviewing',
-  },
-  {
-    title: 'One talk still out',
-    detail:
-      'A talk submitted to Embedded Vision Summit 2027, a vision-framed treatment of the measurement work. Not accepted yet. The PyTorch Conference poster was declined on capacity in August.',
-    status: 'Submitted',
   },
 ];
 

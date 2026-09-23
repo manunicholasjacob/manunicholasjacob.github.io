@@ -1,17 +1,21 @@
 ---
 title: I had five benchmark harnesses and they did not agree with each other
 description: Every paper grew its own set of scripts, and by the fifth one I could no longer tell whether a difference between two results was the hardware or the harness. Rebuilding them as one framework was the only way to find out.
-date: 2026-09-19
+date: 2026-09-23
 kind: Method
 topics: ['Reproducibility', 'Tooling', 'Benchmarking', 'Method']
 readingTime: 7
-draft: true
+draft: false
 ---
 
 Every measurement project I started grew its own scripts. That is how these
 things go. You need one number, you write forty lines to get it, the forty lines
 work, and eight months later there are five separate piles of them and each pile
 knows a slightly different set of tricks.
+
+<figure>
+<img src="/img/writing/five-harnesses-card.png" alt="A light engineering-grid card: measurements from five separate harnesses collapsing onto one fitted line, captioned five setups that disagreed, 1.6 percent spread once they were one tool." width="1200" height="1200" loading="lazy" style="width:100%;height:auto;display:block" />
+</figure>
 
 The moment it became a problem was mundane. Two results disagreed by a few
 percent and I could not tell whether that was the machine or the code that

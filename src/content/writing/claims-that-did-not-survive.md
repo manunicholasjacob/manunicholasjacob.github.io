@@ -1,16 +1,20 @@
 ---
 title: Four numbers I published that turned out to be wrong
 description: Four headline claims from my own measurement work did not survive being rechecked. What each one was, how it broke, and the thing three of the four have in common.
-date: 2026-09-05
+date: 2026-09-23
 kind: Method
 topics: ['Reproducibility', 'Negative results', 'Method']
 readingTime: 8
-draft: true
+draft: false
 ---
 
 The rule I put on the lab page is that a negative result gets published. It is
 easy to write that down. It is less comfortable when the negative result is about
 something you already wrote down as positive.
+
+<figure>
+<img src="/img/writing/claims-card.png" alt="A poster card with a blue slab: three things I check before I believe a number; run it do not read it, check every release not the tag, read around the quote." width="1200" height="1200" loading="lazy" style="width:100%;height:auto;display:block" />
+</figure>
 
 Four claims came out of this programme, went into drafts, and then failed a
 recheck. One of them had already reached a public repository, which now carries a

@@ -69,6 +69,33 @@ export type Repo = {
 
 export const repos: Repo[] = [
   {
+    slug: 'edge-decode-thread-scaling',
+    name: 'edge-decode-thread-scaling',
+    blurb:
+      'LLM decode thread scaling on a hybrid-core i7-12700H and a Raspberry Pi 5: the raw records, the analysis, and the macros the manuscript compiles from.',
+    stack: ['Python', 'llama.cpp', 'perf'],
+    url: 'https://github.com/manunicholasjacob/edge-decode-thread-scaling',
+    kind: 'artifact',
+  },
+  {
+    slug: 'gpu-profiling-reproducibility',
+    name: 'gpu-profiling-reproducibility',
+    blurb:
+      'Measurement artifact for profiling inference on a consumer laptop GPU: thermal gating, clock-gated protocol, run-to-run variance.',
+    stack: ['Python', 'CUDA', 'NVML'],
+    url: 'https://github.com/manunicholasjacob/gpu-profiling-reproducibility',
+    kind: 'artifact',
+  },
+  {
+    slug: 'qgemv-roofline',
+    name: 'qgemv-roofline',
+    blurb:
+      'A quantized GEMV kernel ladder measured against its own bandwidth roof: 12 CUDA kernels plus Triton for batch-1 LLM decode, on five NVIDIA GPUs from sm_60 to sm_89.',
+    stack: ['CUDA', 'Triton', 'Python'],
+    url: 'https://github.com/manunicholasjacob/qgemv-roofline',
+    kind: 'lab',
+  },
+  {
     slug: 'rpi5-quantization-benchmark',
     name: 'rpi5-quantization-benchmark',
     blurb:
@@ -295,15 +322,53 @@ export type Upstream = {
 
 export const upstream: Upstream[] = [
   {
+    project: 'AIPerf',
+    org: 'ai-dynamo',
+    why: 'The NVIDIA Dynamo benchmarking tool for LLM inference. Telemetry work from the same measurement habits: host and CPU power collection, NVML energy counters, AMD GPU telemetry, and packaging fixes.',
+    prs: [
+      {
+        number: 1340,
+        title: 'test: stop asserting across a Rich line wrap in aggregation output',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1340',
+        merged: true,
+      },
+      {
+        number: 1341,
+        title: 'feat(telemetry): add a host telemetry collector with a RAPL power path',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1341',
+      },
+      {
+        number: 1350,
+        title: 'feat(telemetry): probe the NVML energy counter once, fall back cleanly',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1350',
+      },
+      {
+        number: 1437,
+        title: 'feat(telemetry): add AMD DME remote GPU telemetry',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1437',
+      },
+      {
+        number: 1438,
+        title: 'fix(telemetry): read the DCGM hostname label',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1438',
+      },
+      {
+        number: 1342,
+        title: 'docs(list-metric-aggregation): std uses Welford, not a naive pass',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1342',
+      },
+      {
+        number: 1320,
+        title: 'build: make crick an optional dependency',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1320',
+      },
+    ],
+  },
+  {
     project: 'vLLM',
     org: 'vllm-project',
     why: 'The serving engine much of production LLM inference runs on. Fixes and docs from reproducing real failures: tokenizer edge cases, FlashInfer JIT preflight, MoE tuning robustness, WSL2 gotchas.',
     prs: [
-      {
-        number: 50752,
-        title: 'Encode special tokens in HF processors for transformers-native mistral-common tokenizers',
-        url: 'https://github.com/vllm-project/vllm/pull/50752',
-      },
       {
         number: 50711,
         title: 'benchmark_moe: do not abort tuning when a candidate config fails Triton compilation',

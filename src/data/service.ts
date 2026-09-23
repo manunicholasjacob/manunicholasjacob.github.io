@@ -34,7 +34,11 @@ export const peerReview: ServiceEntry[] = [
     org: "ATC '26 (ACM SIGOPS)",
     venue: 'ACM SIGOPS ATC',
     detail:
-      "Invited by the committee chair, serving as an independent researcher, on the annual technical conference now run by ACM SIGOPS as the continuation of USENIX ATC, which CORE rates A under that name. The work is assessing submitted research artifacts for availability, functionality and reproducibility, in a review window running 22 September to 14 October 2026. The roster is not published yet, so there is no page worth linking here until it is.",
+      "Invited by the committee chair, serving as an independent researcher, on the annual technical conference now run by ACM SIGOPS as the continuation of USENIX ATC, which CORE rates A under that name. The work is assessing submitted research artifacts for availability, functionality and reproducibility, in a review window running 22 September to 14 October 2026. The review window opened 22 September 2026 and runs to 14 October.",
+    link: {
+      label: 'The committee roster',
+      href: 'https://sysartifacts.github.io/atc2026/committee',
+    },
     period: '2026',
     tag: 'CORE A',
   },
@@ -51,11 +55,11 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
-    role: 'Reviewer, in progress',
+    role: 'Reviewer, paper published',
     org: 'JOSS: nsEVDx',
     venue: 'Journal of Open Source Software',
     detail:
-      'A Python library for non-stationary extreme value distributions, assigned 20 August 2026. Most of the checklist work here is whether the samplers do what the paper says they do.',
+      'A Python library for non-stationary extreme value distributions, assigned 20 August 2026. The review filed three substantive issues against the samplers, verified the fixes against a fresh install from PyPI, and completed on 2 September; the paper was accepted and published that week.',
     period: '2026',
     link: {
       label: 'The review, in the open',
@@ -132,10 +136,11 @@ export const judging: ServiceEntry[] = [
  */
 export const speaking: ServiceEntry[] = [
   {
-    role: 'Talk, submitted',
+    role: 'Talk, accepted',
     org: 'Embedded Vision Summit 2027',
-    detail: 'A vision-framed treatment of the same measurement work.',
-    period: '2027',
+    detail:
+      'Accepted September 2026: "What actually governs vision inference on a Raspberry Pi 5", a 20-minute session at the 2027 Embedded Vision Summit, San Francisco, 2 to 4 February 2027. The curated program reviews speaker slides in three draft rounds before the event.',
+    period: 'Feb 2027',
   },
 ];
 
