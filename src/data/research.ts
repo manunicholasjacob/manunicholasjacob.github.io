@@ -100,13 +100,16 @@ export const papers: Paper[] = [
     claim:
       'Running an edge SBC at maximum clock wastes roughly a fifth of the energy per inference, and the waste is core-stall energy rather than DRAM energy. That reverses the usual intuition.',
     headline: '~20% energy wasted at max clock, with a deployable clock-selection policy',
-    venue: 'ACM Transactions on Embedded Computing Systems',
+    // Declined at ACM TECS late Sep 2026 (read as a measurement report by
+    // the general pool); rebuilt on the referees' concrete list and submitted
+    // 27 Sep to SUSCOM's Energy-aware AI special issue (SUSCOM-D-26-03833).
+    venue: 'Sustainable Computing: Informatics and Systems',
     venueTier: 'Journal',
     status: 'Under review',
-    dateline: 'Submitted 6 Aug 2026',
+    dateline: 'Declined at ACM TECS, resubmitted 27 Sep 2026',
     year: '2026',
     topics: ['Energy', 'DVFS', 'Power telemetry'],
-    submitted: '2026-08-06',
+    submitted: '2026-09-27',
     featured: true,
   },
   {
@@ -120,11 +123,11 @@ export const papers: Paper[] = [
     // honest than the original headline was. Headed for IEEE TSUSC.
     venue: 'IEEE Trans. on Sustainable Computing',
     venueTier: 'Journal',
-    status: 'Rebuilt, ready to resubmit',
-    dateline: 'Declined twice, rebuilt with matched baselines',
+    status: 'Under review',
+    dateline: 'Declined twice, rebuilt, submitted 26 Sep 2026',
     year: '2026',
     topics: ['Thermal', 'Control', 'Multi-tenant'],
-    submitted: '2026-08-06',
+    submitted: '2026-09-26',
     artifact: { repo: 'edge-thermal-margin-control', doi: '10.5281/zenodo.21844861' },
   },
   {
@@ -145,7 +148,9 @@ export const papers: Paper[] = [
   },
   {
     id: 'edge-llm',
-    title: 'The Memory Wall at the Edge of Language',
+    // Retitled from "The Memory Wall at the Edge of Language" when the paper
+    // was rebuilt for IoT-J; the artifact repo description matches.
+    title: 'One Law, Two Memory Systems',
     claim:
       'The bandwidth ceiling that governs CNN inference governs on-device LLM decode too, and the KV cache turns it into a hard capacity wall. The same law holds on x86 at three times the bandwidth, so the roofline is the platform-independent part.',
     headline: 'Decode roofline R^2 = 0.98, unchanged on x86 at three times the bandwidth',
@@ -153,31 +158,31 @@ export const papers: Paper[] = [
     // paper is rehomed rather than revised for the same venue.
     venue: 'IEEE Internet of Things Journal',
     venueTier: 'Journal',
-    status: 'Ready to resubmit',
-    dateline: 'Declined at IEEE TC, rebuilt for IoT-J',
+    status: 'Under review',
+    dateline: 'Rebuilt after the TC decline, submitted 22 Sep 2026',
     year: '2026',
     topics: ['LLM inference', 'KV cache', 'llama.cpp'],
-    submitted: '2026-08-07',
+    submitted: '2026-09-22',
     artifact: { repo: 'edge-llm-memory-wall', doi: '10.5281/zenodo.21844855' },
   },
 
   {
     // CAL-2026-08-0286, submitted 17 Aug 2026.
     id: 'hybrid-core',
-    title: 'The Hybrid-Core Decode Cliff',
+    // Retitled from "The Hybrid-Core Decode Cliff" for the extended TPDS
+    // version, whose controlled-headroom experiment revised the finding:
+    // the cost of oversubscription is predictability, not throughput.
+    title: 'Use More Threads, Not Fewer',
     claim:
-      'On CPUs that mix performance and efficiency cores, LLM decode throughput does not scale smoothly with thread count. It collapses once the scheduler starts placing decode work on the efficiency cores, and the fastest configuration is not the widest one.',
-    headline: 'Decode throughput collapses on performance-plus-efficiency CPUs',
-    // CAL-2026-08-0286 declined 6 Sep on novelty; the reviewer advice was to
-    // extend it, and the extension is done: regular-paper length, new
-    // measurements, artifact public at edge-decode-thread-scaling.
+      'LLM decode thread scaling measured on a hybrid-core i7-12700H and a Raspberry Pi 5. Oversubscription costs predictability rather than speed, and a controlled headroom experiment names the cause. Extends and revises the Letter-length version a reviewer asked to see grown up.',
+    headline: 'Oversubscription costs predictability, not throughput',
     venue: 'IEEE Trans. on Parallel and Distributed Systems',
     venueTier: 'Journal',
-    status: 'Extended, ready to submit',
-    dateline: 'Declined at IEEE CAL, extended for TPDS',
+    status: 'Under review',
+    dateline: 'Extended after the CAL decline, submitted 23 Sep 2026',
     year: '2026',
     topics: ['LLM inference', 'Hybrid cores', 'Scheduling'],
-    submitted: '2026-08-17',
+    submitted: '2026-09-23',
   },
   {
     // DTSI-2026-08-0079, submitted 17 Aug 2026, invited special issue.
@@ -202,17 +207,16 @@ export const papers: Paper[] = [
     claim:
       'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime where it actually pays, and shows quantization compresses the exit ladder enough to shrink the controller’s authority.',
     headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
-    venue: 'IEEE Trans. on Sustainable Computing',
+    /* No venue is named here on purpose: the obvious next home is barred by
+       a prior decision at that venue, and the rule is that a venue claim goes
+       up the day a submission is actually in, not before. The rebuild is
+       real: the missing state-of-the-art comparison is now a measurement, 45
+       interleaved runs on the Pi, and the controller is not dominated by the
+       confidence-threshold baseline the early-exit literature leans on. */
+    venue: 'Venue in selection',
     venueTier: 'Journal',
-    /* Withdrawn from DATE 2027 on 24 Aug 2026 (submission 38X-B8H4G8E6D7, received
-       15 Aug 2026). DATE is in-person only, forbids non-author presenters, and pulls
-       a paper from the proceedings if no author attends; a single-author portfolio
-       has no substitute presenter. Recut from 6pp to a 4pp ESL letter, which is
-       rolling, free and needs no travel. NOT yet submitted, so this is deliberately
-       not 'Under review' and the site's under-review count is 11 while that holds.
-       Move it back to 'Under review' with the date on the day it goes in. */
-    status: 'Ready to submit',
-    dateline: 'Withdrawn from DATE, expanded for IEEE TSUSC',
+    status: 'In rebuild',
+    dateline: 'Rebuilt around a measured state-of-the-art baseline',
     year: '2027',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
     submitted: '2026-08-15',
@@ -288,10 +292,14 @@ export const papers: Paper[] = [
     claim:
       'A clock-gated methodology that makes consumer-GPU inference numbers reproducible between runs, kept honest by a drift artifact we caught in our own background jobs and left in as the counterexample.',
     headline: 'Clock-gated protocol for repeatable GPU measurement',
-    venue: 'IEEE Computer Architecture Letters',
-    venueTier: 'Letters',
+    // Desk-declined at IEEE CAL (23 Sep, novelty) and Wiley CCPE (29 Sep);
+    // rebuilt with a 20-reference related-work section answering the novelty
+    // complaint. The next venue reviews double blind, so it is not named
+    // here: a public venue claim would deanonymise the submission.
+    venue: 'Double-blind venue',
+    venueTier: 'Conference',
     status: 'Ready to submit',
-    dateline: 'Staged for IEEE CAL, Sep 2026',
+    dateline: 'Rebuilt after two desk declines, Sep 2026',
     year: '2027',
     topics: ['GPU', 'Methodology', 'Reproducibility'],
   },

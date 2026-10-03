@@ -186,7 +186,7 @@ export const repos: Repo[] = [
     slug: 'llama-roofline',
     name: 'llama-roofline',
     blurb:
-      'A command-line tool that measures where a local LLM actually sits against the memory-bandwidth roofline on your own machine. Built out of the edge-LLM work and released standalone.',
+      'A command-line tool that measures where a local LLM actually sits against the memory-bandwidth roofline on your own machine. Built out of the edge-LLM work; live on PyPI as pip install llama-roofline.',
     stack: ['Python', 'CLI', 'llama.cpp'],
     url: gh('llama-roofline'),
     doi: '10.5281/zenodo.21842493',
@@ -341,6 +341,27 @@ export const upstream: Upstream[] = [
         number: 1350,
         title: 'feat(telemetry): probe the NVML energy counter once, fall back cleanly',
         url: 'https://github.com/ai-dynamo/aiperf/pull/1350',
+        merged: true,
+      },
+      {
+        number: 1470,
+        title: 'fix(logging): keep log lines a Windows console cannot encode',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1470',
+      },
+      {
+        number: 1472,
+        title: 'fix(sweep): write pareto_sweep.json and read the requested stat on single-trial sweeps',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1472',
+      },
+      {
+        number: 1473,
+        title: 'fix(dashboard): show live GPU telemetry after the pane is toggled',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1473',
+      },
+      {
+        number: 1474,
+        title: 'fix(gpu-telemetry): keep DCGM endpoint credentials out of records, status and logs',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1474',
       },
       {
         number: 1437,

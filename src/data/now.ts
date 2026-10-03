@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-09-23';
+export const updated = '2026-10-03';
 
 export type NowItem = {
   title: string;
@@ -15,33 +15,33 @@ export type NowItem = {
 
 export const current: NowItem[] = [
   {
-    title: 'Nine manuscripts in review, after a bruising September',
+    title: 'Twelve manuscripts in review, the deepest the queue has been',
     detail:
-      'The first decisions arrived: five rejections in six days in early September. Three of those papers are already rebuilt, one is back under review at IEEE TC as a regular paper, and the thermal-proxy letter was revised and resubmitted the same week it was declined. Now in review: three at ACM TECS, two at IEEE ESL, and one each at IEEE IoT-J, IEEE TC, IEEE Design & Test and HotMobile 2027.',
+      'Everything that was rebuilt after the September rejections has gone back in: the thread-scaling paper extended for IEEE TPDS, the decode-roofline paper rebuilt for IEEE IoT-J, the thermal-margin study at IEEE TSUSC, and the energy paper re-homed to an Elsevier special issue on energy-aware AI. Now in review: eight at IEEE journals, two at ACM TECS, one at Elsevier SUSCOM, and one at HotMobile 2027.',
     status: 'In review',
   },
   {
-    title: 'Artifact evaluation for ATC \'26, in the window',
+    title: "Artifact evaluation for ATC '26: both reviews delivered",
     detail:
-      'The Artifact Evaluation Committee review window opened 22 September and runs to 14 October. This is the fixed point the rest of the autumn works around.',
-    status: 'Reviewing now',
+      'Both assigned artifact reviews went in inside the window, on 27 September and 2 October. The committee phase runs to mid-October; the badge decisions are the committee\u2019s to make.',
+    status: 'Delivered',
   },
   {
     title: 'Embedded Vision Summit 2027: talk accepted',
     detail:
-      'Accepted in September. First draft slides are due 7 October; the deck is built, checked by a 95-assertion gate against the measured data, and waiting on the official template.',
+      'Accepted in September. First draft slides are due 7 October; the deck is built, checked by a 95-assertion gate against the measured data.',
     status: 'Preparing',
   },
   {
-    title: 'JOSS reviewing',
+    title: 'JOSS reviewing, six assignments deep',
     detail:
-      'Two reviews delivered: Optiland (recommendation with the editor) and nsEVDx, which was accepted and published in September. A third review is open for a pathology imaging toolkit, and a fourth assignment waits at pre-review.',
+      'Two reviews delivered: Optiland (recommendation with the editor) and nsEVDx, published 6 September as doi:10.21105/joss.11187. Four more reviews are open: a pathology imaging toolkit, a battery-electrolyte workflow, a high-contrast-imaging pipeline, and graph-based potential-energy models. Six assignments, six different editors.',
     status: 'Reviewing',
   },
   {
     title: 'Open-source contributions',
     detail:
-      'Three pull requests merged into NVIDIA garak and one into ai-dynamo AIPerf, with seven more open at garak, six at AIPerf and three at vLLM. Plus a new public kernel study: a quantized GEMV ladder measured against its own bandwidth roof on five NVIDIA GPUs.',
+      'Five pull requests merged upstream: three into NVIDIA garak and two into ai-dynamo AIPerf, with seven more open at garak, nine at AIPerf and three at vLLM. llama-roofline went live on PyPI, and the quantized-GEMV kernel study is public: thirteen kernels measured against their own bandwidth roof on five NVIDIA GPUs.',
     status: 'In motion',
   },
   {

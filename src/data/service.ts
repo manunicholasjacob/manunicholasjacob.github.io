@@ -26,7 +26,7 @@ export type ServiceEntry = {
  */
 export const peerReview: ServiceEntry[] = [
   {
-    role: 'Artifact Evaluation Committee',
+    role: 'Artifact Evaluation Committee, reviews delivered',
     // The venue renamed for 2026: it is now the ACM SIGOPS Annual Technical
     // Conference, the continuation of USENIX ATC. The chair's invitation and
     // the HotCRP site both carry the ACM SIGOPS name; CORE rates the
@@ -34,7 +34,7 @@ export const peerReview: ServiceEntry[] = [
     org: "ATC '26 (ACM SIGOPS)",
     venue: 'ACM SIGOPS ATC',
     detail:
-      "Invited by the committee chair, serving as an independent researcher, on the annual technical conference now run by ACM SIGOPS as the continuation of USENIX ATC, which CORE rates A under that name. The work is assessing submitted research artifacts for availability, functionality and reproducibility, in a review window running 22 September to 14 October 2026. The review window opened 22 September 2026 and runs to 14 October.",
+      "Invited by the committee chair, serving as an independent researcher, on the annual technical conference now run by ACM SIGOPS as the continuation of USENIX ATC, which CORE rates A under that name. The work is assessing submitted research artifacts for availability, functionality and reproducibility. Both assigned artifact reviews were delivered inside the window, on 27 September and 2 October 2026; the committee's badge decisions are the committee's, and are not claimed here.",
     link: {
       label: 'The committee roster',
       href: 'https://sysartifacts.github.io/atc2026/committee',
@@ -59,7 +59,7 @@ export const peerReview: ServiceEntry[] = [
     org: 'JOSS: nsEVDx',
     venue: 'Journal of Open Source Software',
     detail:
-      'A Python library for non-stationary extreme value distributions, assigned 20 August 2026. The review filed three substantive issues against the samplers, verified the fixes against a fresh install from PyPI, and completed on 2 September; the paper was accepted and published that week.',
+      'A Python library for non-stationary extreme value distributions, assigned 20 August 2026. The review filed three substantive issues against the samplers, verified the fixes against a fresh install from PyPI, and completed on 2 September; the paper was published on 6 September 2026 as doi:10.21105/joss.11187, with the review public under the published paper.',
     period: '2026',
     link: {
       label: 'The review, in the open',
@@ -79,15 +79,39 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
-    role: 'Reviewer, assigned at pre-review',
+    role: 'Reviewer, in progress',
     org: 'JOSS: Battflow',
     venue: 'Journal of Open Source Software',
     detail:
-      'An automated workflow for predicting battery properties. Sole listed reviewer, assigned at the pre-review stage, which means the review itself has not opened yet. Listed here at exactly that stage and no further.',
+      'An automated workflow for predicting battery electrolyte properties. Assigned at pre-review in August; the review itself opened 1 October 2026, one of two reviewers on it.',
     period: '2026',
     link: {
-      label: 'The pre-review thread',
-      href: 'https://github.com/openjournals/joss-reviews/issues/10661',
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/11374',
+    },
+  },
+  {
+    role: 'Reviewer, in progress',
+    org: 'JOSS: spherical',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'A database and automated pipeline for VLT/SPHERE high-contrast imaging, review opened 3 September 2026. One of two reviewers. This one started as a volunteer note to the editor rather than an inbound assignment.',
+    period: '2026',
+    link: {
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/11243',
+    },
+  },
+  {
+    role: 'Reviewer, in progress',
+    org: 'JOSS: graph-pes',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'Graph-based machine-learning models for potential-energy surfaces, assigned 5 September 2026. One of three reviewers on it. The performance claims are the familiar question again: what governs throughput, and was it measured or assumed.',
+    period: '2026',
+    link: {
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/9329',
     },
   },
   {
@@ -95,7 +119,7 @@ export const peerReview: ServiceEntry[] = [
     org: 'JOSS reviewer database',
     venue: 'Journal of Open Source Software',
     detail:
-      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Four assignments have come through it, and the four entries above are all of them.',
+      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Six assignments from six different editors have followed, and the six entries above are all of them.',
     period: '2026',
     link: {
       label: 'reviewers.joss.theoj.org',
