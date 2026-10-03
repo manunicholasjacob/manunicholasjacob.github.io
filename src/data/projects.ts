@@ -236,6 +236,8 @@ export type Build = {
   url?: string;
   /** Photo in /public/img. */
   image?: string;
+  /** A short local demo clip; shown with `image` as its poster. */
+  video?: string;
   imageAlt?: string;
   /** Demo / writeup links beyond the repo. */
   media?: { label: string; href: string }[];
@@ -253,6 +255,9 @@ export const builds: Build[] = [
     url: gh('worldwide-rover'),
     image: '/img/rover.jpg',
     imageAlt: 'The WorldWide Rover: a 3D-printed chassis with yellow wheels and ultrasonic sensors',
+    // 8-second phone-steered hallway demo, compressed to ~700KB; nothing
+    // downloads until the reader presses play (preload=none, poster above).
+    video: '/video/rover-demo.mp4',
     media: [
       { label: 'Watch it drive', href: 'https://www.youtube.com/watch?v=sQPTRrqMgYs' },
       { label: 'Devpost', href: 'https://devpost.com/software/worldwide-rover' },
