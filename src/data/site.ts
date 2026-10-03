@@ -34,6 +34,10 @@ export const links = {
 
 export const nav = [
   { href: '/research', label: 'Research' },
+  // The reviewing record was footer-only for a month and nobody found it.
+  // It is one of the strongest credentials on the site; it rides in the bar,
+  // renamed from the academic "Service" to the word that says what it is.
+  { href: '/service', label: 'Reviewing' },
   { href: '/projects', label: 'Projects' },
   { href: '/writing', label: 'Writing' },
   { href: '/lab', label: 'Lab' },
@@ -42,7 +46,6 @@ export const nav = [
 
 /** Secondary pages: in the footer and the 404, but not the top bar. */
 export const navSecondary = [
-  { href: '/service', label: 'Service' },
   { href: '/cv', label: 'CV' },
   { href: '/now', label: 'Now' },
   { href: '/archive', label: 'Archive' },

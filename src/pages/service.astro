@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import NextPage from '../components/NextPage.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import { peerReview, judging, speaking, volunteering } from '../data/service';
@@ -15,11 +16,11 @@ const headerMeta = [
 ---
 
 <Base
-  title="Service"
+  title="Reviewing"
   description="Artifact evaluation and peer review at research venues, hackathon and robotics judging, speaking, and teaching."
 >
   <PageHeader
-    label="Service"
+    label="Reviewing"
     meta={headerMeta}
     title="Reviewing, judging, teaching."
     lede="Evaluating other people's work is the fastest way to stay honest about your own."
@@ -198,4 +199,5 @@ const headerMeta = [
       )
     }
   </Section>
+  <NextPage href="/projects" label="The code behind the record: projects" />
 </Base>

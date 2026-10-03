@@ -1,0 +1,31 @@
+---
+/**
+ * The hand-off at the bottom of every main page: one oversized link to the
+ * next stop, in nav order. The site used to end each page at the footer and
+ * rely on the reader re-opening the menu; this gives the record a reading
+ * order without adding chrome anywhere else.
+ */
+interface Props {
+  href: string;
+  label: string;
+}
+const { href, label } = Astro.props;
+---
+
+<div class="mx-auto max-w-6xl px-5 sm:px-8">
+  <a
+    href={href}
+    class="group flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-[var(--hairline)] py-12"
+  >
+    <span class="label">Next</span>
+    <span
+      class="text-3xl font-medium tracking-tight text-balance transition-colors group-hover:text-[var(--accent)] sm:text-4xl"
+    >
+      {label}
+      <span
+        class="inline-block text-[var(--fg-faint)] transition-all group-hover:translate-x-1.5 group-hover:text-[var(--accent)]"
+        aria-hidden="true">→</span
+      >
+    </span>
+  </a>
+</div>

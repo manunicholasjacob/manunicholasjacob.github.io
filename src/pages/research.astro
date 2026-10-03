@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import NextPage from '../components/NextPage.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import DecodeRoofline from '../components/DecodeRoofline.astro';
@@ -222,6 +223,7 @@ const headerMeta = [
       published claims are recorded in the papers that supersede them.
     </p>
   </Section>
+  <NextPage href="/service" label="The other side of the desk: reviewing" />
 </Base>
 
 <style>

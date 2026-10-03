@@ -6,7 +6,6 @@ import TraceStrip from '../components/TraceStrip.astro';
 import { site, links, handStats, keywords } from '../data/site';
 import { featuredPapers, researchThesis, papers, submittedCount } from '../data/research';
 import { repos, upstream, flagship } from '../data/projects';
-import { peerReview } from '../data/service';
 
 /**
  * Counted, not typed. `doi` is deduplicated because the flagship also appears
@@ -291,6 +290,67 @@ const spec = [
     </p>
   </Section>
 
+  {/* ══════════════════════════ REVIEWING ══════════════════════════ */}
+  <Section
+    label="Reviewing"
+    heading="The other side of the desk."
+    lede="Evaluating other people's work is the fastest way to stay honest about your own. This year that became a record of its own."
+  >
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="flex flex-col bg-[var(--bg)] p-8">
+        <ol>
+          {
+            [
+              [
+                "Artifact evaluation, ATC '26",
+                'On the Artifact Evaluation Committee of the ACM SIGOPS continuation of USENIX ATC, rated CORE A. Both assigned artifact reviews delivered inside the window.',
+              ],
+              [
+                'Journal of Open Source Software',
+                'Six reviewer assignments from six different editors. Two reviews delivered, one on a paper now published; four more in progress.',
+              ],
+              [
+                'Judging',
+                'HackTX at UT Austin, and repeat judge and judge advisor at VEX Robotics V5 events.',
+              ],
+            ].map(([k, v], i) => (
+              <li
+                class:list={[
+                  'grid gap-x-8 gap-y-1 py-4 sm:grid-cols-[11rem_1fr]',
+                  i !== 0 && 'border-t border-[var(--hairline)]',
+                ]}
+              >
+                <span class="font-mono text-[0.75rem] leading-relaxed text-[var(--accent)]">{k}</span>
+                <span class="text-sm leading-relaxed text-[var(--fg-muted)]">{v}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="mt-auto flex flex-wrap gap-3 border-t border-[var(--hairline)] pt-6">
+          <a href="/service" class="btn btn-primary">The reviewing record</a>
+          <a
+            href="https://sysartifacts.github.io/atc2026/committee"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-ghost"
+          >
+            ATC '26 roster ↗
+          </a>
+        </div>
+      </div>
+      <a href="/service" class="group overflow-hidden bg-[var(--bg)]">
+        <img
+          src="/img/cards/joss-first-review-card.png"
+          alt="A light engineering-grid notebook card for the first JOSS review: six software versions bisected to three real bugs, with the full 31-item checklist complete."
+          width="1200"
+          height="1200"
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+        />
+      </a>
+    </div>
+  </Section>
+
   {/* ══════════════════════════ CODE ══════════════════════════ */}
   <Section
     heading="The code behind the numbers."
@@ -337,10 +397,10 @@ const spec = [
   {/* ══════════════════════════ BEYOND THE PAPERS ══════════════════════════ */}
   <Section
     heading="The rest of the practice."
-    lede="A research program needs infrastructure, and a field needs people who maintain it, review it, and judge it. All three are part of the job."
+    lede="A research program needs infrastructure, and a field needs people who maintain it. Both are part of the job."
     tone="raised"
   >
-    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-3">
+    <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
       {/* platform */}
       <a
         href="/projects"
@@ -381,25 +441,6 @@ const spec = [
         <p class="label mt-3">vllm-project · NVIDIA</p>
       </a>
 
-      {/* judging */}
-      <a
-        href="/service"
-        class="card-link ticks group flex flex-col bg-[var(--bg)] p-7"
-      >
-        <p class="label">Peer review</p>
-        <h3 class="mt-5 text-xl font-medium tracking-tight group-hover:text-[var(--accent)]">
-          Artifact Evaluation Committee, {peerReview[0].org}
-        </h3>
-        <p class="mt-3 flex-1 text-sm leading-relaxed text-[var(--fg-muted)]">
-          Both assigned ATC '26 artifact reviews delivered inside the window. Six reviewer
-          assignments from six editors at the Journal of Open Source Software, two delivered, one
-          on a published paper, plus repeat judging at hackathons and VEX events.
-        </p>
-        <p class="mt-5 border-t border-[var(--hairline)] pt-4 font-mono text-[0.6875rem] leading-relaxed text-[var(--accent)]">
-          ATC '26 · JOSS · HackTX · VEX Robotics
-        </p>
-        <p class="label mt-3">Service →</p>
-      </a>
     </div>
   </Section>
 

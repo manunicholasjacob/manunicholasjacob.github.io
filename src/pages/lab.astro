@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import NextPage from '../components/NextPage.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import Roofline from '../components/Roofline.astro';
@@ -149,7 +150,38 @@ const headerMeta = [
         ))
       }
     </ol>
+
+    {/* Where the rules came from: the five-harness convergence, as the
+        notebook card the story went out under. Links to the full write-up. */}
+    <div class="mt-14 grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-[0.9fr_1.1fr]">
+      <a href="/writing/five-harnesses" class="group overflow-hidden bg-[var(--bg)]">
+        <img
+          src="/img/writing/five-harnesses-card.png"
+          alt="A light engineering-grid card: measurements from five separate harnesses collapsing onto one fitted line, captioned five setups that disagreed, 1.6 percent spread once they were one tool."
+          width="1200"
+          height="1200"
+          loading="lazy"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+        />
+      </a>
+      <div class="flex flex-col justify-center bg-[var(--bg)] p-8 sm:p-10">
+        <p class="label">Why the rules exist</p>
+        <h3 class="mt-5 text-2xl leading-snug font-medium tracking-tight text-balance">
+          Five harnesses, five answers, one tool.
+        </h3>
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-[var(--fg-muted)]">
+          Every paper grew its own measurement scripts until the differences between them were
+          indistinguishable from findings. Rebuilding them as one framework collapsed the spread
+          to 1.6 percent, and caught five quietly contaminated runs on the way. The rules above
+          are what that cost.
+        </p>
+        <a href="/writing/five-harnesses" class="link-u mt-6 inline-block self-start py-1 font-mono text-sm">
+          Read the full account →
+        </a>
+      </div>
+    </div>
   </Section>
+  <NextPage href="/about" label="The person behind the bench: about" />
 </Base>
 
 <style>
