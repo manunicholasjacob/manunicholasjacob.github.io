@@ -25,7 +25,7 @@ const artifactRepos = [
 ];
 
 /* The summary used to say every paper was backed by a DOI-archived artifact.
-   Five of the thirteen are. The artifacts are real and there are ten of them,
+   Five of the thirteen are. The artifacts are real and are counted from the data,
    but they do not map one to one onto the papers, so the two numbers are now
    reported separately rather than implying a relationship that is not there. */
 const artifactCount = artifactRepos.length;
@@ -218,7 +218,7 @@ const paperGroups = [
       <div class="cv-item">
         <p class="cv-body">
           <strong class="text-[var(--fg)]">{artifactRepos.length} open research artifacts</strong>:
-          public code and data for the papers above, archived on Zenodo:{' '}
+          public code and data, archived on Zenodo:{' '}
           {artifactRepos.map((r, i) => (
             <>
               <a class="inline-block py-0.5 font-mono text-[0.75rem] text-[var(--accent)]" href={r.url}>{r.name}</a>{i < artifactRepos.length - 1 ? ', ' : '.'}

@@ -93,6 +93,7 @@ export const repos: Repo[] = [
       'A quantized GEMV kernel ladder measured against its own bandwidth roof: 12 CUDA kernels plus Triton for batch-1 LLM decode, on five NVIDIA GPUs from sm_60 to sm_89.',
     stack: ['CUDA', 'Triton', 'Python'],
     url: 'https://github.com/manunicholasjacob/qgemv-roofline',
+    doi: '10.5281/zenodo.22164007',
     kind: 'lab',
   },
   {
@@ -183,6 +184,36 @@ export const repos: Repo[] = [
     kind: 'artifact',
   },
   {
+    slug: 'thermal-aware-anytime-inference',
+    name: 'thermal-aware-anytime-inference',
+    blurb:
+      'Operating-regime study of thermal-aware anytime (early-exit) inference on a Raspberry Pi 5: when early-exit selection controls temperature, and when it does not. Negative results are shipped with the rest.',
+    stack: ['Python', 'ONNX Runtime', 'PMIC telemetry'],
+    url: gh('thermal-aware-anytime-inference'),
+    doi: '10.5281/zenodo.22163329',
+    kind: 'artifact',
+  },
+  {
+    slug: 'gguf-faultscope',
+    name: 'gguf-faultscope',
+    blurb:
+      'What one flipped bit does to a block-quantized language model, and where in the GGUF file it has to land to matter.',
+    stack: ['Python', 'llama.cpp', 'GGUF'],
+    url: gh('gguf-faultscope'),
+    doi: '10.5281/zenodo.22163327',
+    kind: 'artifact',
+  },
+  {
+    slug: 'barrier-spin-crossover',
+    name: 'barrier-spin-crossover',
+    blurb:
+      'Throughput and energy cost of thread-barrier spin-wait thresholds in CPU LLM inference, measured on Cortex-A76 and on a hybrid Alder Lake part.',
+    stack: ['Python', 'llama.cpp', 'PMIC telemetry'],
+    url: gh('barrier-spin-crossover'),
+    doi: '10.5281/zenodo.22163331',
+    kind: 'artifact',
+  },
+  {
     slug: 'llama-roofline',
     name: 'llama-roofline',
     blurb:
@@ -217,6 +248,7 @@ export const repos: Repo[] = [
       'Research pipeline treating covariance eigenspace rotation as an early risk signal.',
     stack: ['Python', 'NumPy'],
     url: gh('spectral-geometry-instability'),
+    doi: '10.5281/zenodo.22163333',
     kind: 'lab',
   },
 ];
