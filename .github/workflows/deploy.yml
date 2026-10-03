@@ -29,6 +29,10 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Keep the previous deploy's hashed assets alive through the Pages
+      # 10-minute HTML cache window, so stale HTML never 404s its own CSS.
+      - run: node scripts/carry-prev-assets.mjs
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
