@@ -31,6 +31,8 @@ export type Tool = {
   python: string;
   writeup?: { title: string; href: string };
   docs?: string;
+  /** Extra links shown under Links, after the documentation. */
+  extra?: readonly { label: string; href: string }[];
 };
 
 const gh = (slug: string) => `${links.github}/${slug}`;
@@ -40,7 +42,7 @@ export const tools: Tool[] = [
     slug: 'llama-roofline',
     name: 'llama-roofline',
     command: 'llama-roofline',
-    version: '0.2.2',
+    version: '0.2.3',
     released: 'Oct 2026',
     oneLiner: 'Is your llama.cpp decode memory-bandwidth-bound? Measure it, in one command.',
     what:
@@ -55,11 +57,17 @@ export const tools: Tool[] = [
     repo: gh('llama-roofline'),
     pypi: 'https://pypi.org/project/llama-roofline/',
     conceptDoi: '10.5281/zenodo.21842493',
-    versionDoi: '10.5281/zenodo.23329330',
+    versionDoi: '10.5281/zenodo.23341323',
     license: 'MIT',
     python: '3.9+',
     writeup: { title: 'Decode is memory-bound', href: '/writing/decode-is-memory-bound' },
-    docs: `${gh('llama-roofline')}/blob/main/docs/METHOD.md`,
+    docs: 'https://manunicholasjacob.com/llama-roofline/',
+    extra: [
+      {
+        label: 'GGUF Inspector, in the browser',
+        href: 'https://manunicholasjacob.com/llama-roofline/inspector.html',
+      },
+    ],
   },
   {
     slug: 'ml-systems-lab',

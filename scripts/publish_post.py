@@ -11,8 +11,9 @@ rather the page not claim it was written last week.
 
 It refuses to publish anything ahead of its scheduled date without `--force`,
 because the whole point of the schedule is that the posts do not arrive as a
-dump. Nothing here pushes. After it runs: `npm run build`, look at the page,
-then commit and push.
+dump. A post under embargo (see EMBARGO) is refused before its date even with
+`--force` or `--today`. Nothing here pushes. After it runs: `npm run build`,
+look at the page, then commit and push.
 """
 
 from __future__ import annotations
@@ -28,19 +29,35 @@ POSTS = pathlib.Path(__file__).resolve().parent.parent / "src/content/writing"
 # Which LinkedIn post each one is paired with, so a slip is visible.
 PAIRS = {
     "decode-is-memory-bound": "P2, decode cliff, 1 Sep",
-    "claims-that-did-not-survive": "no LinkedIn post. Decided: blog only",
     "five-harnesses": "P5, ml-systems-lab, 22 Sep",
     "int8-does-not-pay": "P7, INT8 both ways, 29 Sep",
     "energy-optimal-clock": "P8, energy, 13 Oct",
     "cold-start-tax": "P9, cold start, 10 Nov",
-    "format-tax": "P11, format tax, 8 Dec. Held until after HotMobile on 9 Oct",
+    "format-tax": "P11, format tax. Embargoed until the HotMobile decision",
 }
+
+# Posts that must not go out before a date, whatever the flags say. Unlike the
+# schedule above, --force and --today do not override this: an embargo is not
+# a schedule. format-tax carries numbers from a paper under review at
+# HotMobile 2027 (decision about 16 Dec 2026), so nothing before 17 Dec.
+EMBARGO = {
+    "format-tax": dt.date(2026, 12, 17),
+}
+
+
+def embargoed(slug: str, today: dt.date) -> dt.date | None:
+    """The date the embargo on `slug` lifts, if it has not lifted by `today`."""
+    lifts = EMBARGO.get(slug)
+    if lifts is not None and today < lifts:
+        return lifts
+    return None
 
 FRONT = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
 
 def read(p: pathlib.Path) -> tuple[str, dict]:
-    text = io.open(p, encoding="utf-8").read()
+    with io.open(p, encoding="utf-8") as f:
+        text = f.read()
     fm = FRONT.search(text)
     meta = {}
     for line in fm.group(1).splitlines():
@@ -59,10 +76,13 @@ def listing() -> None:
             continue
         slug = p.stem
         due = dt.date.fromisoformat(m["date"])
+        lifts = embargoed(slug, today)
+        if lifts is not None:
+            due = max(due, lifts)
         rows.append((due, slug, m.get("title", "").strip("'\"")))
     rows.sort()
     if not rows:
-        print("Nothing left in draft. All seven are out.")
+        print("Nothing left in draft. All of them are out.")
         return
     print(f"{len(rows)} still drafted, in publishing order. Today is {today}.\n")
     for due, slug, title in rows:
@@ -75,8 +95,14 @@ def listing() -> None:
     print(f"Next: python scripts/publish_post.py {nxt[1]}")
 
 
-def publish(slug: str, use_today: bool, force: bool) -> int:
-    p = POSTS / f"{slug}.md"
+def publish(slug: str, use_today: bool, force: bool, today: dt.date | None = None,
+            posts: pathlib.Path | None = None) -> int:
+    today = today or dt.date.today()
+    lifts = embargoed(slug, today)
+    if lifts is not None:
+        print(f"{slug} is embargoed until {lifts}. --force and --today do not override this.")
+        return 2
+    p = (posts or POSTS) / f"{slug}.md"
     if not p.exists():
         print(f"No post called {slug}. Run with no arguments to see the list.")
         return 1
@@ -85,7 +111,6 @@ def publish(slug: str, use_today: bool, force: bool) -> int:
         print(f"{slug} is already published. Nothing to do.")
         return 0
 
-    today = dt.date.today()
     due = dt.date.fromisoformat(meta["date"])
     if due > today and not (force or use_today):
         print(f"{slug} is scheduled for {due}, which is {(due - today).days} days away.")

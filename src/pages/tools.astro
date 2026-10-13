@@ -86,7 +86,8 @@ const headerMeta = [
               <ul class="space-y-2.5 font-mono text-[0.75rem]">
                 <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.repo} rel="noopener">Source on GitHub</a></li>
                 <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.pypi} rel="noopener">PyPI</a></li>
-                {t.docs && <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.docs} rel="noopener">Method and documentation</a></li>}
+                {t.docs && <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.docs} rel="noopener">Documentation</a></li>}
+                {t.extra?.map((x) => <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={x.href} rel="noopener">{x.label}</a></li>)}
                 {t.writeup && <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.writeup.href}>Write-up: {t.writeup.title}</a></li>}
                 <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={`${t.repo}/issues`} rel="noopener">Report a bug or add your machine's result</a></li>
               </ul>

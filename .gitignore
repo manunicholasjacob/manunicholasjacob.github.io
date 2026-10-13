@@ -24,3 +24,13 @@ Thumbs.db
 # Working notes, not part of the site.
 SITE_UPDATE_PROMPT.md
 SITE-HANDOFF-*.md
+
+# Withdrawn, embargoed or retracted material. The originals live in private
+# notes, not here; figs.py can still regenerate these locally, so keep them
+# from being re-added by accident. The format-tax lines may go only after the
+# HotMobile decision (not before 17 Dec 2026); the retraction lines stay.
+scripts/figs-out/fig-format-tax.svg
+scripts/figs-out/cnx-fig.html
+scripts/figs-out/fig-retractions.svg
+src/content/writing/format-tax.md
+src/content/writing/claims-that-did-not-survive.md

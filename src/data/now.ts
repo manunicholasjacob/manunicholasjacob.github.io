@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-10-12';
+export const updated = '2026-10-13';
 
 export type NowItem = {
   title: string;
@@ -15,9 +15,9 @@ export type NowItem = {
 
 export const current: NowItem[] = [
   {
-    title: 'Twelve manuscripts in review, the deepest the queue has been',
+    title: 'Eleven manuscripts in review',
     detail:
-      'Everything that was rebuilt after the September rejections has gone back in: the thread-scaling paper extended for IEEE TPDS, the decode-roofline paper rebuilt for IEEE IoT-J, the thermal-margin study at IEEE TSUSC, and the energy paper re-homed to an Elsevier special issue on energy-aware AI. Now in review: eight at IEEE journals, two at ACM TECS, one at Elsevier SUSCOM, and one at HotMobile 2027.',
+      'Most of what was rebuilt after the September rejections has gone back in: the thread-scaling paper extended for IEEE TPDS, the decode-roofline paper rebuilt for IEEE IoT-J, and the energy paper re-homed to an Elsevier special issue on energy-aware AI. Now in review: seven at IEEE journals, two at ACM TECS, one at Elsevier SUSCOM, and one at HotMobile 2027. The thermal-margin study was returned on scope and is being re-homed.',
     status: 'In review',
   },
   {
@@ -35,7 +35,7 @@ export const current: NowItem[] = [
   {
     title: 'JOSS reviewing, six assignments deep',
     detail:
-      'Two reviews delivered: Optiland (recommendation with the editor) and nsEVDx, published 6 September as doi:10.21105/joss.11187. Four more reviews are open: a pathology imaging toolkit, a battery-electrolyte workflow, a high-contrast-imaging pipeline, and graph-based potential-energy models. Six assignments, six different editors.',
+      'Four reviews completed: nsEVDx, published 6 September as doi:10.21105/joss.11187; Optiland, with the recommendation at the editor; and spherical (VLT/SPHERE high-contrast imaging) and graph-pes (graph-based potential-energy models), each with the full checklist complete. Two are in progress: PySlyde, a pathology preprocessing toolkit, and Battflow, a battery-electrolyte workflow. Six assignments, six different editors.',
     status: 'Reviewing',
   },
   {

@@ -200,8 +200,8 @@ def fig_format_tax():
     #
     # The sentence is "the default is X% slower", so X is slower_pct. The post
     # settled this explicitly: the two are the same gap counted from opposite
-    # ends, and the smaller one is the honest thing to put next to a 44 percent
-    # energy figure. This used to emit faster_pct into a caption that said
+    # ends, and the smaller one is the honest thing to put next to the energy
+    # figure. This used to emit faster_pct into a caption that said
     # "slower", which overwrote the corrected figure every time anyone re-ran
     # inject_figs.py. Do not swap these back.
     faster = (b["tok_s"] / a["tok_s"] - 1) * 100
@@ -695,19 +695,12 @@ def load_agreement():
 P14 = ROOT / "edge-inference-research-portfolio/paper14-onnx-format"
 P11 = ROOT / "edge-inference-research-portfolio/paper11-cold-start-tax"
 
-# The one figure not drawn from a data file. Each pair is a claim this
-# programme published and the number that replaced it after a recheck; the
-# sources are named in the post that carries the figure.
-RETRACTIONS = [
-    ("ONNX export format, INT8 on Cortex-A76",
-     "40x latency swing", "the format is worth about 18%"),
-    ("what makes INT8 fast on an edge CPU",
-     "the export representation", "dynamic against static, worth over 4x"),
-    ("variance floor on a consumer laptop GPU",
-     "irreducible", "explained by SM clock state"),
-    ("storage during a cold wake",
-     "no software headroom left", "the wake runs at 76 to 82%"),
-]
+# The one figure not drawn from a data file: (what, first claimed, what it
+# actually was). The rows for this figure are kept in private notes, not in this public
+# repository: the figure lists claims that were withdrawn, and the rule is that
+# withdrawn work is not surfaced on public pages. Empty here, so the figure is
+# skipped; fig_retractions() still works if a list is passed in.
+RETRACTIONS: list[tuple[str, str, str]] = []
 
 
 if __name__ == "__main__":
@@ -721,7 +714,8 @@ if __name__ == "__main__":
     fig_int8(i8)
     cs = load_coldstart_phases()
     fig_coldstart(cs)
-    fig_retractions(RETRACTIONS)
+    if RETRACTIONS:
+        fig_retractions(RETRACTIONS)
     ag = load_agreement()
     fig_agreement(ag)
     ca, band, nrec, cmodels = load_container_arms()

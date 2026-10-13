@@ -91,7 +91,7 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
-    role: 'Reviewer, in progress',
+    role: 'Reviewer, checklist complete',
     org: 'JOSS: spherical',
     venue: 'Journal of Open Source Software',
     detail:
@@ -103,7 +103,7 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
-    role: 'Reviewer, in progress',
+    role: 'Reviewer, checklist complete',
     org: 'JOSS: graph-pes',
     venue: 'Journal of Open Source Software',
     detail:

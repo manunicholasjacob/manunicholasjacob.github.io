@@ -106,11 +106,13 @@ export const papers: Paper[] = [
     headline: 'Maps the regime boundary rather than claiming a universal win',
     // Declined at IEEE ESL (3 Sep) and IoT-J (7 Sep). Rebuilt in full with
     // matched baselines and open-loop arrivals; the rebuilt result is more
-    // honest than the original headline was. Headed for IEEE TSUSC.
-    venue: 'IEEE Trans. on Sustainable Computing',
+    // honest than the original headline was. IEEE TSUSC desk-rejected it on
+    // scope (10 Oct 2026), so it is no longer under review anywhere. No venue is
+    // named until a submission is actually in (same rule as 'anytime').
+    venue: 'Venue in selection',
     venueTier: 'Journal',
-    status: 'Under review',
-    dateline: 'Declined twice, rebuilt, submitted 26 Sep 2026',
+    status: 'Being re-homed',
+    dateline: 'Rebuilt with matched baselines; returned on scope 10 Oct 2026',
     year: '2026',
     topics: ['Thermal', 'Control', 'Multi-tenant'],
     submitted: '2026-09-26',
