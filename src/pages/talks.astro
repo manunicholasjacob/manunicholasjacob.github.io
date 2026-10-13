@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import NextPage from '../components/NextPage.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import { speaking } from '../data/service';
+
+/*
+ * Only talks that are accepted or booked. Proposals that are still with a
+ * program committee are not listed, and a talk comes off rather than sitting
+ * here as pending if it is declined. Same data as the speaking list on
+ * /service, so the two pages cannot disagree.
+ */
+const accepted = speaking.filter((s) => /accepted/i.test(s.role)).length;
+const booked = speaking.filter((s) => /booked/i.test(s.role)).length;
+
+const headerMeta = [
+  ['Accepted', String(accepted)],
+  ['Booked', String(booked)],
+  ['Topic', 'Edge inference'],
+] as const;
+---
+
+<Base
+  title="Talks"
+  description="Upcoming talks by Manu Nicholas Jacob on measuring machine-learning inference on real hardware: accepted and booked sessions only."
+>
+  <PageHeader
+    label="Talks"
+    meta={headerMeta}
+    title="Upcoming talks."
+    lede="What governs inference speed on hardware people actually own, and how to measure it yourself. Listed only once a session is accepted or booked."
+  />
+
+  <Section heading="On the calendar." tone="raised">
+    <ul class="border-t border-[var(--hairline)]">
+      {
+        speaking.map((s) => (
+          <li class="grid gap-3 border-b border-[var(--hairline)] py-8 lg:grid-cols-[10rem_1fr] lg:gap-10">
+            <p class="font-mono text-[0.6875rem] tracking-[0.12em] text-[var(--accent)] uppercase">
+              {s.period}
+            </p>
+            <div>
+              <h2 class="text-xl font-medium tracking-tight">{s.org}</h2>
+              <p class="mt-1 font-mono text-[0.6875rem] tracking-[0.1em] text-[var(--fg-faint)] uppercase">
+                {s.role}
+              </p>
+              <p class="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--fg-muted)]">{s.detail}</p>
+              {s.link && (
+                <a
+                  class="mt-4 inline-flex font-mono text-[0.6875rem] tracking-[0.06em] text-[var(--accent)] underline underline-offset-4 hover:no-underline"
+                  href={s.link.href}
+                  rel="noopener"
+                >
+                  {s.link.label}
+                </a>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section
+    heading="Want to try it before the talk?"
+    lede="The tools the talks use are on PyPI and run on a laptop with no configuration."
+  >
+    <p class="text-sm leading-relaxed text-[var(--fg-muted)]">
+      Install commands, documentation and DOIs are on the
+      <a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href="/tools">tools page</a>.
+      To ask about a talk, email
+      <a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href="mailto:manunicholasjacob@gmail.com">manunicholasjacob@gmail.com</a>.
+    </p>
+  </Section>
+
+  <NextPage href="/service" label="Reviewing and judging" />
+</Base>

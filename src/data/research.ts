@@ -226,8 +226,11 @@ export const papers: Paper[] = [
     id: 'int8-pays',
     title: 'When Does INT8 Actually Pay on an Edge CPU?',
     claim:
-      'Post-training INT8 measured across three microarchitectures on Arm and x86. The dominant effect is dynamic versus static quantization, worth more than 4x; the export representation everyone argues about is worth about 18%.',
-    headline: 'Dynamic vs static is worth >4x; the representation, ~18%',
+      'Post-training INT8 measured across three microarchitectures on Arm and x86. The dominant effect is dynamic versus static quantization, worth about a factor of four; once both are produced statically, the export representation everyone argues about is worth a median of 1.5% across 27 model and core pairs.',
+    // Median-led, as the manuscript states it (median 1.5%, 21 of 27 pairs
+    // within 5%). The old "about 18%" was the widest single pair, not the
+    // typical one, so it overstated the representation effect.
+    headline: 'Dynamic vs static: about 4x. The representation: a median 1.5%',
     // IEEE-ESL-Aug-26-0653, submitted 17 Aug 2026.
     venue: 'IEEE Embedded Systems Letters',
     venueTier: 'Letters',
@@ -272,20 +275,11 @@ export const papers: Paper[] = [
     submitted: '2026-09-22',
     artifact: { repo: 'edge-format-tax', doi: '10.5281/zenodo.21938812' },
   },
-  {
-    id: 'gpu-repro',
-    title: 'Profiling Inference on a Consumer Laptop GPU',
-    claim:
-      'A clock-gated methodology that makes consumer-GPU inference numbers reproducible between runs, kept honest by a drift artifact we caught in our own background jobs and left in as the counterexample.',
-    headline: 'Clock-gated protocol for repeatable GPU measurement',
-    // The next venue reviews double blind, so it is not named here.
-    venue: 'Double-blind venue',
-    venueTier: 'Conference',
-    status: 'Ready to submit',
-    dateline: 'Rebuilt after two desk declines, Sep 2026',
-    year: '2027',
-    topics: ['GPU', 'Methodology', 'Reproducibility'],
-  },
+  /*
+   * One manuscript is deliberately withheld from this list for now. Its
+   * status lives in the private portfolio tracker; do not add an entry here
+   * without checking that tracker first.
+   */
 ];
 
 export const featuredPapers = papers.filter((p) => p.featured);

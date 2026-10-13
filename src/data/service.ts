@@ -166,6 +166,13 @@ export const speaking: ServiceEntry[] = [
       'Accepted September 2026: "What actually governs vision inference on a Raspberry Pi 5", a 20-minute session at the 2027 Embedded Vision Summit, San Francisco, 2 to 4 February 2027. The curated program reviews speaker slides in three draft rounds before the event.',
     period: 'Feb 2027',
   },
+  {
+    role: 'Talk, booked',
+    org: 'Austin Python Meetup',
+    detail:
+      'Booked for Wednesday 9 December 2026, 7:00 PM, a hybrid evening event in downtown Austin. A hands-on session with llama-roofline: opening real GGUF model files to see what they contain, then measuring what local LLM token generation costs on an ordinary laptop. Bring a laptop to run it yourself.',
+    period: 'Dec 2026',
+  },
 ];
 
 export type Volunteer = {

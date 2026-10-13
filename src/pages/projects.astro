@@ -224,6 +224,14 @@ const headerMeta = [
               </a>
             ))}
           </div>
+          {g.key === 'tool' && (
+            <a
+              class="mt-6 inline-flex font-mono text-[0.6875rem] tracking-[0.06em] text-[var(--accent)] underline underline-offset-4 hover:no-underline"
+              href="/tools"
+            >
+              Install commands, usage and DOIs for each tool
+            </a>
+          )}
         </Section>
       );
     })

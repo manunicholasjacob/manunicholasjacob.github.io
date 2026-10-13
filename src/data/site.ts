@@ -46,6 +46,8 @@ export const nav = [
 
 /** Secondary pages: in the footer and the 404, but not the top bar. */
 export const navSecondary = [
+  { href: '/tools', label: 'Tools' },
+  { href: '/talks', label: 'Talks' },
   { href: '/cv', label: 'CV' },
   { href: '/now', label: 'Now' },
   { href: '/archive', label: 'Archive' },

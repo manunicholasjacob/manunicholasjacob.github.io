@@ -77,15 +77,7 @@ export const repos: Repo[] = [
     url: 'https://github.com/manunicholasjacob/edge-decode-thread-scaling',
     kind: 'artifact',
   },
-  {
-    slug: 'gpu-profiling-reproducibility',
-    name: 'gpu-profiling-reproducibility',
-    blurb:
-      'Measurement artifact for profiling inference on a consumer laptop GPU: thermal gating, clock-gated protocol, run-to-run variance.',
-    stack: ['Python', 'CUDA', 'NVML'],
-    url: 'https://github.com/manunicholasjacob/gpu-profiling-reproducibility',
-    kind: 'artifact',
-  },
+  // One artifact card is withheld for now; see the note in research.ts.
   {
     slug: 'qgemv-roofline',
     name: 'qgemv-roofline',

@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import NextPage from '../components/NextPage.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import { tools } from '../data/tools';
+
+const headerMeta = [
+  ['Tools', String(tools.length)],
+  ['Install', 'pip'],
+  ['License', 'MIT'],
+  ['Archived', 'Zenodo'],
+] as const;
+---
+
+<Base
+  title="Tools"
+  description="Installable open-source tools for measuring ML inference on your own hardware: llama-roofline and ML Systems Lab, with install commands and DOIs."
+>
+  <PageHeader
+    label="Tools"
+    meta={headerMeta}
+    title="Measure it on your own machine."
+    lede="Two tools that grew out of the papers and stand on their own. Both install from PyPI, run on a laptop with no configuration, and are archived on Zenodo so a result made with them can be cited to the exact version."
+  />
+
+  {
+    tools.map((t, n) => (
+      <Section
+        id={t.slug}
+        label={`v${t.version}, ${t.released}`}
+        heading={t.name}
+        lede={t.oneLiner}
+        tone={n % 2 === 0 ? 'raised' : 'default'}
+      >
+        <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-[1.15fr_0.85fr]">
+          <div class="flex flex-col bg-[var(--bg)] p-8">
+            <p class="max-w-2xl leading-relaxed text-[var(--fg-muted)]">{t.what}</p>
+
+            <p class="label mt-8 mb-3">Install and run</p>
+            <pre class="overflow-x-auto border border-[var(--hairline)] bg-[var(--surface)] p-4 font-mono text-[0.8125rem] leading-relaxed"><code>{t.install.join('\n')}</code></pre>
+
+            <p class="label mt-8 mb-3">Commands</p>
+            <ul>
+              {t.usage.map(([cmd, what]) => (
+                <li class="grid gap-x-4 gap-y-1 border-t border-[var(--hairline)] py-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+                  <code class="font-mono text-[0.75rem] break-words text-[var(--accent)]">{cmd}</code>
+                  <span class="text-sm leading-relaxed text-[var(--fg-muted)]">{what}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="flex flex-col gap-px bg-[var(--hairline)]">
+            <div class="bg-[var(--bg)] p-8">
+              <p class="label mb-4">Release</p>
+              <dl class="space-y-2.5 font-mono text-[0.75rem] text-[var(--fg-muted)]">
+                <div class="flex justify-between gap-4"><dt>Version</dt><dd class="text-[var(--fg)]">{t.version}</dd></div>
+                <div class="flex justify-between gap-4"><dt>Command</dt><dd class="text-[var(--fg)]">{t.command}</dd></div>
+                <div class="flex justify-between gap-4"><dt>Python</dt><dd class="text-[var(--fg)]">{t.python}</dd></div>
+                <div class="flex justify-between gap-4"><dt>License</dt><dd class="text-[var(--fg)]">{t.license}</dd></div>
+              </dl>
+            </div>
+
+            <div class="bg-[var(--bg)] p-8">
+              <p class="label mb-4">Cite it</p>
+              <p class="text-sm leading-relaxed text-[var(--fg-muted)]">
+                All versions, always the newest:
+                <a class="font-mono text-[0.75rem] break-all text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={`https://doi.org/${t.conceptDoi}`}>
+                  doi:{t.conceptDoi}
+                </a>
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">
+                Exactly v{t.version}:
+                <a class="font-mono text-[0.75rem] break-all text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={`https://doi.org/${t.versionDoi}`}>
+                  doi:{t.versionDoi}
+                </a>
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-[var(--fg-muted)]">
+                The repository carries a CITATION.cff, so GitHub's "Cite this repository" button gives BibTeX and APA.
+              </p>
+            </div>
+
+            <div class="flex-1 bg-[var(--bg)] p-8">
+              <p class="label mb-4">Links</p>
+              <ul class="space-y-2.5 font-mono text-[0.75rem]">
+                <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.repo} rel="noopener">Source on GitHub</a></li>
+                <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.pypi} rel="noopener">PyPI</a></li>
+                {t.docs && <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.docs} rel="noopener">Method and documentation</a></li>}
+                {t.writeup && <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={t.writeup.href}>Write-up: {t.writeup.title}</a></li>}
+                <li><a class="text-[var(--accent)] underline underline-offset-4 hover:no-underline" href={`${t.repo}/issues`} rel="noopener">Report a bug or add your machine's result</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Section>
+    ))
+  }
+
+  <NextPage href="/talks" label="Where to hear about it: talks" />
+</Base>
