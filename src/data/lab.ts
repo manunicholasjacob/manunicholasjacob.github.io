@@ -72,7 +72,7 @@ export type Rule = { title: string; body: string };
 export const rules: Rule[] = [
   {
     title: 'Measure the machine, not the toolchain',
-    body: 'A benchmark that does not control for its own toolchain is measuring the wrong thing. This rule is here because I broke it: I once reported a fortyfold latency swing and attributed it to the export format, and one arm of that experiment had quietly loaded a model quantized a different way instead of building the one it claimed to build. The swing was real and the cause was wrong. Two later papers exist to correct it.',
+    body: 'A benchmark that does not control for its own toolchain is measuring the wrong thing. Before a quantized model is labelled, its operator graph is checked, so the label says how it was actually built rather than how it was meant to be built.',
   },
   {
     title: 'Record the state of the machine, not just the number',
@@ -80,7 +80,7 @@ export const rules: Rule[] = [
   },
   {
     title: 'Publish the negative result',
-    body: 'When a headline number failed to reproduce, the paper was rewritten to whatever the data supported. Two earlier drafts were found to present simulation as measurement and were discarded rather than published.',
+    body: 'Operating regimes where a method does not help are reported next to the ones where it does, and a paper says what the data supports rather than what the first run suggested.',
   },
   {
     title: 'Ship the harness',
@@ -102,11 +102,8 @@ export const rules: Rule[] = [
 
 /** Concrete numbers pulled from the published work, for the counters row. */
 /**
- * Four numbers, each from a released dataset. Two of the previous four had to
- * go. "40x INT8 config latency swing" was the attribution this page's first rule
- * now describes as wrong, and it had no business being a headline. "0.994" was
- * the size sweep alone, which the rest of the record never uses; the fit that
- * appears in the paper, and that holds on two architectures, is 0.98.
+ * Four numbers, each from a released dataset. The decode-roofline fit quoted is
+ * the paper's 0.98 across all seven configurations, not the size sweep alone.
  */
 export const benchFacts = [
   { value: '9', label: 'CNNs + 1 ViT characterised' },

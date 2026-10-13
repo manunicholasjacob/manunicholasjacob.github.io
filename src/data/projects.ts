@@ -45,7 +45,7 @@ export const flagship = {
     'Kubernetes pods on k3s: cgroup ceilings read from inside the container, not copied from the config',
   ],
   result:
-    'Reproduces the IEEE Transactions on Computers submission’s roofline fits exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.7%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64. Used it to measure what containerisation costs a benchmark: across 50 runs a pod is within +2.3% of a bare process and 14 of 15 comparisons cannot be separated from noise, while a CPU quota set below the thread count costs 64.1% and is resolved on every point. The ranking of five quantizations is identical in all five arms.',
+    'Reproduces the roofline fits of the decode-roofline paper exactly (Pi 5: 10.7 GB/s effective, R² = 0.980; i7-12700H: 35.7 GB/s, R² = 0.980), and two campaigns run natively by the framework re-measured the same quantities independently and agreed within 1.7%. Same config shows the GPU losing at batch 1 (dispatch overhead) and winning 29x at batch 64. Used it to measure what containerisation costs a benchmark: across 50 runs a pod is within +2.3% of a bare process and 14 of 15 comparisons cannot be separated from noise, while a CPU quota set below the thread count costs 64.1% and is resolved on every point. The ranking of five quantizations is identical in all five arms.',
   related: [
     { title: 'The Memory Wall at the Edge of Language', href: '/research#edge-llm' },
     { title: 'The Memory Wall Governs Edge DNN Inference', href: '/research#memory-wall' },
@@ -100,8 +100,7 @@ export const repos: Repo[] = [
     slug: 'rpi5-quantization-benchmark',
     name: 'rpi5-quantization-benchmark',
     blurb:
-      'Controlled evaluation of INT8 quantized models on Raspberry Pi 5, isolating export format and graph optimisation from the weights themselves.',
-    result: '3.8x to 11.7x speedups, up to 43x better energy-delay product',
+      'INT8 latency and energy measurements for nine networks on a Raspberry Pi 5 (Cortex-A76), released as raw records.',
     stack: ['Python', 'ONNX Runtime', 'perf'],
     url: gh('rpi5-quantization-benchmark'),
     doi: '10.5281/zenodo.21844863',
@@ -166,7 +165,7 @@ export const repos: Repo[] = [
     name: 'edge-format-tax',
     blurb:
       'Matched-byte comparison of GGUF quantization formats on three CPU microarchitectures, with per-token energy from the Pi 5 PMIC. The label on the file turns out to be a poor predictor of what it costs to run.',
-    result: 'Same label, same bit width, up to 38% apart in decode speed',
+    result: 'Matched-byte data and harness on three CPU microarchitectures',
     stack: ['llama.cpp', 'Python', 'PMIC telemetry'],
     url: gh('edge-format-tax'),
     doi: '10.5281/zenodo.21938812',
@@ -176,8 +175,8 @@ export const repos: Repo[] = [
     slug: 'edge-breakeven-speedup',
     name: 'edge-breakeven-speedup',
     blurb:
-      'The energy identity behind multithreaded edge inference, measured rather than assumed: 831 runs across nine architectures, four clock frequencies and one to four threads, with power integrated from the on-board PMIC.',
-    result: 'Break-even speedup near 1.8x, sign predicted in 64 of 64 configurations',
+      'When multithreading saves energy on an edge CPU: PMIC-measured campaigns on a Raspberry Pi 5 that measure the static power floor at every operating point instead of assuming it.',
+    result: 'Static power floor measured at every operating point',
     stack: ['Python', 'ONNX Runtime', 'PMIC telemetry'],
     url: gh('edge-breakeven-speedup'),
     doi: '10.5281/zenodo.21987261',
@@ -370,11 +369,6 @@ export const upstream: Upstream[] = [
         merged: true,
       },
       {
-        number: 1341,
-        title: 'feat(telemetry): add a host telemetry collector with a RAPL power path',
-        url: 'https://github.com/ai-dynamo/aiperf/pull/1341',
-      },
-      {
         number: 1350,
         title: 'feat(telemetry): probe the NVML energy counter once, fall back cleanly',
         url: 'https://github.com/ai-dynamo/aiperf/pull/1350',
@@ -384,6 +378,18 @@ export const upstream: Upstream[] = [
         number: 1470,
         title: 'fix(logging): keep log lines a Windows console cannot encode',
         url: 'https://github.com/ai-dynamo/aiperf/pull/1470',
+        merged: true,
+      },
+      {
+        number: 1320,
+        title: 'build: make crick an optional dependency',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1320',
+        merged: true,
+      },
+      {
+        number: 1341,
+        title: 'feat(telemetry): add a host telemetry collector with a RAPL power path',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1341',
       },
       {
         number: 1472,
@@ -416,9 +422,9 @@ export const upstream: Upstream[] = [
         url: 'https://github.com/ai-dynamo/aiperf/pull/1342',
       },
       {
-        number: 1320,
-        title: 'build: make crick an optional dependency',
-        url: 'https://github.com/ai-dynamo/aiperf/pull/1320',
+        number: 1526,
+        title: 'docs: clarify that the prefill phase in effective-vs-active metrics is the client-observed TTFT window',
+        url: 'https://github.com/ai-dynamo/aiperf/pull/1526',
       },
     ],
   },
@@ -473,21 +479,6 @@ export const upstream: Upstream[] = [
         url: 'https://github.com/NVIDIA/garak/pull/2013',
       },
       {
-        number: 2015,
-        title: 'probes: add HouYi prompt injection probe and detector',
-        url: 'https://github.com/NVIDIA/garak/pull/2015',
-      },
-      {
-        number: 2008,
-        title: 'probes: add email leak via virtualization latent injection',
-        url: 'https://github.com/NVIDIA/garak/pull/2008',
-      },
-      {
-        number: 2009,
-        title: 'buffs: add FormatSpread prompt-format-sensitivity buff',
-        url: 'https://github.com/NVIDIA/garak/pull/2009',
-      },
-      {
         number: 2030,
         title: 'harnesses: skip falsy intents instead of registering them',
         url: 'https://github.com/NVIDIA/garak/pull/2030',
@@ -501,6 +492,19 @@ export const upstream: Upstream[] = [
         number: 2032,
         title: 'fix the lite-config hint guard and its masked AttributeError',
         url: 'https://github.com/NVIDIA/garak/pull/2032',
+      },
+    ],
+  },
+  {
+    project: 'Arm Learning Paths',
+    org: 'ArmDeveloperEcosystem',
+    why: "Arm's official developer tutorials. A new Learning Path that walks through measuring whether LLM decode is memory-bound on an Arm CPU, with the same roofline method as llama-roofline.",
+    prs: [
+      {
+        number: 3848,
+        title: 'New Learning Path: Measure whether LLM decode is memory-bound on an Arm CPU',
+        url: 'https://github.com/ArmDeveloperEcosystem/arm-learning-paths/pull/3848',
+        merged: true,
       },
     ],
   },

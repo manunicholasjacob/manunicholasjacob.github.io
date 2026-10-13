@@ -5,21 +5,7 @@
  * (PAPERS_STATUS.md). Ordered submitted-first, in submission order, then the
  * submission-ready set in queue order. Statuses are kept current by hand.
  *
- * Deliberately excluded: the 2025 TechRxiv preprints (pending cleanup) and the
- * two discarded drafts that presented simulation as measurement.
- *
- * Also excluded, and this one was on the page until 23 August 2026: "The INT8
- * Configuration Cliff" (IEEE-ESL-Jul-26-0553). Its headline attributed a ~40x
- * latency swing to the ONNX export format. That attribution is wrong: one arm of
- * the experiment loaded a dynamically-quantized model rather than building the
- * static one it claimed to build, so the swing was dynamic against static, which
- * is a different and well-known effect. Papers 3 and 14 were written to correct
- * it, and `int8-pays` below carries the corrected result. The manuscript is
- * technically still open at the venue but its revise-and-resubmit window has
- * lapsed, so it is not being pursued. A paper nobody is pursuing, whose headline
- * two later papers retract, is not a publication record; it is a liability.
- * The artifact repository stays public on /projects and opens with a correction
- * notice, which is the honest place for it.
+ * Only manuscripts that are submitted or actively being prepared are listed.
  */
 
 export type Paper = {
@@ -152,7 +138,7 @@ export const papers: Paper[] = [
     // was rebuilt for IoT-J; the artifact repo description matches.
     title: 'One Law, Two Memory Systems',
     claim:
-      'The bandwidth ceiling that governs CNN inference governs on-device LLM decode too, and the KV cache turns it into a hard capacity wall. The same law holds on x86 at three times the bandwidth, so the roofline is the platform-independent part.',
+      'The bandwidth ceiling that governs CNN inference governs on-device LLM decode too, and the KV cache turns it into a hard capacity wall. The same law holds on x86 at three times the bandwidth, so the same one-line roofline transfers between the two CPUs measured.',
     headline: 'Decode roofline R^2 = 0.98, unchanged on x86 at three times the bandwidth',
     // TC-2026-08-0905 declined 8 Sep 2026; TC bars modified versions, so the
     // paper is rehomed rather than revised for the same venue.
@@ -205,7 +191,7 @@ export const papers: Paper[] = [
     id: 'anytime',
     title: 'The Narrow Regime of Thermal-Aware Anytime Inference',
     claim:
-      'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime where it actually pays, and shows quantization compresses the exit ladder enough to shrink the controller’s authority.',
+      'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime in which exit selection affects temperature at all, and shows quantization compresses the exit ladder enough to shrink the authority of the controller.',
     headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
     /* No venue is named here on purpose: the obvious next home is barred by
        a prior decision at that venue, and the rule is that a venue claim goes
@@ -240,7 +226,7 @@ export const papers: Paper[] = [
     id: 'int8-pays',
     title: 'When Does INT8 Actually Pay on an Edge CPU?',
     claim:
-      'Post-training INT8 measured across three microarchitectures on Arm and x86. The dominant effect is dynamic versus static quantization, worth more than 4x; the export representation everyone argues about is worth about 18%. Grew out of correcting our own earlier misattribution.',
+      'Post-training INT8 measured across three microarchitectures on Arm and x86. The dominant effect is dynamic versus static quantization, worth more than 4x; the export representation everyone argues about is worth about 18%.',
     headline: 'Dynamic vs static is worth >4x; the representation, ~18%',
     // IEEE-ESL-Aug-26-0653, submitted 17 Aug 2026.
     venue: 'IEEE Embedded Systems Letters',
@@ -249,14 +235,14 @@ export const papers: Paper[] = [
     dateline: 'Submitted 17 Aug 2026',
     submitted: '2026-08-17',
     year: '2026',
-    topics: ['Quantization', 'Cross-platform', 'Correction'],
+    topics: ['Quantization', 'Cross-platform', 'ONNX Runtime'],
   },
   {
     id: 'break-even',
     title: 'The Break-Even Parallel Speedup',
     claim:
-      'For early-exit inference, the latency-optimal configuration costs about twice the energy of the energy-optimal one at shallow exits, and the first-order lever is thread count, not clock. A closed-form break-even rule predicts the right choice.',
-    headline: 'Rule validated on 64 of 64 measured configurations',
+      'Running inference on every core is the default on edge CPUs. Whether it saves energy turns on the parallel speedup against the power ratio, and on whether the static power of the board is charged to the inference. Measured on a Raspberry Pi 5 with the static floor measured at every operating point.',
+    headline: 'Break-even depends on what you charge to the inference',
     // TC-2026-09-1048, received 7 Sep 2026. The CAL Letter (0285) was
     // declined 5 Sep with one strongly positive review; the regular-paper
     // version answers the other two.
@@ -266,7 +252,7 @@ export const papers: Paper[] = [
     dateline: 'Resubmitted as a regular paper 6 Sep 2026',
     submitted: '2026-09-06',
     year: '2026',
-    topics: ['Energy', 'Early exit', 'Parallelism'],
+    topics: ['Energy', 'Multithreading', 'Parallelism'],
     // Artifact went public after submission, so the manuscript does not cite it.
     artifact: { repo: 'edge-breakeven-speedup', doi: '10.5281/zenodo.21987261' },
   },
@@ -275,8 +261,8 @@ export const papers: Paper[] = [
     id: 'format-tax',
     title: 'Your Quantization Format Is Not Free',
     claim:
-      'Same-size, same-label GGUF files decode very differently on edge CPUs: the label records the conversion recipe, not what the file was converted from. On Cortex-A76 the spread reaches 30% in latency with a 33% energy premium for I-quants; on x86 the equal-cost assumption holds.',
-    headline: 'Same size, same label, 30% apart on Cortex-A76',
+      'Controlled measurements of GGUF quantization formats on three CPU microarchitectures. At small model sizes a format label predicts poorly what the file actually contains, and the community-default format pays a measurable cost. Full numbers after the review concludes.',
+    headline: 'What a format label does and does not tell you',
     venue: 'HotMobile 2027',
     venueTier: 'Workshop',
     status: 'Under review',
@@ -292,10 +278,7 @@ export const papers: Paper[] = [
     claim:
       'A clock-gated methodology that makes consumer-GPU inference numbers reproducible between runs, kept honest by a drift artifact we caught in our own background jobs and left in as the counterexample.',
     headline: 'Clock-gated protocol for repeatable GPU measurement',
-    // Desk-declined at IEEE CAL (23 Sep, novelty) and Wiley CCPE (29 Sep);
-    // rebuilt with a 20-reference related-work section answering the novelty
-    // complaint. The next venue reviews double blind, so it is not named
-    // here: a public venue claim would deanonymise the submission.
+    // The next venue reviews double blind, so it is not named here.
     venue: 'Double-blind venue',
     venueTier: 'Conference',
     status: 'Ready to submit',
@@ -321,5 +304,5 @@ export const researchThesis = {
   /** Home page: what the result is. */
   intro: `The same bottleneck turns up in mobile CNNs, in Vision Transformers and in on-device language models. The machine spends its time moving weights, not multiplying them, so bandwidth predicts what a network will do and FLOPs do not. Every paper below follows that one idea from a Raspberry Pi to an x86 laptop, and next to enterprise servers.`,
   /** Research page: what standard it was held to. */
-  body: `One physical idea carried across scales: from mobile CNNs, to Vision Transformers, to on-device language models, measured on Arm and revalidated on x86, and next headed for enterprise servers. Every headline number comes from real silicon, using hardware performance counters and on-board power instrumentation. Where a claim failed to reproduce, the paper was rewritten to whatever the data actually supported, negative results included, and two early drafts that presented simulation as measurement were discarded outright. That standard keeps costing claims, which is the point.`,
+  body: `One physical idea carried across scales: from mobile CNNs, to Vision Transformers, to on-device language models, measured on Arm and revalidated on x86, and next headed for enterprise servers. Every headline number comes from real silicon, using hardware performance counters and on-board power instrumentation. Each paper reports what the data supports, negative results and the regimes where a method does not help included, and ships the data and harness so any number can be rechecked.`,
 };

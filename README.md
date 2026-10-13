@@ -138,5 +138,4 @@ interactive; otherwise it renders to static HTML and ships no JavaScript.
 
 - Employment is described in general terms on purpose. Specific platforms,
   cases and internal identifiers stay off this site.
-- The research list is shorter than the public preprint archive because
-  withdrawn work is excluded rather than listed.
+- The research list shows manuscripts that are submitted or in preparation.

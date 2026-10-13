@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-10-03';
+export const updated = '2026-10-12';
 
 export type NowItem = {
   title: string;
@@ -29,7 +29,7 @@ export const current: NowItem[] = [
   {
     title: 'Embedded Vision Summit 2027: talk accepted',
     detail:
-      'Accepted in September. First draft slides are due 7 October; the deck is built, checked by a 95-assertion gate against the measured data.',
+      'Accepted in September. The next slide drafts are due 4 November and 2 December; the deck is built, checked by a 95-assertion gate against the measured data.',
     status: 'Preparing',
   },
   {
@@ -41,7 +41,7 @@ export const current: NowItem[] = [
   {
     title: 'Open-source contributions',
     detail:
-      'Five pull requests merged upstream: three into NVIDIA garak and two into ai-dynamo AIPerf, with seven more open at garak, nine at AIPerf and three at vLLM. llama-roofline went live on PyPI, and the quantized-GEMV kernel study is public: thirteen kernels measured against their own bandwidth roof on five NVIDIA GPUs.',
+      "Sixteen pull requests merged into other people's projects: four into ai-dynamo AIPerf, three into NVIDIA garak, a new Arm Learning Path on whether LLM decode is memory-bound on an Arm CPU, six into nsEVDx during its JOSS review and two into pyslyde. llama-roofline is on PyPI, and the quantized-GEMV kernel study is public: twelve CUDA kernels plus Triton, each measured against its own bandwidth roof on five NVIDIA GPUs.",
     status: 'In motion',
   },
   {

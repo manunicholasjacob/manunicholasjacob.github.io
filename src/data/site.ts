@@ -61,7 +61,7 @@ export const navSecondary = [
  * its own. Only the ones with no list behind them live here.
  */
 export const handStats = [
-  { value: '1', label: 'Patent authorized' },
+  { value: '1', label: 'Invention authorized for U.S. patent filing' },
 ] as const;
 
 /** Scrolling keyword band. Pure texture, but it sets the subject matter fast. */
