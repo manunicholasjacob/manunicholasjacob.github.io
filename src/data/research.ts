@@ -194,19 +194,15 @@ export const papers: Paper[] = [
     claim:
       'Anytime inference is widely proposed for thermally constrained edge devices. This maps the narrow regime in which exit selection affects temperature at all, and shows quantization compresses the exit ladder enough to shrink the authority of the controller.',
     headline: 'Quantization compresses the exit ladder from 20.6x to 6.9x',
-    /* No venue is named here on purpose: the obvious next home is barred by
-       a prior decision at that venue, and the rule is that a venue claim goes
-       up the day a submission is actually in, not before. The rebuild is
-       real: the missing state-of-the-art comparison is now a measurement, 45
-       interleaved runs on the Pi, and the controller is not dominated by the
-       confidence-threshold baseline the early-exit literature leans on. */
-    venue: 'Venue in selection',
+    /* Rebuilt around a measured state-of-the-art baseline, then submitted to
+       IEEE TETC (Technical Track 5) on 18 Oct 2026; manuscript ID pending. */
+    venue: 'IEEE Transactions on Emerging Topics in Computing',
     venueTier: 'Journal',
-    status: 'In rebuild',
-    dateline: 'Rebuilt around a measured state-of-the-art baseline',
-    year: '2027',
+    status: 'Under review',
+    dateline: 'Submitted 18 Oct 2026',
+    year: '2026',
     topics: ['Anytime inference', 'SLO', 'Thermal'],
-    submitted: '2026-08-15',
+    submitted: '2026-10-18',
   },
   {
     id: 'llm-cold-start',

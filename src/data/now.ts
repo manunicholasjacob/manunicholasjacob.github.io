@@ -15,9 +15,9 @@ export type NowItem = {
 
 export const current: NowItem[] = [
   {
-    title: 'Twelve manuscripts in review',
+    title: 'Thirteen manuscripts in review',
     detail:
-      'Most of what was rebuilt after the September rejections has gone back in: the thread-scaling paper extended for IEEE TPDS, the decode-roofline paper rebuilt for IEEE IoT-J, and the energy paper re-homed to an Elsevier special issue on energy-aware AI. Now in review: eight at IEEE journals, two at ACM TECS, one at Elsevier SUSCOM, and one at HotMobile 2027. The thermal-margin study, returned on scope by IEEE TSUSC, went to IEEE Transactions on Mobile Computing on 16 October.',
+      'Most of what was rebuilt after the September rejections has gone back in: the thread-scaling paper extended for IEEE TPDS, the decode-roofline paper rebuilt for IEEE IoT-J, and the energy paper re-homed to an Elsevier special issue on energy-aware AI. Now in review: nine at IEEE journals, two at ACM TECS, one at Elsevier SUSCOM, and one at HotMobile 2027. The thermal-margin study, returned on scope by IEEE TSUSC, went to IEEE Transactions on Mobile Computing on 16 October, and the rebuilt anytime-inference paper went to IEEE Transactions on Emerging Topics in Computing on 18 October.',
     status: 'In review',
   },
   {
