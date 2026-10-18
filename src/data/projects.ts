@@ -506,4 +506,30 @@ export const upstream: Upstream[] = [
       },
     ],
   },
+  {
+    project: 'raspberrypi/utils',
+    org: 'raspberrypi',
+    why: 'The Raspberry Pi command-line utilities. The vcgencmd man page now documents the Pi 5 PMIC commands used for on-board power measurement.',
+    prs: [
+      {
+        number: 220,
+        title: 'vcgencmd: document pmic_read_adc and measure_temp pmic, fix exit status',
+        url: 'https://github.com/raspberrypi/utils/pull/220',
+        merged: true,
+      },
+    ],
+  },
+  {
+    project: 'k3d',
+    org: 'k3d-io',
+    why: 'Runs K3s Kubernetes clusters in Docker. A docs guide for the K3s embedded registry mirror (Spegel).',
+    prs: [
+      {
+        number: 1729,
+        title: 'docs: add guide for the K3s embedded registry mirror (Spegel)',
+        url: 'https://github.com/k3d-io/k3d/pull/1729',
+        merged: true,
+      },
+    ],
+  },
 ];
