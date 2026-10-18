@@ -498,6 +498,12 @@ export const upstream: Upstream[] = [
         url: 'https://github.com/ArmDeveloperEcosystem/arm-learning-paths/pull/3848',
         merged: true,
       },
+      {
+        number: 3898,
+        title: 'Perf install guide: separate Debian/Raspberry Pi OS source-build dependencies',
+        url: 'https://github.com/ArmDeveloperEcosystem/arm-learning-paths/pull/3898',
+        merged: true,
+      },
     ],
   },
 ];

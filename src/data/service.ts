@@ -170,7 +170,7 @@ export const speaking: ServiceEntry[] = [
     role: 'Talk, booked',
     org: 'Austin Python Meetup',
     detail:
-      'Booked for Wednesday 9 December 2026, 7:00 PM, a hybrid evening event in downtown Austin. A hands-on session with llama-roofline: opening real GGUF model files to see what they contain, then measuring what local LLM token generation costs on an ordinary laptop. Bring a laptop to run it yourself.',
+      '"What Your GGUF File Name Does Not Tell You." Booked for Wednesday 9 December 2026, 7:00 PM, a hybrid evening event in downtown Austin, to be recorded for the group\u2019s YouTube channel. A hands-on session with llama-roofline: opening real GGUF model files to see what they contain, then measuring what local LLM token generation costs on an ordinary laptop. Bring a laptop to run it yourself.',
     period: 'Dec 2026',
   },
 ];
