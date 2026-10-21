@@ -162,7 +162,7 @@ which is a first-year exercise. It works only because the record carries enough
 about the run to compute it at all, and that was the part the old scripts were
 missing.
 
-## Two facts that fell out for free
+## What fell out for free
 
 Once every machine speaks the same configuration file, comparisons that used to be
 projects become one run.
@@ -172,10 +172,6 @@ request at a time, 12.3 milliseconds against 3.0, because the cost of dispatchin
 work to the card dominates. At sixty-four requests at once the same card wins by
 29 times, 9,885 inferences a second against 338. Both numbers come out of one
 file, which is the point.
-
-And eight-bit quantization is about eleven times faster than 32-bit on the
-Raspberry Pi's processor while being roughly three and a half times *slower* on
-the laptop's. Same models, same runtime. Two lines in the same report.
 
 ## Using it
 

@@ -50,7 +50,7 @@ costs.
 <figcaption>
 Where a cold wake spends its time, as a median share across twelve models on a
 Raspberry Pi 5 with the page cache dropped. Across the individual models, weight
-loading ranges from 55 to 81 percent of the wake.
+loading ranges from 48 to 81 percent of the wake.
 Data: <a href="/research#cold-start">The Cold-Start Tax</a>.
 </figcaption>
 </figure>
@@ -66,7 +66,7 @@ hundredth. Whatever the processor needed to learn, it learned in well under a
 millisecond.
 
 The wake is dominated by getting the weights off flash and into memory. That is
-between 55 and 81 percent of it depending on the model, with a median near three
+between 48 and 81 percent of it depending on the model, with a median near three
 quarters. Building the computation graph and allocating memory takes most of the
 rest. The actual arithmetic of the first prediction is a rounding error.
 

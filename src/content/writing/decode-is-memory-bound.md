@@ -6,17 +6,12 @@ kind: Measurement
 topics: ['llama.cpp', 'Memory bandwidth', 'Tooling', 'Roofline']
 readingTime: 6
 draft: false
-card: '/img/writing/decode-cliff-card.png'
 ---
 
 There is a moment when you first run a language model on your own machine and it
 is slower than you hoped. My instinct was to reach for the processor: more
 threads, a higher clock, a build with better compiler flags. I spent about a week
 on that and got very little for it.
-
-<figure>
-<img src="/img/writing/decode-cliff-card.png" alt="A dark measurement card: decode throughput against thread count on an i7-12700H rises to a peak at 8 threads and falls 37.5 percent by 20; caption reads more cores made it slower." width="1200" height="1200" loading="lazy" style="width:100%;height:auto;display:block" />
-</figure>
 
 The reason is simple once you see it, and it has almost nothing to do with the
 processor.
@@ -117,13 +112,13 @@ llama.cpp.
 no configuration change that competes with this, which is why quantization is the
 lever everybody actually pulls, whether or not they know why.
 
-**More threads stop helping early.** Once the memory is saturated, extra cores
-queue for it. This laptop has six fast cores and eight slow ones, and generation
-peaks near the fast-core count. Running all twenty threads, which pulls the slow
-cores in, cost the smallest model 37 percent of its peak. Prompt processing,
-which is genuinely compute-bound, kept scaling the whole way to twenty. The two
-halves of the same workload want different thread counts, and the usual advice to
-just use every core gets one of them wrong.
+**Do not stop at the fast-core count.** This laptop has six fast cores and eight
+slow ones, and the common advice is to give generation only the fast ones.
+Measured with the thread counts visited in random order, generation kept rising
+past that point to a peak at sixteen threads. Beyond the peak the bigger change
+was not speed but predictability: run-to-run variation jumped from about 3
+percent to about 30. Prompt processing, which is genuinely compute-bound, kept
+scaling the whole way to twenty.
 
 **A faster clock buys very little.** A stalled core stalls faster.
 
