@@ -69,6 +69,17 @@ export type Repo = {
 
 export const repos: Repo[] = [
   {
+    slug: 'llm-collusion-lever-costs',
+    name: 'llm-collusion-lever-costs',
+    blurb:
+      'What anti-collusion levers cost in a simulated LLM seller market: a warning notice, a communications ban, an oversight monitor and a no-regret competitor, each measured against buyer welfare rather than assumed to be free. 30 report numbers recomputed from the raw runs by a claim checker before submission.',
+    result: 'The monitor fired on honest markets as often as colluding ones; levers are not free',
+    stack: ['Python', 'Multi-agent', 'AI safety'],
+    url: 'https://github.com/manunicholasjacob/llm-collusion-lever-costs',
+    doi: '10.5281/zenodo.23622463',
+    kind: 'artifact',
+  },
+  {
     slug: 'edge-decode-thread-scaling',
     name: 'edge-decode-thread-scaling',
     blurb:
@@ -392,6 +403,7 @@ export const upstream: Upstream[] = [
         number: 1473,
         title: 'fix(dashboard): show live GPU telemetry after the pane is toggled',
         url: 'https://github.com/ai-dynamo/aiperf/pull/1473',
+        merged: true,
       },
       {
         number: 1474,
@@ -407,6 +419,7 @@ export const upstream: Upstream[] = [
         number: 1438,
         title: 'fix(telemetry): read the DCGM hostname label',
         url: 'https://github.com/ai-dynamo/aiperf/pull/1438',
+        merged: true,
       },
       {
         number: 1342,
@@ -425,6 +438,11 @@ export const upstream: Upstream[] = [
     org: 'vllm-project',
     why: 'The serving engine much of production LLM inference runs on. Fixes and docs from reproducing real failures: tokenizer edge cases, FlashInfer JIT preflight, MoE tuning robustness, WSL2 gotchas.',
     prs: [
+      {
+        number: 61833,
+        title: 'Cap auto OpenMP thread binding at the cgroup CPU quota',
+        url: 'https://github.com/vllm-project/vllm/pull/61833',
+      },
       {
         number: 50711,
         title: 'benchmark_moe: do not abort tuning when a candidate config fails Triton compilation',
@@ -490,7 +508,7 @@ export const upstream: Upstream[] = [
   {
     project: 'Arm Learning Paths',
     org: 'ArmDeveloperEcosystem',
-    why: "Arm's official developer tutorials. A new Learning Path that walks through measuring whether LLM decode is memory-bound on an Arm CPU, with the same roofline method as llama-roofline.",
+    why: "Arm's official developer tutorials. Two new Learning Paths: measuring whether LLM decode is memory-bound on an Arm CPU, and measuring llama.cpp energy per token on a Raspberry Pi 5 from the on-board PMIC.",
     prs: [
       {
         number: 3848,
@@ -502,6 +520,12 @@ export const upstream: Upstream[] = [
         number: 3898,
         title: 'Perf install guide: separate Debian/Raspberry Pi OS source-build dependencies',
         url: 'https://github.com/ArmDeveloperEcosystem/arm-learning-paths/pull/3898',
+        merged: true,
+      },
+      {
+        number: 3908,
+        title: 'New Learning Path: Measure llama.cpp energy per token on a Raspberry Pi 5',
+        url: 'https://github.com/ArmDeveloperEcosystem/arm-learning-paths/pull/3908',
         merged: true,
       },
     ],

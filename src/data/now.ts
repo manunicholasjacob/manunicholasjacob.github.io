@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-10-18';
+export const updated = '2026-10-28';
 
 export type NowItem = {
   title: string;
@@ -21,15 +21,15 @@ export const current: NowItem[] = [
     status: 'In review',
   },
   {
-    title: "Artifact evaluation for ATC '26: complete",
+    title: 'A first study in a second field',
     detail:
-      'Both assigned artifact reviews went in inside the window, on 27 September and 2 October. The committee phase closed on 14 October.',
-    status: 'Complete',
+      'A weekend research sprint on multi-agent AI safety: what anti-collusion levers actually cost in a simulated LLM seller market. Submitted 24 October with the code and report public and every reported number recomputed from the raw runs by a claim checker. Results in mid-November.',
+    status: 'Submitted',
   },
   {
     title: 'Embedded Vision Summit 2027: talk accepted',
     detail:
-      'Accepted in September. The next slide drafts are due 4 November and 2 December; the deck is built, checked by a 95-assertion gate against the measured data.',
+      'Accepted in September. The next slide draft is due 4 November, the final on 2 December; the deck is built, checked by a 95-assertion gate against the measured data.',
     status: 'Preparing',
   },
   {
@@ -41,7 +41,7 @@ export const current: NowItem[] = [
   {
     title: 'Open-source contributions',
     detail:
-      "Nineteen pull requests merged into other people's projects: four into ai-dynamo AIPerf, three into NVIDIA garak, two into Arm Learning Paths (one a new Learning Path on whether LLM decode is memory-bound on an Arm CPU), six into nsEVDx during its JOSS review, two into pyslyde, and one each into raspberrypi/utils and k3d. llama-roofline is on PyPI, and the quantized-GEMV kernel study is public: twelve CUDA kernels plus Triton, each measured against its own bandwidth roof on five NVIDIA GPUs.",
+      "Twenty-two pull requests merged into other people's projects: six into ai-dynamo AIPerf, three into NVIDIA garak, three into Arm Learning Paths (two of them full new Learning Paths, on the decode roofline and on energy per token), six into nsEVDx during its JOSS review, two into pyslyde, and one each into raspberrypi/utils and k3d. llama-roofline is on PyPI, and the quantized-GEMV kernel study is public: twelve CUDA kernels plus Triton, each measured against its own bandwidth roof on five NVIDIA GPUs.",
     status: 'In motion',
   },
   {
