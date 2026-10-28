@@ -115,11 +115,23 @@ export const peerReview: ServiceEntry[] = [
     },
   },
   {
+    role: 'Reviewer, in progress',
+    org: 'JOSS: NN-Lite',
+    venue: 'Journal of Open Source Software',
+    detail:
+      'Automated benchmarking of PyTorch models on Android devices, review opened 16 October 2026, one of two reviewers. Directly next to the Android measurement work on this bench, which is exactly why the assignment landed here.',
+    period: '2026',
+    link: {
+      label: 'The review, in the open',
+      href: 'https://github.com/openjournals/joss-reviews/issues/11419',
+    },
+  },
+  {
     role: 'Listed reviewer',
     org: 'JOSS reviewer database',
     venue: 'Journal of Open Source Software',
     detail:
-      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Six assignments from six different editors have followed, and the six entries above are all of them.',
+      'In the database since 17 August 2026, listed under performance engineering, benchmarking and embedded systems. Seven assignments from seven different editors have followed, and the seven entries above are all of them.',
     period: '2026',
     link: {
       label: 'reviewers.joss.theoj.org',
