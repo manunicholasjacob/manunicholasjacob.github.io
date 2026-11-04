@@ -64,12 +64,15 @@ export type Repo = {
   stack: string[];
   url: string;
   doi?: string;
+  /** Full card on /projects; everything else renders as an index row. */
+  featured?: boolean;
   kind: 'artifact' | 'tool' | 'lab';
 };
 
 export const repos: Repo[] = [
   {
     slug: 'llm-collusion-lever-costs',
+    featured: true,
     name: 'llm-collusion-lever-costs',
     blurb:
       'What anti-collusion levers cost in a simulated LLM seller market: a warning notice, a communications ban, an oversight monitor and a no-regret competitor, each measured against buyer welfare rather than assumed to be free. 30 report numbers recomputed from the raw runs by a claim checker before submission.',
@@ -91,6 +94,7 @@ export const repos: Repo[] = [
   // One artifact card is withheld for now; see the note in research.ts.
   {
     slug: 'qgemv-roofline',
+    featured: true,
     name: 'qgemv-roofline',
     blurb:
       'A quantized GEMV kernel ladder measured against its own bandwidth roof: 12 CUDA kernels plus Triton for batch-1 LLM decode, on five NVIDIA GPUs from sm_60 to sm_89.',
@@ -101,6 +105,7 @@ export const repos: Repo[] = [
   },
   {
     slug: 'rpi5-quantization-benchmark',
+    featured: true,
     name: 'rpi5-quantization-benchmark',
     blurb:
       'INT8 latency and energy measurements for nine networks on a Raspberry Pi 5 (Cortex-A76), released as raw records.',
@@ -165,6 +170,7 @@ export const repos: Repo[] = [
   },
   {
     slug: 'edge-format-tax',
+    featured: true,
     name: 'edge-format-tax',
     blurb:
       'Matched-byte comparison of GGUF quantization formats on three CPU microarchitectures, with per-token energy from the Pi 5 PMIC. The label on the file turns out to be a poor predictor of what it costs to run.',
@@ -356,12 +362,15 @@ export type Upstream = {
   org: string;
   why: string;
   /** Merged ones lead the list. Verified against the GitHub API before listing. */
+  /** Full card on /projects; the one-PR repos render in the ledger. */
+  featured?: boolean;
   prs: { number: number; title: string; url: string; merged?: boolean }[];
 };
 
 export const upstream: Upstream[] = [
   {
     project: 'AIPerf',
+    featured: true,
     org: 'ai-dynamo',
     why: 'The NVIDIA Dynamo benchmarking tool for LLM inference. Telemetry work from the same measurement habits: host and CPU power collection, NVML energy counters, AMD GPU telemetry, and packaging fixes.',
     prs: [
@@ -457,6 +466,7 @@ export const upstream: Upstream[] = [
   },
   {
     project: 'garak',
+    featured: true,
     org: 'NVIDIA',
     why: 'NVIDIA’s LLM vulnerability scanner. Correctness fixes found by reading the code the way a root-cause engineer reads a failing system.',
     prs: [
@@ -502,6 +512,7 @@ export const upstream: Upstream[] = [
   },
   {
     project: 'Arm Learning Paths',
+    featured: true,
     org: 'ArmDeveloperEcosystem',
     why: "Arm's official developer tutorials. Two new Learning Paths: measuring whether LLM decode is memory-bound on an Arm CPU, and measuring llama.cpp energy per token on a Raspberry Pi 5 from the on-board PMIC.",
     prs: [

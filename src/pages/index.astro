@@ -351,8 +351,9 @@ const spec = [
     </div>
   </Section>
 
-  {/* ══════════════════════════ CODE ══════════════════════════ */}
+  {/* ══════════════════════════ CODE, ON PAPER ══════════════════════════ */}
   <Section
+    tone="paper"
     heading="The code behind the numbers."
     lede="Every published result ships with the harness that produced it, archived on Zenodo with a citable DOI."
   >
@@ -391,8 +392,40 @@ const spec = [
       }
     </div>
 
-    <a href="/projects" class="link-u mt-7 inline-block py-1 font-mono text-sm">All projects →</a>
+    {/* The tools, one line, right where a reader is already thinking about
+        running something. The copy button is the whole pitch. */}
+    <div class="mt-8 flex flex-wrap items-center gap-x-4 gap-y-3 border-t border-[var(--hairline)] pt-7">
+      <code
+        id="pip-line"
+        class="border border-[var(--hairline)] bg-[var(--surface)] px-4 py-2 font-mono text-[0.8125rem] text-[var(--fg)]"
+        >pip install llama-roofline</code
+      >
+      <button id="pip-copy" type="button" class="btn btn-ghost !h-9 !px-4">Copy</button>
+      <span class="text-sm text-[var(--fg-muted)]"
+        >tells you whether your llama.cpp decode is memory-bound.</span
+      >
+      <span class="flex gap-x-6">
+        <a href="/tools" class="link-u inline-block py-1 font-mono text-sm">The tools →</a>
+        <a href="/projects" class="link-u inline-block py-1 font-mono text-sm">All projects →</a>
+      </span>
+    </div>
   </Section>
+
+  <script>
+    document.addEventListener('astro:page-load', () => {
+      const btn = document.getElementById('pip-copy');
+      btn?.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText('pip install llama-roofline');
+          const prev = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => (btn.textContent = prev), 1400);
+        } catch {
+          /* the text is right there to select by hand */
+        }
+      });
+    });
+  </script>
 
   {/* ══════════════════════════ BEYOND THE PAPERS ══════════════════════════ */}
   <Section

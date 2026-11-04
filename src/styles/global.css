@@ -269,6 +269,43 @@ html:not(.js) .hl-draw {
   border-top: 0;
 }
 
+/*
+  The paper band: the engineering-notebook surface the campaign cards are
+  drawn on, promoted from an embedded image to an actual page surface. It
+  re-scopes the site tokens, so cards, tags, buttons and links inside
+  restyle themselves without knowing they are on paper. Deliberately the
+  same in both themes: paper is paper. Accent matches the light theme's
+  (4.5:1 on this ground); faint text sits at 4.6:1.
+*/
+.section-paper {
+  --bg: #e9ecee;
+  --bg-raised: #e2e6ea;
+  --surface: rgb(70 110 140 / 0.055);
+  --surface-hover: rgb(70 110 140 / 0.1);
+  --fg: #171c21;
+  --fg-muted: #3b464f;
+  --fg-faint: #5d6b76;
+  --hairline: rgb(70 110 140 / 0.3);
+  --hairline-strong: rgb(70 110 140 / 0.5);
+  --accent: #a8530a;
+  --accent-rgb: 168 83 10;
+  --on-accent: #ffffff;
+  color: var(--fg);
+  background-color: #e9ecee;
+  background-image:
+    linear-gradient(rgb(70 110 140 / 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(70 110 140 / 0.13) 1px, transparent 1px),
+    linear-gradient(rgb(70 110 140 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(70 110 140 / 0.05) 1px, transparent 1px);
+  background-size:
+    100px 100px,
+    100px 100px,
+    20px 20px,
+    20px 20px;
+  border-top: 1px solid rgb(70 110 140 / 0.35);
+  border-bottom: 1px solid rgb(70 110 140 / 0.35);
+}
+
 /* Cursor spotlight on interactive cards. Pointer position arrives via CSS
    variables set by a delegated listener in Base; hover-capable devices only.
    The gradient is faint on purpose: light falling on brushed metal, not neon. */

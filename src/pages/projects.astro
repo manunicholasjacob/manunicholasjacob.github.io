@@ -29,16 +29,19 @@ const isLive = (href: string) =>
 const groups = [
   {
     key: 'artifact' as const,
+    id: 'artifacts',
     label: 'Research artifacts',
     lede: 'The harness, data and analysis behind each paper. Archived on Zenodo so a result can be cited and re-run.',
   },
   {
     key: 'tool' as const,
+    id: 'tools',
     label: 'Tools',
     lede: 'Things that outgrew the paper they came from and became usable on their own.',
   },
   {
     key: 'lab' as const,
+    id: 'lab',
     label: 'Lab and pipelines',
     lede: 'Infrastructure that makes the measurements repeatable.',
   },
@@ -77,8 +80,39 @@ const headerMeta = [
     lede="A benchmarking platform, the reproducible artifact behind every paper, contributions upstream, and the hardware it all started on."
   />
 
+  {/* The page is long by nature; this is the map. Sticky under the site nav,
+      scrollable sideways on phones, and it costs one thin bar. */}
+  <nav
+    aria-label="Sections on this page"
+    class="sticky top-14 z-40 border-b border-[var(--hairline)] bg-[var(--bg)]/85 backdrop-blur-lg"
+  >
+    <div
+      class="mx-auto flex max-w-6xl items-center gap-x-5 overflow-x-auto px-5 py-2.5 whitespace-nowrap sm:gap-x-7 sm:px-8"
+    >
+      {
+        [
+          ['#platform', 'Platform'],
+          ['#artifacts', 'Artifacts'],
+          ['#tools', 'Tools'],
+          ['#lab', 'Lab'],
+          ['#upstream', 'Upstream'],
+          ['#hardware', 'Hardware'],
+        ].map(([href, label]) => (
+          <a
+            href={href}
+            class="py-1 font-mono text-[0.6875rem] tracking-[0.14em] text-[var(--fg-faint)] uppercase transition-colors hover:text-[var(--accent)]"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+
   {/* flagship platform */}
   <Section
+    id="platform"
+    class="scroll-mt-24"
     label="Platform"
     heading={flagship.name}
     lede={flagship.tagline}
@@ -176,10 +210,15 @@ const headerMeta = [
 
   {
     groups.map((g) => {
-      const items = repos.filter((r) => r.kind === g.key);
+      const all = repos.filter((r) => r.kind === g.key);
+      /* Featured repos keep full cards; the rest collapse into an index.
+         A group with no featured entries (tools) keeps all its cards:
+         tiering only earns its keep once a group has a long tail. */
+      const items = all.some((r) => r.featured) ? all.filter((r) => r.featured) : all;
+      const rest = all.filter((r) => !items.includes(r));
       const { cols, last } = gridFor(items.length);
       return (
-        <Section heading={g.label} lede={g.lede}>
+        <Section id={g.id} class="scroll-mt-24" heading={g.label} lede={g.lede}>
           <div class:list={['grid gap-px border border-[var(--hairline)] bg-[var(--hairline)]', cols]}>
             {items.map((r, i) => (
               <a
@@ -224,6 +263,29 @@ const headerMeta = [
               </a>
             ))}
           </div>
+
+          {rest.length > 0 && (
+            <div class="mt-px border border-t-0 border-[var(--hairline)]">
+              {rest.map((r) => (
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="group grid items-baseline gap-x-6 gap-y-0.5 border-t border-[var(--hairline)] px-5 py-3.5 transition-colors first:border-t-0 hover:bg-[var(--surface)] sm:grid-cols-[15rem_1fr_auto]"
+                >
+                  <span class="font-mono text-[0.8125rem] font-medium break-all transition-colors group-hover:text-[var(--accent)]">
+                    {r.name}
+                  </span>
+                  <span class="line-clamp-1 text-sm leading-relaxed text-[var(--fg-muted)]">
+                    {r.blurb}
+                  </span>
+                  <span class="font-mono text-[0.6875rem] text-[var(--fg-faint)]">
+                    {r.doi ? 'DOI · ' : ''}↗
+                  </span>
+                </a>
+              ))}
+            </div>
+          )}
           {g.key === 'tool' && (
             <a
               class="mt-6 inline-flex font-mono text-[0.6875rem] tracking-[0.06em] text-[var(--accent)] underline underline-offset-4 hover:no-underline"
@@ -239,12 +301,14 @@ const headerMeta = [
 
   {/* upstream contributions */}
   <Section
+    id="upstream"
+    class="scroll-mt-24"
     heading="Contributions to the infrastructure itself."
     lede="Contributions to the projects this research already depends on. Root-cause habits transfer: read the failing system, isolate the fault, fix the cause rather than the symptom."
   >
     <div class="grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] lg:grid-cols-2">
       {
-        upstream.map((u, i) => {
+        upstream.filter((u) => u.featured).map((u, i) => {
           const merged = u.prs.filter((pr) => pr.merged).length;
           const open = u.prs.length - merged;
           return (
@@ -300,10 +364,42 @@ const headerMeta = [
         })
       }
     </div>
+
+    {/* The ledger: every other repository, one row each. The scale of the
+        record reads at a glance here; the chips are the receipts. */}
+    <div class="mt-px border border-t-0 border-[var(--hairline)]">
+      {
+        upstream
+          .filter((u) => !u.featured)
+          .map((u) => (
+            <div class="grid items-baseline gap-x-6 gap-y-1.5 border-t border-[var(--hairline)] px-5 py-3.5 first:border-t-0 sm:grid-cols-[13rem_1fr_auto]">
+              <span class="font-mono text-[0.8125rem] font-medium break-all">
+                {u.org}/<span class="text-[var(--accent)]">{u.project}</span>
+              </span>
+              <span class="line-clamp-1 text-sm leading-relaxed text-[var(--fg-muted)]">{u.why}</span>
+              <span class="flex flex-wrap gap-1.5">
+                {u.prs.map((pr) => (
+                  <a
+                    href={pr.url}
+                    target="_blank"
+                    rel="noopener"
+                    class:list={['tag transition-colors hover:text-[var(--accent)]', pr.merged && 'tag-accent']}
+                  >
+                    #{pr.number}
+                    {pr.merged ? ' · merged' : ''}
+                  </a>
+                ))}
+              </span>
+            </div>
+          ))
+      }
+    </div>
   </Section>
 
   {/* senior design */}
   <Section
+    id="hardware"
+    class="scroll-mt-24"
     heading="Seeing potholes coming."
     lede="A year-long, team-built in-vehicle detection system: stereo depth sensing, CNN detection on embedded hardware, a custom PCB, and a driver alert display. Shipped as a product, not a demo."
   >

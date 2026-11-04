@@ -14,20 +14,34 @@ interface Props {
   lede?: string;
   /** Right-hand facts, rendered as a spec table. Keep to four or five rows. */
   meta?: readonly (readonly [string, string])[];
+  /**
+   * Secondary pages drop the full-bleed formula: smaller title, tighter
+   * padding, no glow. Eleven pages opening identically read as a template;
+   * the flagship pages keep the big opening, which then means something.
+   */
+  compact?: boolean;
+  /** One mono line of real facts under the lede, replacing the spec box. */
+  note?: string;
 }
 
-const { label, title, lede, meta } = Astro.props;
-const hasMeta = !!meta?.length;
+const { label, title, lede, meta, compact = false, note } = Astro.props;
+const hasMeta = !compact && !!meta?.length;
 ---
 
 <header class="plus-marks relative overflow-hidden border-b border-[var(--hairline)]">
   <div class="dotgrid fade-edges pointer-events-none absolute inset-0"></div>
-  <div
-    class="accent-glow pointer-events-none absolute -top-32 left-1/2 h-80 w-[42rem] -translate-x-1/2"
-  >
-  </div>
+  {
+    !compact && (
+      <div class="accent-glow pointer-events-none absolute -top-32 left-1/2 h-80 w-[42rem] -translate-x-1/2" />
+    )
+  }
 
-  <div class="relative mx-auto max-w-6xl px-5 pt-20 pb-16 sm:px-8 sm:pt-28 sm:pb-20">
+  <div
+    class:list={[
+      'relative mx-auto max-w-6xl px-5 sm:px-8',
+      compact ? 'pt-14 pb-10 sm:pt-16 sm:pb-12' : 'pt-20 pb-16 sm:pt-28 sm:pb-20',
+    ]}
+  >
     <div
       class:list={[
         hasMeta && 'grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16',
@@ -37,8 +51,9 @@ const hasMeta = !!meta?.length;
         <p class="label mb-6 flex items-center gap-2">
           <span class="text-[var(--accent)]">//</span>{label}
         </p>
-        <h1 class="display max-w-4xl">{title}</h1>
-        {lede && <p class="lede mt-7 max-w-2xl">{lede}</p>}
+        <h1 class:list={[compact ? 'display-sm max-w-3xl' : 'display max-w-4xl']}>{title}</h1>
+        {lede && <p class:list={['lede max-w-2xl', compact ? 'mt-5' : 'mt-7']}>{lede}</p>}
+        {note && <p class="label mt-6">{note}</p>}
       </div>
 
       {

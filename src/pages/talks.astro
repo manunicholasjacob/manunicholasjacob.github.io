@@ -14,11 +14,6 @@ import { speaking } from '../data/service';
 const accepted = speaking.filter((s) => /accepted/i.test(s.role)).length;
 const booked = speaking.filter((s) => /booked/i.test(s.role)).length;
 
-const headerMeta = [
-  ['Accepted', String(accepted)],
-  ['Booked', String(booked)],
-  ['Topic', 'Edge inference'],
-] as const;
 ---
 
 <Base
@@ -26,8 +21,8 @@ const headerMeta = [
   description="Upcoming talks by Manu Nicholas Jacob on measuring machine-learning inference on real hardware: accepted and booked sessions only."
 >
   <PageHeader
+    compact
     label="Talks"
-    meta={headerMeta}
     title="Upcoming talks."
     lede="What governs inference speed on hardware people actually own, and how to measure it yourself. Listed only once a session is accepted or booked."
   />
@@ -97,5 +92,5 @@ const headerMeta = [
     </p>
   </Section>
 
-  <NextPage href="/service" label="Reviewing and judging" />
+  <NextPage href="/service" label="The rest of the record: reviewing" />
 </Base>

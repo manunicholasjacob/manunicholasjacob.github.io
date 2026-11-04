@@ -5,12 +5,6 @@ import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
 import { tools } from '../data/tools';
 
-const headerMeta = [
-  ['Tools', String(tools.length)],
-  ['Install', 'pip'],
-  ['License', 'MIT'],
-  ['Archived', 'Zenodo'],
-] as const;
 ---
 
 <Base
@@ -18,8 +12,8 @@ const headerMeta = [
   description="Installable open-source tools for measuring ML inference on your own hardware: llama-roofline and ML Systems Lab, with install commands and DOIs."
 >
   <PageHeader
+    compact
     label="Tools"
-    meta={headerMeta}
     title="Measure it on your own machine."
     lede="Two tools that grew out of the papers and stand on their own. Both install from PyPI, run on a laptop with no configuration, and are archived on Zenodo so a result made with them can be cited to the exact version."
   />

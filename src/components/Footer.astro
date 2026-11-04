@@ -3,7 +3,13 @@ import { site, links, nav, navSecondary } from '../data/site';
 
 const year = new Date().getFullYear();
 
-const pages = [...nav, ...navSecondary];
+/* Eleven flat links stopped scanning; two labelled groups bring it back.
+   Work is everything with a record behind it; Meta is about the site and
+   its author. Both derive from the nav arrays so they cannot drift. */
+const workHrefs = ['/research', '/service', '/projects', '/writing', '/lab', '/tools', '/talks'];
+const all = [...nav, ...navSecondary];
+const work = workHrefs.map((h) => all.find((n) => n.href === h)).filter(Boolean) as typeof all;
+const meta = all.filter((n) => !workHrefs.includes(n.href));
 
 const elsewhere = [
   { label: 'GitHub', href: links.github },
@@ -19,7 +25,7 @@ const elsewhere = [
   <div class="dotgrid pointer-events-none absolute inset-0 opacity-60"></div>
 
   <div class="relative mx-auto max-w-6xl px-5 sm:px-8">
-    <div class="grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr]">
+    <div class="grid gap-x-10 gap-y-12 py-16 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
       <div>
         <p class="display-sm max-w-md">Let's talk about hardware.</p>
         {/* The brand column ran a good deal shorter than the two link columns
@@ -34,10 +40,28 @@ const elsewhere = [
       </div>
 
       <div>
-        <p class="label mb-4">Pages</p>
+        <p class="label mb-4">Work</p>
         <ul class="space-y-0.5">
           {
-            pages.map((item) => (
+            work.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="inline-block py-1 text-sm text-[var(--fg-muted)] transition-colors hover:text-[var(--accent)]"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <p class="label mb-4">Meta</p>
+        <ul class="space-y-0.5">
+          {
+            meta.map((item) => (
               <li>
                 <a
                   href={item.href}

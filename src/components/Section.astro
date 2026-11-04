@@ -7,8 +7,10 @@ interface Props {
   /** Optional supporting paragraph under the heading. */
   lede?: string;
   /** 'raised' gives the section a full-bleed band background, breaking the
-      page out of one uniform field. Alternate them; never stack two. */
-  tone?: 'default' | 'raised';
+      page out of one uniform field. Alternate them; never stack two.
+      'paper' is the engineering-notebook surface: light in both themes,
+      at most one per page, reserved for the section that earns it. */
+  tone?: 'default' | 'raised' | 'paper';
   id?: string;
   class?: string;
 }
@@ -16,7 +18,7 @@ interface Props {
 const { label, heading, lede, tone = 'default', id, class: klass = '' } = Astro.props;
 ---
 
-<div class:list={[tone === 'raised' && 'section-raised']}>
+<div class:list={[tone === 'raised' && 'section-raised', tone === 'paper' && 'section-paper']}>
   <section id={id} class:list={['mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24', klass]}>
     {label && <p class="eyebrow label">{label}</p>}
     {/* Heading stacked over lede, deliberately. The split header (big

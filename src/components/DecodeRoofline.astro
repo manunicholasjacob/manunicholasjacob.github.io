@@ -140,12 +140,10 @@ const fmtMb = (v: number) => (v >= 1000 ? v / 1000 + ' GB' : v + ' MB');
   </svg>
 
   <p class="roofline-note">
-    Ten measured configurations, 339 MB to 4.7 GB, each at its best thread count. The dashed lines
-    are each machine's measured peak memory read bandwidth, not a spec sheet figure. Decode lands at
-    80 to 86 percent of peak on the Pi and 81 to 96 percent on the laptop. The 7B point reads at 107
-    percent, which means the peak benchmark slightly understates what the memory system delivers
-    under this access pattern, and it is left in rather than trimmed. Throughput here is set by how
-    fast the machine can read the weights, not by how fast it can multiply.
+    Ten measured configurations against each machine's measured peak read bandwidth, not a spec
+    sheet figure: decode lands at 80 to 96 percent of peak on both machines, set by how fast the
+    weights can be read, not multiplied. The 7B point reads at 107 percent, and it is left in: the
+    peak benchmark slightly understates what the memory system delivers under this access pattern.
   </p>
 </figure>
 
