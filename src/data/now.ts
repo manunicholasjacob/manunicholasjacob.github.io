@@ -5,7 +5,7 @@
  * stale date is worse than no page. Keep entries to things genuinely active.
  */
 
-export const updated = '2026-10-28';
+export const updated = '2026-11-03';
 
 export type NowItem = {
   title: string;
@@ -23,7 +23,7 @@ export const current: NowItem[] = [
   {
     title: 'A first study in a second field',
     detail:
-      'A weekend research sprint on multi-agent AI safety: what anti-collusion levers actually cost in a simulated LLM seller market. Submitted 24 October with the code and report public and every reported number recomputed from the raw runs by a claim checker. Results in mid-November.',
+      'A weekend research sprint on multi-agent AI safety: what anti-collusion levers actually cost in a simulated LLM seller market. Submitted 24 October with the code and report public and every reported number recomputed from the raw runs by a claim checker; sprint results in mid-November. A larger follow-up replication then moved the baseline and withdrew two of the report\u2019s supported levers, in public, and the workshop version in preparation is being rebuilt around that non-replication.',
     status: 'Submitted',
   },
   {
@@ -31,6 +31,12 @@ export const current: NowItem[] = [
     detail:
       'Accepted in September. The next slide draft is due 4 November, the final on 2 December; the deck is built, checked by a 95-assertion gate against the measured data.',
     status: 'Preparing',
+  },
+  {
+    title: 'A first journal manuscript to review',
+    detail:
+      'Invited by an IEEE Internet of Things Journal associate editor on 2 November and accepted: one manuscript to review, due mid-November. The first journal assignment after seven at JOSS.',
+    status: 'Reviewing',
   },
   {
     title: 'JOSS reviewing, seven assignments deep',
@@ -41,7 +47,7 @@ export const current: NowItem[] = [
   {
     title: 'Open-source contributions',
     detail:
-      "Twenty-two pull requests merged into other people's projects: six into ai-dynamo AIPerf, three into NVIDIA garak, three into Arm Learning Paths (two of them full new Learning Paths, on the decode roofline and on energy per token), six into nsEVDx during its JOSS review, two into pyslyde, and one each into raspberrypi/utils and k3d. llama-roofline is on PyPI, and the quantized-GEMV kernel study is public: twelve CUDA kernels plus Triton, each measured against its own bandwidth roof on five NVIDIA GPUs.",
+      "Twenty-seven pull requests merged into other people's projects, across twelve repositories: six into ai-dynamo AIPerf, three into NVIDIA garak, three into Arm Learning Paths, six into nsEVDx during its JOSS review, two into pyslyde, and one each into NVIDIA go-nvml, google/benchmark, mozilla-ai llamafile, raspberrypi/utils, k3d and more. ML Systems Lab shipped 0.2.3. llama-roofline is on PyPI, and the quantized-GEMV kernel study is public: twelve CUDA kernels plus Triton, each measured against its own bandwidth roof on five NVIDIA GPUs.",
     status: 'In motion',
   },
   {

@@ -73,7 +73,7 @@ export const repos: Repo[] = [
     name: 'llm-collusion-lever-costs',
     blurb:
       'What anti-collusion levers cost in a simulated LLM seller market: a warning notice, a communications ban, an oversight monitor and a no-regret competitor, each measured against buyer welfare rather than assumed to be free. 30 report numbers recomputed from the raw runs by a claim checker before submission.',
-    result: 'The monitor fired on honest markets as often as colluding ones; levers are not free',
+    result: 'The monitor fired on innocent markets in up to 48% of runs; the notice cost buyers 22%',
     stack: ['Python', 'Multi-agent', 'AI safety'],
     url: 'https://github.com/manunicholasjacob/llm-collusion-lever-costs',
     doi: '10.5281/zenodo.23622463',
@@ -444,11 +444,6 @@ export const upstream: Upstream[] = [
         url: 'https://github.com/vllm-project/vllm/pull/61833',
       },
       {
-        number: 50711,
-        title: 'benchmark_moe: do not abort tuning when a candidate config fails Triton compilation',
-        url: 'https://github.com/vllm-project/vllm/pull/50711',
-      },
-      {
         number: 50751,
         title: 'Troubleshooting: FlashInfer JIT failure on a GPU newer than the local CUDA toolkit',
         url: 'https://github.com/vllm-project/vllm/pull/50751',
@@ -526,6 +521,45 @@ export const upstream: Upstream[] = [
         number: 3908,
         title: 'New Learning Path: Measure llama.cpp energy per token on a Raspberry Pi 5',
         url: 'https://github.com/ArmDeveloperEcosystem/arm-learning-paths/pull/3908',
+        merged: true,
+      },
+    ],
+  },
+  {
+    project: 'go-nvml',
+    org: 'NVIDIA',
+    why: "NVIDIA's official Go bindings for NVML. The supported memory and graphics clock lists now actually come back to the caller.",
+    prs: [
+      {
+        number: 216,
+        title: 'nvml: return the clock lists from GetSupportedMemoryClocks and GetSupportedGraphicsClocks',
+        url: 'https://github.com/NVIDIA/go-nvml/pull/216',
+        merged: true,
+      },
+    ],
+  },
+  {
+    project: 'benchmark',
+    org: 'google',
+    why: "Google's C++ microbenchmark library. The reducing-variance guide now has an Android section, written from the Galaxy M21 bench work.",
+    prs: [
+      {
+        number: 2356,
+        title: 'Add an Android section to reducing_variance',
+        url: 'https://github.com/google/benchmark/pull/2356',
+        merged: true,
+      },
+    ],
+  },
+  {
+    project: 'llamafile',
+    org: 'mozilla-ai',
+    why: 'Single-file LLM distribution. The built-in server shell tools now work on Windows; the fix was verified on both platforms before review.',
+    prs: [
+      {
+        number: 1069,
+        title: 'server: fix built-in shell tools on Windows',
+        url: 'https://github.com/mozilla-ai/llamafile/pull/1069',
         merged: true,
       },
     ],

@@ -43,6 +43,14 @@ export const peerReview: ServiceEntry[] = [
     tag: 'CORE A',
   },
   {
+    role: 'Reviewer, first manuscript assigned',
+    org: 'IEEE Internet of Things Journal',
+    venue: 'IEEE Internet of Things Journal',
+    detail:
+      'Invited by an associate editor and accepted on 2 November 2026; one manuscript under review, due mid-November. Peer review is confidential, so that is all this entry will ever say about it.',
+    period: '2026',
+  },
+  {
     role: 'Reviewer, review delivered',
     org: 'JOSS: Optiland',
     venue: 'Journal of Open Source Software',
