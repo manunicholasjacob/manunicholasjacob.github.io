@@ -197,15 +197,16 @@ const spec = [
   </section>
 
   {/* ══════════════════════════ THESIS ══════════════════════════ */}
-  <Section label="The through-line">
-    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-      <h2 class="display-sm" data-reveal>{researchThesis.claim}</h2>
+  <Section label="The through-line" class="!py-28 sm:!py-36">
+    {/* One sentence, one screen. The reader's scroll inks it in. */}
+    <h2 class="display thesis-ink max-w-4xl text-balance">{researchThesis.claim}</h2>
+    <div class="mt-12 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
       <div class="prose-block max-w-xl">
         <p>{researchThesis.intro}</p>
-        <div class="mt-6 flex flex-wrap gap-x-8 gap-y-2">
-          <a href="/research" class="link-u inline-block py-1 font-mono text-sm">Full publication record →</a>
-          <a href="/lab" class="link-u inline-block py-1 font-mono text-sm">The bench it runs on →</a>
-        </div>
+      </div>
+      <div class="flex flex-wrap content-end items-end gap-x-8 gap-y-2 lg:justify-end">
+        <a href="/research" class="link-u inline-block py-1 font-mono text-sm">Full publication record →</a>
+        <a href="/lab" class="link-u inline-block py-1 font-mono text-sm">The bench it runs on →</a>
       </div>
     </div>
   </Section>

@@ -79,6 +79,12 @@
      site is about; and on no model's default list, which is the point. */
   --font-display: 'B612', 'Instrument Sans Variable', ui-sans-serif, sans-serif;
 
+  /* One decelerate curve for colour, opacity and shadow transitions. The
+     browser default 'ease' front-loads; this lands softly, which is most of
+     what a page that feels engineered actually is. Transforms keep the
+     springs below. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
   /* Damped-spring easings, traced with linear(). --spring settles in ~400ms
      with a barely-there overshoot (about 1%); --spring-soft is looser, for
      larger moves. Springs are for transform and opacity only: colour changes
@@ -321,7 +327,7 @@ html:not(.js) .hl-draw {
     inset: 0;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.35s ease;
+    transition: opacity 0.35s var(--ease-out);
     background: radial-gradient(
       340px circle at var(--mx, 50%) var(--my, 50%),
       rgb(var(--accent-rgb) / 0.07),
@@ -362,11 +368,44 @@ html:not(.js) .hl-draw {
   }
 }
 
+/*
+  The thesis moment: one sentence at display size, inked in left to right
+  by the reader's own scroll, the same scrubbed-not-timed rule the roofline
+  follows. Everything here is layered fallback: no scroll-timeline support,
+  no background-clip support, or reduced motion all get plain full-colour
+  text, because a thesis that can fail to appear is not a thesis.
+*/
+@supports (animation-timeline: view()) and ((-webkit-background-clip: text) or (background-clip: text)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .thesis-ink {
+      background-image: linear-gradient(
+        90deg,
+        var(--fg) 50%,
+        color-mix(in srgb, var(--fg) 22%, transparent) 50%
+      );
+      background-size: 205% 100%;
+      background-position-x: 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: thesis-ink linear both;
+      animation-timeline: view();
+      animation-range: entry 35% cover 60%;
+    }
+  }
+}
+
+@keyframes thesis-ink {
+  to {
+    background-position-x: 0%;
+  }
+}
+
 /* The nav earns depth only once content actually scrolls beneath it. */
 .site-nav {
   transition:
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+    box-shadow 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out);
 }
 
 .site-nav.is-scrolled {
@@ -514,9 +553,9 @@ html:not(.js) .hl-draw {
     text-transform: uppercase;
     white-space: nowrap;
     transition:
-      background-color 0.18s ease,
-      color 0.18s ease,
-      border-color 0.18s ease,
+      background-color 0.22s var(--ease-out),
+      color 0.22s var(--ease-out),
+      border-color 0.22s var(--ease-out),
       transform 0.4s var(--spring);
   }
 
@@ -551,8 +590,14 @@ html:not(.js) .hl-draw {
     border: 1px solid var(--hairline);
     border-radius: 3px;
     transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease;
+      background-color 0.25s var(--ease-out),
+      border-color 0.25s var(--ease-out);
+  }
+
+  /* Physical press feedback: the same 1px the buttons give. Instant
+     positional response, not an animation, so reduced-motion keeps it. */
+  .card-link:active {
+    transform: translateY(1px);
   }
 
   .card-link:hover {
